@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/09 22:03:16 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/09 22:17:20 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ LDLIBS = -lft
 #                                    RULES                                     #
 # **************************************************************************** #
 
-.PHONY: all clean fclean re norm
+.PHONY: all clean fclean re norme
 
 # all
 all: $(NAME)
@@ -139,11 +139,12 @@ fclean: clean
 re: fclean all
 
 # norminette
-norm:
+norme:
 	@printf "\n${GRN}##########${YEL} NORMINETTE ${GRN}##########${NOCOL}\n"
 	@printf "\n${GRN}LIBFT:${BLU}\n\n"
 	@norminette $(LFT_DIR)
 	@printf "\n${GRN}MINISHELL:${BLU}\n\n"
+	@norminette $(INC_PATH)
 	@norminette $(SRC_PATH)
 	@printf "${NOCOL}"
 
