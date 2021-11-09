@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/09 22:17:20 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/09 22:20:48 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ LDLIBS = -lft
 #                                    RULES                                     #
 # **************************************************************************** #
 
-.PHONY: all clean fclean re norme
+.PHONY: all sanitize thread clean fclean re norme
 
 # all
 all: $(NAME)
