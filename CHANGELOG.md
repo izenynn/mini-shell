@@ -14,4 +14,6 @@ Create repo
 
 ### Changed
 
+- .gitignore -> add more files
+
 ### Fixed
