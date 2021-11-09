@@ -6,15 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/09 22:00:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/09 22:13:11 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	main()
+int	main(void)
 {
 	ft_printf("Hello world!\n");
 	return (0);
 }
-
