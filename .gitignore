@@ -55,6 +55,7 @@
 
 # VS code files
 .vscode
+**/.vscode
 
 # cache
 .cache
