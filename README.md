@@ -75,10 +75,6 @@ Execute the `./minishell` binary generated after running `make`
 - `env`
 - `exit`
 
-### Change color theme
-
-TODO decide if we add color theme support
-
 ## Screenshots
 
 TODO add screenshots :D
