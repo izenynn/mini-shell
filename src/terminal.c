@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sh_loop.c                                          :+:      :+:    :+:   */
+/*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/10 10:01:19 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/10 13:36:32 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	sh_loop()
+void	init_terminal(void)
 {
-	while (1)
-	{
-		;//ft_printf("Starting sh loop...\n");
-	}
-	return (EXIT_SUCCESS);
+	welcome();
 }
