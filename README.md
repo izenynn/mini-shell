@@ -4,12 +4,13 @@
 
 This project aims to recreate most of the bash shell.
 
-minishell is compatible with Linux and Mac OS.
-
-It uses `VT100` escape characters (it is a 42 project, and `ncurses` lib was not allowed).
-
 - Status: on development
 - Result: n/a
+- Observations:
+	- It is compatible with Linux and Mac OS.
+	- It uses `VT100` escape characters (it is a 42 project, and `ncurses` lib was not allowed).
+
+*developed by: [izenynn](https://github.com/izenynn) and [0xk0sta](https://github.com/0xk0sta)*
 
 # How to use
 
