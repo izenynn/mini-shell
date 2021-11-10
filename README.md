@@ -4,9 +4,12 @@
 
 This project aims to recreate most of the bash shell.
 
+minishell is compatible with Linux and Mac OS.
+
+It uses `VT100` escape characters (it is a 42 project, and `ncurses` lib was not allowed).
+
 - Status: on development
 - Result: n/a
-- Observations: this project is compatible with Linux and Mac OS.
 
 # How to use
 
@@ -78,3 +81,7 @@ TODO decide if we add color theme support
 # Screenshots
 
 TODO add screenshots :D
+
+#
+[![forthebadge](https://forthebadge.com/images/badges/made-with-c.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
