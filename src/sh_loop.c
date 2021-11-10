@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sh_loop.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/10 09:39:56 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/10 10:01:19 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	main(void)
+int	sh_loop()
 {
-	// TODO change terminal to raw mode
-
-	/* minishell_loop() */
-	sh_loop();
-
-	// TODO shutdown and cleanup
-
-	// example code
-	ft_printf("Hello world!\n");
-	//
-
+	while (1)
+	{
+		;//ft_printf("Starting sh loop...\n");
+	}
 	return (EXIT_SUCCESS);
 }

@@ -2,6 +2,20 @@
 
 All changese to this project will be documented in this file to help us in the development phase.
 
+## 2021-11-10 - izenynn
+
+Create repo
+
+### Added
+
+- sh_loop.c -> shell loop func.
+
+### Changed
+
+- main.c -> add TODO comments
+
+### Fixed
+
 ## 2021-11-09 - izenynn
 
 Create repo

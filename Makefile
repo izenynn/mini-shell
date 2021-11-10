@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/09 22:20:48 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/10 09:54:04 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ CFLAGS += -I ./$(INC_PATH)
 #                                   SOURCES                                    #
 # **************************************************************************** #
 
-SRC_FILES =	main.c
+SRC_FILES =	main.c		sh_loop.c
 
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_FILES))
 
