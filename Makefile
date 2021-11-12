@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/10 13:13:12 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/12 10:33:19 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,13 +62,40 @@ CFLAGS += -I ./$(INC_PATH)
 #                                   SOURCES                                    #
 # **************************************************************************** #
 
-SRC_FILES =	main.c		terminal.c		terminal_utils.c
+SRC_DIR_BUILTIN = built-in
+SRC_DIR_EXEC = exec
+SRC_DIR_LEXER = lexer
+SRC_DIR_PARSER = parser
+SRC_DIR_PROMPT = prompt
 
-SRC = $(addprefix $(SRC_PATH)/, $(SRC_FILES))
+OBJ_DIRS_NAME =	$(SRC_DIR_BUILTIN)	$(SRC_DIR_EXEC)		$(SRC_DIR_LEXER)	\
+				$(SRC_DIR_PARSER)	$(SRC_DIR_PROMPT)
 
-OBJ_FILES = $(SRC_FILES:%.c=%.o)
+OBJ_DIRS = $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS_NAME))
 
-OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_FILES))
+SRC_MAIN =	main.c
+
+SRC_BUILTIN =
+
+SRC_EXEC =
+
+SRC_LEXER =
+
+SRC_PARSER =
+
+SRC_PROMPT = terminal.c		terminal_utils.c
+
+SRC_NAME =	$(SRC_MAIN)												\
+			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))		\
+			$(addprefix $(SRC_DIR_EXEC)/, $(SRC_EXEC))				\
+			$(addprefix $(SRC_DIR_LEXER)/, $(SRC_LEXER))			\
+			$(addprefix $(SRC_DIR_PARSER)/, $(SRC_PARSER))			\
+			$(addprefix $(SRC_DIR_PROMPT)/, $(SRC_PROMPT))
+
+OBJ_NAME = $(SRC_NAME:%.c=%.o)
+
+SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
+OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 # **************************************************************************** #
 #                                     LIBS                                     #
@@ -84,20 +111,22 @@ LDFLAGS = -L ./$(LFT_DIR)
 
 LDLIBS = -lft
 
+LDLIBS += -lreadline
+
 # **************************************************************************** #
 #                                    RULES                                     #
 # **************************************************************************** #
 
 .PHONY: all sanitize thread clean fclean re norme
 
-# all
+# ALL
 all: $(NAME)
 
-# name
+# NAME
 $(NAME): $(LFT_NAME) $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS) $(CCFLAGS)
 
-# sanitize
+# SANITIZE ADDRESS
 ifeq ($(UNAME_S),Linux)
 sanitize: CFLAGS += -pedantic -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=bounds -fsanitize=null -g3
 endif
@@ -106,39 +135,41 @@ sanitize: CFLAGS += -pedantic -fsanitize=address -g3
 endif
 sanitize: $(NAME)
 
-# thread
+# SANITIZE THREAD
 thread: CFLAGS += -fsanitize=thread -g3
 thread: $(NAME)
 
-# libft
+# LIBFT
 $(LFT_NAME): $(LFT)
 	cp $(LFT) $(LFT_NAME)
 $(LFT):
 	$(MAKE) all -sC $(LFT_DIR)
 
-# obj
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
+# OBJ
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_DIRS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# obj path
+# OBJ DIRS
+$(OBJ_DIRS): | $(OBJ_PATH)
+	mkdir -p $(OBJ_DIRS)
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH) 2> /dev/null
+	mkdir -p $(OBJ_PATH)
 
-# clean
+# CLEAN
 clean:
 	$(MAKE) clean -sC $(LFT_DIR)
 	rm -rf $(LFT_NAME)
 	rm -rf $(OBJ_PATH)
 
-# fclean
+# FULL CLEAN
 fclean: clean
 	$(MAKE) fclean -sC $(LFT_DIR)
 	rm -rf $(NAME)
 
-# re
+# RE
 re: fclean all
 
-# norminette
+# NORMINETTE
 norme:
 	@printf "\n${GRN}##########${YEL} NORMINETTE ${GRN}##########${NOCOL}\n"
 	@printf "\n${GRN}LIBFT:${BLU}\n\n"
@@ -147,4 +178,3 @@ norme:
 	@norminette $(INC_PATH)
 	@norminette $(SRC_PATH)
 	@printf "${NOCOL}"
-

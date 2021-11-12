@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/10 13:36:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/11 13:33:07 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@
 # include <unistd.h>
 
 /* terminal library */
-# ifdef LINUX
-#  include <termios.h>
-# endif
-# ifdef MAC
-#  include <term.h>
-# endif
+# include <termios.h>
+# include <term.h>
 
 /*** DEFINES ***/
 
