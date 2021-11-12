@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   sh.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 11:18:54 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/12 11:57:11 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SH_H
+# define SH_H
 
 /*** INCLUDES ***/
 
 /* mishell includes */
-# include <minishell/colors.h>
+# include <sh/colors.h>
 
 /* our own implementation of libc */
 # include <libft.h>
@@ -49,16 +49,25 @@
 
 /*** DATA ***/
 
-// structs and global vars go here
+typedef struct s_sh {
+	/* last exit status */
+	int		l_exit;
+}	t_sh;
+
+extern t_sh	g_sh;
 
 /*** PROTOTYPES ***/
 
-/* terminal.c */
-void	init_terminal(void);
+/* prompt/prompt.c */
 char	*prompt_read_input(void);
 
-/* terminal_utils.c */
-void	die(const char *s);
-void	welcome(void);
+/* prompt/prompt_init.c */
+void	init_prompt(void);
+
+/* utils/init.c */
+void	init_shell();
+
+/* utils/error_utils.c */
+void	perror_exit(const char *s);
 
 #endif

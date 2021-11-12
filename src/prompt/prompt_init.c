@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal_utils.c                                   :+:      :+:    :+:   */
+/*   prompt_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:17:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 10:52:42 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/12 11:49:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-/* die func. refresh screen, print error and exit */
-void	die(const char *s)
-{
-	/* clear screen and move cursor */
-	//write(STDOUT_FILENO, "\x1b[2J", 4);
-	//write(STDOUT_FILENO, "\x1b[H", 3);
-
-	/* restore terminal */
-	//dis_raw_mode();
-
-	/* print error and exit */
-	perror(s);
-	exit(EXIT_FAILURE);
-}
+#include <sh.h>
 
 /* welcome message on start */
-void	welcome(void)
+static void	welcome(void)
 {
 	/*printf("\n"\
 	FG_YEL "           _       _ " FG_RED "    _          _ _ \n"\
@@ -55,4 +40,10 @@ void	welcome(void)
 	FG_YEL "88  88  88 88 88    88 88 " FG_BLU "      88 88    88 88.  ... 88 88\n"\
 	FG_YEL "dP  dP  dP dP dP    dP dP " FG_CYN "`88888P' dP    dP `88888P' dP dP\n"\
 	FG_DEF);
+}
+
+/* initialise prompt */
+void	init_prompt(void)
+{
+	welcome();
 }
