@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/12 12:32:12 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/12 12:45:19 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRC_LEXER =
 
 SRC_PARSER =
 
-SRC_PROMPT =	input.c		prompt.c		prompt_init.c
+SRC_PROMPT =	prompt.c		prompt_init.c
 
 SRC_UTILS =		init.c		error_utils.c
 
@@ -134,6 +134,7 @@ $(NAME): $(OBJ) $(LFT_NAME)
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_NAME) -o $@ $(LDFLAGS) $(LDLIBS) $(CCFLAGS)
 	@printf "${NOCOL}"
 	@printf "\n${GRN}SUCCESS!${NOCOL}\n"
+	@printf "${CYN}type \"./minishell\" to start!${NOCOL}\n"
 
 # SANITIZE ADDRESS
 ifeq ($(UNAME_S),Linux)
