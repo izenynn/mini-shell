@@ -1,6 +1,13 @@
 # Change Log
 
 All changese to this project will be documented in this file to help us in the development phase.
+## 2021-11-10 - 0xk0sta
+
+- Built-In 3/7 done.
+- Implemented pwd.
+- Implemented cd.
+- Implemented echo.
+- Implemented get-path funct.
 
 ## 2021-11-10 - izenynn
 
