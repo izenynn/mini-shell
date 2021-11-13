@@ -2,6 +2,20 @@
 
 All changese to this project will be documented in this file to help us in the development phase.
 
+## 2021-11-21 - izenynn
+
+### Added
+
+- [wip] basic lexer and parser
+
+### Changed
+
+- Split sources in folders
+- Improve input system
+- Add colors to makefile
+
+### Fixed
+
 ## 2021-11-10 - izenynn
 
 Create repo

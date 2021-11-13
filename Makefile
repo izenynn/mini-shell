@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/12 12:45:19 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/12 14:46:21 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,13 +81,13 @@ SRC_BUILTIN =
 
 SRC_EXEC =
 
-SRC_LEXER =
+SRC_LEXER =		lexer.c
 
 SRC_PARSER =
 
 SRC_PROMPT =	prompt.c		prompt_init.c
 
-SRC_UTILS =		init.c		error_utils.c
+SRC_UTILS =		init.c			error_utils.c		signals.c
 
 SRC_NAME =	$(SRC_MAIN)												\
 			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))		\

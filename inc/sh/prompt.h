@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 15:33:49 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/13 12:13:46 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/13 12:14:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh.h>
+#ifndef PROMPT_H
+# define PROMPT_H
 
-static void	initialise_vars()
-{
-	g_sh.l_exit = EXIT_SUCCESS;
-}
+/*** PROTOYPES ***/
 
-/* initialise shell */
-void	init_shell()
-{
-	initialise_vars();
+/* prompt/prompt.c */
+char	*prompt_read_input(void);
 
-	// TODO ignore signals (call signals())
-}
+/* prompt/prompt_init.c */
+void	init_prompt(void);
+
+#endif

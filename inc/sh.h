@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 11:57:11 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/13 12:15:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 
 /* mishell includes */
 # include <sh/colors.h>
+# include <sh/utils.h>
+# include <sh/prompt.h>
+# include <sh/lexer.h>
+//# include <sh/parser.h>
 
 /* our own implementation of libc */
 # include <libft.h>
@@ -29,6 +33,8 @@
 /* sys libraries */
 # include <sys/types.h>
 # include <sys/wait.h>
+
+# include <limits.h>
 
 /* readline libraries */
 # include <readline/readline.h>
@@ -43,31 +49,25 @@
 
 /*** DEFINES ***/
 
-/* parse */
-//# define MAXCHR 1000 // max number of letters to be supported
-//# define MAXCMD 100 // max number of commands to be supported
+/* path */
+# ifndef PATH_MAX
+#  define PATH_MAX 256
+# endif
+
+/* prompt */
+
+# define MAXCHR 1000 // max number of letters to be supported
+# define MAXCMD 100 // max number of commands to be supported
 
 /*** DATA ***/
 
+/*
+ * l_exit => last exit status
+ */
 typedef struct s_sh {
-	/* last exit status */
 	int		l_exit;
 }	t_sh;
 
 extern t_sh	g_sh;
-
-/*** PROTOTYPES ***/
-
-/* prompt/prompt.c */
-char	*prompt_read_input(void);
-
-/* prompt/prompt_init.c */
-void	init_prompt(void);
-
-/* utils/init.c */
-void	init_shell();
-
-/* utils/error_utils.c */
-void	perror_exit(const char *s);
 
 #endif

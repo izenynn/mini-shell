@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 15:33:49 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/13 12:14:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sh.h>
+#ifndef UTILS_H
+# define UTILS_H
 
-static void	initialise_vars()
-{
-	g_sh.l_exit = EXIT_SUCCESS;
-}
+/*** PROTOTYPES ***/
 
-/* initialise shell */
-void	init_shell()
-{
-	initialise_vars();
+/* utils/init.c */
+void	init_shell(void);
 
-	// TODO ignore signals (call signals())
-}
+/* utils/error_utils.c */
+void	perror_exit(const char *s);
+
+/* utils/signals.c */
+void	init_signals(void);
+
+#endif
