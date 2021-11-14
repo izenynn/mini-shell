@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 11:15:32 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/14 15:57:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@ int	main(void)
 		// prompt_process_input();
 
 		// TESTS
-		printf("line: %s\n", line);
+		printf("\nline: %s\n\n", line);
 
 		/* lexer */
 		lexer_build(line, ft_strlen(line), &lex);
+
+		t_tok *tmp;
+		tmp = lex.tok_lst;
+		while (tmp)
+		{
+			printf("type: %d, data: %s\n", tmp->type, tmp->data);
+			tmp = tmp->next;
+		}
 
 		// TODO parse the tokens into an abstract syntax tree
 		//

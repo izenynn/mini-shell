@@ -6,11 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 12:59:21 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/14 15:56:48 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh/lexer.h"
+#include "sh/utils.h"
 #include <sh.h>
 
 /* get char type */
@@ -46,7 +47,12 @@ static int	get_ctype(char c)
 /* initialise all tok vars at NULL (0) */
 static void	init_tok(t_tok *tok, size_t sz)
 {
-	tok->data = (char *)ft_calloc(sz + 1, sizeof(char));
+	tok->data = (char *)malloc((sz + 1) * sizeof(char));
+	if (!tok->data)
+		perror_exit("malloc");
+	tok->data[0] = '\0';
+	tok->type = CHAR_NULL;
+	tok->next = NULL;
 }
 
 /* detroy toks (recursive) */
@@ -67,7 +73,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 	char	c;
 	int		ctype;
 	int		st;
-	int		i;
+	int		i, j, k;
 
 	/* check len */
 	lex->n_toks = 0;
@@ -83,7 +89,9 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 	/* initialise state */
 	st = ST_GEN;
 
+	/* copy to data */
 	i = 0;
+	j = 0;
 	while (1)
 	{
 		/* get char type */
@@ -94,42 +102,83 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 		{
 			if (ctype == CHAR_QOUTE)
 			{
-				;
+				st = ST_IN_QUOTE;
+				tok->data[j++] = CHAR_QOUTE;
+				tok->type = TOK;
 			}
 			else if (ctype == CHAR_DQOUTE)
 			{
-				;
+				st = ST_IN_DQUOTE;
+				tok->data[j++] = CHAR_DQOUTE;
+				tok->type = TOK;
 			}
 			else if (ctype == CHAR_ESCSEQ)
 			{
-				;
+				tok->data[j++] = line[++i];
+				tok->type = TOK;
 			}
 			else if (ctype == CHAR_GEN)
 			{
-				;
+				tok->data[j++] = c;
+				tok->type = TOK;
 			}
 			else if (ctype == CHAR_WS)
 			{
-				;
+				/* new token */
+				if (j > 0)
+				{
+					tok->data[j] = 0;
+					tok->next = (t_tok *)malloc(sizeof(t_tok));
+					if (!tok->next)
+						perror_exit("malloc");
+					tok = tok->next;
+					init_tok(tok, sz - i);
+					j = 0;
+				}
 			}
 			else if (ctype == CHAR_SC || ctype == CHAR_GT || ctype == CHAR_LS
 				|| ctype == CHAR_AMP || ctype == CHAR_PIPE)
 			{
-				;
+				/* end previous token */
+				if (j > 0)
+				{
+					tok->data[j] = '\0';
+					tok->next = (t_tok *)malloc(sizeof(t_tok));
+					if (!tok->next)
+						perror_exit("malloc");
+					tok = tok->next;
+					init_tok(tok, sz - i);
+					j = 0;
+				}
+				/* create special char token */
+				tok->data[0] = ctype;
+				tok->data[1] = '\0';
+				tok->type = ctype;
+				tok->next = (t_tok *)malloc(sizeof(t_tok));
+				tok = tok->next;
+				init_tok(tok, sz - i);
 			}
 		}
 		else if (st == ST_IN_QUOTE)
 		{
-			;
+			tok->data[j++] = c;
+			if (ctype == CHAR_QOUTE)
+				st = ST_GEN;
 		}
 		else if (st == ST_IN_DQUOTE)
 		{
-			;
+			tok->data[j++] = c;
+			if (ctype == CHAR_DQOUTE)
+				st = ST_GEN;
 		}
 		/* if null */
 		if (ctype == CHAR_NULL)
 		{
-			;
+			if (j > 0)
+			{
+				tok->data[j] = '\0';
+				j = 0;
+			}
 		}
 		/* increment i */
 		i++;
@@ -138,7 +187,18 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 			break ;
 	}
 
-	/* token */
-
+	/* create token */
+	tok = lex->tok_lst;
+	k = 0;
+	/*while (tok)
+	{
+		if (tok->type == TOKEN)
+		{
+			;
+		}
+		tok = tok->next;
+	}*/
+	/* set number of tokens */
+	lex->n_toks = k;
 	return (0);
 }
