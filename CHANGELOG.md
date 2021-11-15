@@ -9,6 +9,20 @@ All changese to this project will be documented in this file to help us in the d
 - Implemented echo.
 - Implemented get-path funct.
 
+## 2021-11-21 - izenynn
+
+### Added
+
+- [wip] basic lexer and parser
+
+### Changed
+
+- Split sources in folders
+- Improve input system
+- Add colors to makefile
+
+### Fixed
+
 ## 2021-11-10 - izenynn
 
 Create repo

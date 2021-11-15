@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.c                                         :+:      :+:    :+:   */
+/*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/10 13:36:32 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/12 11:45:54 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/12 11:54:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include <sh.h>
 
-void	init_terminal(void)
+/* exit printint perror */
+void	perror_exit(const char *s)
 {
-	welcome();
+	perror(s);
+	exit(EXIT_FAILURE);
 }

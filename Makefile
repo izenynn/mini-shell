@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/10 13:13:12 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/12 14:46:21 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,13 @@
 
 # COLORS
 NOCOL=\033[0m
-RED=\033[1;31m
-YEL=\033[1;33m
-ORG=\033[0;33m
-GRN=\033[1;32m
-DGRAY=\033[1;30m
-BLU=\033[1;34m
+
+RED=\033[31m
+GRN=\033[32m
+YEL=\033[33m
+BLU=\033[34m
+MAG=\033[35m
+CYN=\033[36m
 
 # OS
 UNAME_S := $(shell uname -s)
@@ -62,13 +63,44 @@ CFLAGS += -I ./$(INC_PATH)
 #                                   SOURCES                                    #
 # **************************************************************************** #
 
-SRC_FILES =	main.c		terminal.c		terminal_utils.c
+SRC_DIR_BUILTIN = built-in
+SRC_DIR_EXEC = exec
+SRC_DIR_LEXER = lexer
+SRC_DIR_PARSER = parser
+SRC_DIR_PROMPT = prompt
+SRC_DIR_UTILS = utils
 
-SRC = $(addprefix $(SRC_PATH)/, $(SRC_FILES))
+OBJ_DIRS_NAME =	$(SRC_DIR_BUILTIN)	$(SRC_DIR_EXEC)		$(SRC_DIR_LEXER)	\
+				$(SRC_DIR_PARSER)	$(SRC_DIR_PROMPT)	$(SRC_DIR_UTILS)
 
-OBJ_FILES = $(SRC_FILES:%.c=%.o)
+OBJ_DIRS = $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS_NAME))
 
-OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_FILES))
+SRC_MAIN =		main.c
+
+SRC_BUILTIN =
+
+SRC_EXEC =
+
+SRC_LEXER =		lexer.c
+
+SRC_PARSER =
+
+SRC_PROMPT =	prompt.c		prompt_init.c
+
+SRC_UTILS =		init.c			error_utils.c		signals.c
+
+SRC_NAME =	$(SRC_MAIN)												\
+			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))		\
+			$(addprefix $(SRC_DIR_EXEC)/, $(SRC_EXEC))				\
+			$(addprefix $(SRC_DIR_LEXER)/, $(SRC_LEXER))			\
+			$(addprefix $(SRC_DIR_PARSER)/, $(SRC_PARSER))			\
+			$(addprefix $(SRC_DIR_PROMPT)/, $(SRC_PROMPT))			\
+			$(addprefix $(SRC_DIR_UTILS)/, $(SRC_UTILS))
+
+OBJ_NAME = $(SRC_NAME:%.c=%.o)
+
+SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
+OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 # **************************************************************************** #
 #                                     LIBS                                     #
@@ -84,20 +116,27 @@ LDFLAGS = -L ./$(LFT_DIR)
 
 LDLIBS = -lft
 
+LDLIBS += -lreadline
+
 # **************************************************************************** #
 #                                    RULES                                     #
 # **************************************************************************** #
 
 .PHONY: all sanitize thread clean fclean re norme
 
-# all
+# ALL
 all: $(NAME)
 
-# name
-$(NAME): $(LFT_NAME) $(OBJ)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS) $(CCFLAGS)
+# NAME
+$(NAME): $(OBJ) $(LFT_NAME)
+	@printf "\n${YEL}LINKING:${NOCOL}\n"
+	@printf "${BLU}"
+	$(CC) $(CFLAGS) $(OBJ) $(LFT_NAME) -o $@ $(LDFLAGS) $(LDLIBS) $(CCFLAGS)
+	@printf "${NOCOL}"
+	@printf "\n${GRN}SUCCESS!${NOCOL}\n"
+	@printf "${CYN}type \"./minishell\" to start!${NOCOL}\n"
 
-# sanitize
+# SANITIZE ADDRESS
 ifeq ($(UNAME_S),Linux)
 sanitize: CFLAGS += -pedantic -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=bounds -fsanitize=null -g3
 endif
@@ -106,39 +145,56 @@ sanitize: CFLAGS += -pedantic -fsanitize=address -g3
 endif
 sanitize: $(NAME)
 
-# thread
+# SANITIZE THREAD
 thread: CFLAGS += -fsanitize=thread -g3
 thread: $(NAME)
 
-# libft
+# LIBFT
 $(LFT_NAME): $(LFT)
+	@printf "${MAG}"
 	cp $(LFT) $(LFT_NAME)
+	@printf "${NOCOL}"
 $(LFT):
+	@printf "\n${YEL}LIBFT:${NOCOL}\n"
+	@printf "${MAG}"
 	$(MAKE) all -sC $(LFT_DIR)
+	@printf "${NOCOL}"
 
-# obj
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
+# OBJ
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_DIRS)
+	@printf "${BLU}"
 	$(CC) $(CFLAGS) -c $< -o $@
+	@printf "${NOCOL}"
 
-# obj path
+# OBJ DIRS
+$(OBJ_DIRS): | $(OBJ_PATH)
+	@printf "${MAG}"
+	mkdir -p $(OBJ_DIRS)
+	@printf "${NOCOL}"
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH) 2> /dev/null
+	@printf "${MAG}"
+	mkdir -p $(OBJ_PATH)
+	@printf "${NOCOL}"
 
-# clean
+# CLEAN
 clean:
+	@printf "${RED}"
 	$(MAKE) clean -sC $(LFT_DIR)
 	rm -rf $(LFT_NAME)
 	rm -rf $(OBJ_PATH)
+	@printf "${NOCOL}"
 
-# fclean
+# FULL CLEAN
 fclean: clean
+	@printf "${RED}"
 	$(MAKE) fclean -sC $(LFT_DIR)
 	rm -rf $(NAME)
+	@printf "${NOCOL}"
 
-# re
+# RE
 re: fclean all
 
-# norminette
+# NORMINETTE
 norme:
 	@printf "\n${GRN}##########${YEL} NORMINETTE ${GRN}##########${NOCOL}\n"
 	@printf "\n${GRN}LIBFT:${BLU}\n\n"
@@ -147,4 +203,3 @@ norme:
 	@norminette $(INC_PATH)
 	@norminette $(SRC_PATH)
 	@printf "${NOCOL}"
-
