@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/14 15:57:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 15:26:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int	main(void)
 {
 	char	*line;
 	t_lexer	lex;
+
+	/* initialise lex */
+	lex.tok_lst = NULL;
 
 	/* initialise shell */
 	init_shell();
