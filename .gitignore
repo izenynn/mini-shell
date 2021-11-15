@@ -57,6 +57,10 @@
 .vscode
 **/.vscode
 
+# CLion
+.idea
+CMakelist.txt
+
 # cache
 .cache
 **/.cache
@@ -73,6 +77,3 @@ dkms.conf
 
 # Program name
 minishell
-#CLion Shit
-.idea
-CMakelist.txt
