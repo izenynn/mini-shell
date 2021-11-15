@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 12:15:24 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 13:20:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /*** INCLUDES ***/
 
 /* mishell includes */
+# include <built-in/built-in.h>
 # include <sh/colors.h>
 # include <sh/utils.h>
 # include <sh/prompt.h>
@@ -65,7 +66,10 @@
  * l_exit => last exit status
  */
 typedef struct s_sh {
-	int		l_exit;
+	int		status;
+	char	**env;
+	int		env_len;
+	//extern int status;
 }	t_sh;
 
 extern t_sh	g_sh;

@@ -73,3 +73,6 @@ dkms.conf
 
 # Program name
 minishell
+#CLion Shit
+.idea
+CMakelist.txt

@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/12 14:46:21 by dpoveda-         ###   ########.fr        #
+#   Updated: 2021/11/15 13:09:19 by                  ###   ########.fr       # #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,9 @@ OBJ_DIRS = $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS_NAME))
 
 SRC_MAIN =		main.c
 
-SRC_BUILTIN =
+SRC_BUILTIN =	cd.c			echo.c				env.c					\
+				exit.c			export.c			pwd.c					\
+				unset.c
 
 SRC_EXEC =
 
@@ -89,12 +91,12 @@ SRC_PROMPT =	prompt.c		prompt_init.c
 
 SRC_UTILS =		init.c			error_utils.c		signals.c
 
-SRC_NAME =	$(SRC_MAIN)												\
-			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))		\
-			$(addprefix $(SRC_DIR_EXEC)/, $(SRC_EXEC))				\
-			$(addprefix $(SRC_DIR_LEXER)/, $(SRC_LEXER))			\
-			$(addprefix $(SRC_DIR_PARSER)/, $(SRC_PARSER))			\
-			$(addprefix $(SRC_DIR_PROMPT)/, $(SRC_PROMPT))			\
+SRC_NAME =	$(SRC_MAIN)														\
+			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))				\
+			$(addprefix $(SRC_DIR_EXEC)/, $(SRC_EXEC))						\
+			$(addprefix $(SRC_DIR_LEXER)/, $(SRC_LEXER))					\
+			$(addprefix $(SRC_DIR_PARSER)/, $(SRC_PARSER))					\
+			$(addprefix $(SRC_DIR_PROMPT)/, $(SRC_PROMPT))					\
 			$(addprefix $(SRC_DIR_UTILS)/, $(SRC_UTILS))
 
 OBJ_NAME = $(SRC_NAME:%.c=%.o)
