@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/14 15:56:48 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 14:55:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,37 @@ static int	get_ctype(char c)
 	return (CHAR_GEN);
 }
 
+/* trim quotes and double quotes */
+static void trim_quotes(char* dst, char* src)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	l_quote;
+
+	len = ft_strlen(src);
+	if (len <= 1)
+	{
+		ft_strcpy(dst, src);
+		return ;
+	}
+
+
+	l_quote = 0;
+	i = -1;
+	j = 0;
+	while (++i < len)
+	{
+		if ((src[i] == '\'' || src[i] == '\"') && l_quote == 0)
+			l_quote = src[i];
+		else if (src[i] == l_quote)
+			l_quote = 0;
+		else
+			dst[j++] = src[i];
+	}
+	dst[j] = 0;
+}
+
 /* initialise all tok vars at NULL (0) */
 static void	init_tok(t_tok *tok, size_t sz)
 {
@@ -73,7 +104,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 	char	c;
 	int		ctype;
 	int		st;
-	int		i, j, k;
+	int		i, j;
 
 	/* check len */
 	lex->n_toks = 0;
@@ -189,16 +220,19 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 
 	/* create token */
 	tok = lex->tok_lst;
-	k = 0;
-	/*while (tok)
+	while (tok)
 	{
-		if (tok->type == TOKEN)
+		// TODO here we will handle wildcards and convert any wildcards to new tokens
+		if (tok->type == TOK)
 		{
-			;
+			/* trim quotes and double quotes */
+			char* trimed = malloc(ft_strlen(tok->data) + 1);
+			trim_quotes(trimed, tok->data);
+			free(tok->data);
+			tok->data = trimed;
 		}
 		tok = tok->next;
-	}*/
-	/* set number of tokens */
-	lex->n_toks = k;
-	return (0);
+	}
+	/* return number of tokens */
+	return (lex->n_toks);
 }
