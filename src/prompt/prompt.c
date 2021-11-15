@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 15:32:40 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 14:38:10 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*prompt_read_input(void)
 		prompt_clr = FG_RED;
 
 	// print prompt
-	printf("\n" FG_BLU "%s" FG_DEF "\n" "%s❯ " FG_DEF, dir, prompt_clr);
-	line = readline(NULL);
+	printf("\n" FG_BLU "%s" FG_DEF "\n" "%s", dir, prompt_clr);
+	line = readline("❯ " FG_DEF);
 	free(dir);
 	return (line);
 }
