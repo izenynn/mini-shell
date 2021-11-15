@@ -2,6 +2,17 @@
 
 All changese to this project will be documented in this file to help us in the development phase.
 
+## 2021-11-15 - izenynn
+
+### Added
+
+### Changed
+
+- Finish lexer
+- [todo] norminette
+
+### Fixed
+
 ## 2021-11-21 - izenynn
 
 ### Added
