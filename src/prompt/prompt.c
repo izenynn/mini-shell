@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 14:38:10 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 20:01:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*prompt_read_input(void)
 	dir[PATH_MAX - 1] = '\0';
 
 	// get color
-	if (g_sh.l_exit == EXIT_SUCCESS)
+	if (g_sh.status == EXIT_SUCCESS)
 		prompt_clr = FG_MAG;
 	else
 		prompt_clr = FG_RED;

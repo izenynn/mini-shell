@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 15:33:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/15 20:01:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	initialise_vars()
 {
-	g_sh.l_exit = EXIT_SUCCESS;
+	g_sh.status = EXIT_SUCCESS;
 }
 
 /* initialise shell */
