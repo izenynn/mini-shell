@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 20:00:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/16 11:39:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ int	main(void)
 	char	*line;
 	t_lexer	lex;
 
-	/* initialise lex */
-	lex.tok_lst = NULL;
-
 	/* initialise shell */
 	init_shell();
 
@@ -33,14 +30,15 @@ int	main(void)
 	/* minishell loop */
 	while (1)
 	{
-		line = prompt_read_input();
-		// prompt_process_input();
+		// TODO handle signals
 
-		// TESTS
-		printf("\nline: %s\n\n", line);
+		line = prompt_read_input();
+		if (line == NULL || ft_strlen(line) <= 0)
+			continue ;
 
 		/* lexer */
 		lexer_build(line, ft_strlen(line), &lex);
+		free(line);
 
 		t_tok *tmp;
 		tmp = lex.tok_lst;
@@ -51,7 +49,6 @@ int	main(void)
 		}
 
 		// TODO parse the tokens into an abstract syntax tree
-		//
 		// TODO free all before looping again
 	}
 

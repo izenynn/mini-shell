@@ -2,6 +2,16 @@
 
 All changese to this project will be documented in this file to help us in the development phase.
 
+## 2021-11-16 - izenynn
+
+### Added
+
+### Changed
+
+- Improve input
+
+### Fixed
+
 ## 2021-11-15 - 0xk0sta
 
 ### Added
