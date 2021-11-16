@@ -57,3 +57,65 @@ int	main(void)
 
 	return (EXIT_SUCCESS);
 }
+
+/* MAIN TO TEST BUILTINS */
+
+//int	main(void)
+//{
+//	extern char	**environ;
+//	char		*line;
+//	t_lexer		lex;
+//	t_list		*env;
+//
+//	/* initialise lex */
+//	(void)line;
+//	env = NULL;
+//	lex.tok_lst = NULL;
+//	env = fill_list(env, environ);
+//	g_sh.env = env;
+//	/* initialise shell */
+//	init_shell();
+//
+//	/* initialise terminal */
+//	init_prompt();
+
+//	/* minishell loop */
+//	/*while (1)
+//	{
+//		line = prompt_read_input();
+// 		prompt_process_input();
+//
+//		 TESTS
+//		printf("\nline: %s\n\n", line);
+//
+//		/* lexer */
+////		lexer_build(line, ft_strlen(line), &lex);
+//
+////		t_tok *tmp;
+////		tmp = lex.tok_lst;
+////		while (tmp)
+////		{
+////			printf("type: %d, data: %s\n", tmp->type, tmp->data);
+////			tmp = tmp->next;
+////		}
+//
+////		 TODO parse the tokens into an abstract syntax tree
+////
+//// 		TODO free all before looping again
+////	}
+//
+//	/* shutdown and cleanup */
+//// 		TODO
+//	char **xport;
+//	xport = malloc(sizeof(char *) * 3);
+//	xport[0] = ft_strdup("a=1");
+//	xport[1] = ft_strdup("b=2");
+//	xport[2] = NULL;
+//	ft_export(NULL);
+//	printf("\n\n\n\n");
+//	ft_export(xport);
+//	ft_env();
+//	ft_unset("b");
+//	ft_env();
+//	return (EXIT_SUCCESS);
+//}
