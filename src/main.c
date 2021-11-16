@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/16 11:39:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/16 11:44:55 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	main(void)
 			continue ;
 
 		/* lexer */
-		lexer_build(line, ft_strlen(line), &lex);
+		if (lexer_build(line, ft_strlen(line), &lex))
+			continue ;
 		free(line);
 
 		t_tok *tmp;

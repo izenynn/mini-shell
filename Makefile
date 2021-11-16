@@ -43,8 +43,6 @@ CC = gcc
 
 CFLAGS += -Wall -Wextra -Werror
 
-#CCFLAGS += -pthread
-
 # **************************************************************************** #
 #                                    PATHS                                     #
 # **************************************************************************** #
@@ -85,7 +83,7 @@ SRC_EXEC =
 
 SRC_LEXER =		lexer.c
 
-SRC_PARSER =
+SRC_PARSER =	parser.c
 
 SRC_PROMPT =	prompt.c		prompt_init.c
 
