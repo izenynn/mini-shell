@@ -27,8 +27,8 @@ All changese to this project will be documented in this file to help us in the d
 ### Changed
 
 - Built-ins done
-- `[todo]` still need to test them and fix some things probably but them mostly done.
-- `[todo]` update the builtins later before merging all the branches.
+- Still need to test them and fix some things probably but them mostly done.
+- Update the builtins later before merging all the branches.
 - Hot fix on ft_get_env.
 - ft_exit might need an update too, I think it's too simple (Anyways it might do the job).
 
