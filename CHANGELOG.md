@@ -11,7 +11,15 @@ All changese to this project will be documented in this file to help us in the d
 - Improve input
 
 ### Fixed
+- Now export works properly.
 
+## 2021-11-16 - 0xk0sta
+### Changed
+- Every function related to envs work with lists now.
+- Every env related function has been rewritten.
+- `[TODO]` Add to unset functionality to remove multiple envs.
+### Added 
+ - Added a couple of utils for env related functions.
 ## 2021-11-15 - 0xk0sta
 
 ### Added
@@ -30,7 +38,7 @@ All changese to this project will be documented in this file to help us in the d
 
 ### Added
 
-### Chagned
+### Changed
 
 - Built-In 3/7 done.
 - Implemented pwd.
