@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 19:09:49 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/16 12:37:04 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*** INCLUDES ***/
 
 /* mishell includes */
-# include <sh/built-in.h>
+# include <sh/builtin.h>
 # include <sh/colors.h>
 # include <sh/utils.h>
 # include <sh/prompt.h>
@@ -67,7 +67,7 @@
  */
 typedef struct s_sh {
 	int		status;
-	char	**env;
+	t_list	*env;
 	int		env_len;
 	//extern int status;
 }	t_sh;
