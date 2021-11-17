@@ -1,21 +1,46 @@
 #include <sh.h>
 
-int	ft_unset(char *unset)
+int	find_pos(const char *unset)
 {
 	int	i;
-	int	env_tl;
 
-	i = -1;
-	env_tl = 0;
-	if (!g_sh.env)
-		return (-1);
+	i = 0;
+	while (g_sh.env)
+	{
+		if (ft_strncmp((char *)g_sh.env->next->data, unset,
+				   ft_strlen(unset)) == 0)
+			break ;
+		i++;
+		g_sh.env = g_sh.env->next;
+	}
+	return (i);
+}
+
+void	delete_and_join(t_list *head, t_list *aux)
+{
+	aux = g_sh.env->next->next;
+	ft_lstdelone(g_sh.env->next, free);
+	g_sh.env->next = aux;
+	g_sh.env = head;
+}
+
+int	ft_unset(const char *unset)
+{
+	t_list	*head;
+	t_list	*aux;
+
+	head = g_sh.env;
+	aux = NULL;
 	if (unset)
 	{
-		while (g_sh.env[++i])
-			env_tl += ft_strlen(g_sh.env[i]);
-		g_sh.env = ft_realloc(g_sh.env, env_tl + ft_strlen(unset));
+		find_pos(unset);
 		if (!g_sh.env)
+		{
+			g_sh.env = head;
 			return (-1);
+		}
+		else
+			delete_and_join(head, aux);
 	}
 	else
 	{

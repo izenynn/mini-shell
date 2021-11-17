@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/16 12:22:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/17 12:34:19 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 /*** INCLUDES ***/
 
 /* mishell includes */
-# include <sh/built-in.h>
+# include <sh/builtin.h>
 # include <sh/colors.h>
 # include <sh/utils.h>
 # include <sh/prompt.h>
 # include <sh/lexer.h>
 # include <sh/parser.h>
-# include <sh/ast.h>
+# include <sh/ast.h> 
 
 /* our own implementation of libc */
 # include <libft.h>
@@ -63,14 +63,18 @@
 
 /*** DATA ***/
 
-/*
- * l_exit => last exit status
+/* shell global struct
+ *
+ * status	=> last exit status
+ * *env		=> enviroment vars
+ * env_len	=> number of enviroment vars
+ * cur_tok	=> current token (used for creating the ast)
  */
 typedef struct s_sh {
 	int		status;
-	char	**env;
+	t_list	*env;
 	int		env_len;
-	//extern int status;
+	t_tok	cur_tok;
 }	t_sh;
 
 extern t_sh	g_sh;

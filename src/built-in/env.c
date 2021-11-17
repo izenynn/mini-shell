@@ -2,11 +2,15 @@
 
 void	ft_env(void)
 {
-	int	i;
+	t_list	*head;
 
-	i = -1;
+	head = g_sh.env;
 	if (!g_sh.env)
 		return ;
-	while (g_sh.env[++i] != NULL)
-		printf("%s\n", g_sh.env[i]);
+	while (g_sh.env)
+	{
+		printf("%s\n", (char *) g_sh.env->data);
+		g_sh.env = g_sh.env->next;
+	}
+	g_sh.env = head;
 }
