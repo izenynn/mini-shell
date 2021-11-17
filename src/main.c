@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/16 11:44:55 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/16 12:32:48 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(void)
 {
 	char	*line;
 	t_lexer	lex;
+	t_ast	ast;
 
 	/* initialise shell */
 	init_shell();
@@ -41,6 +42,7 @@ int	main(void)
 			continue ;
 		free(line);
 
+		// TODO remove this, is only for tests
 		t_tok *tmp;
 		tmp = lex.tok_lst;
 		while (tmp)
@@ -49,7 +51,10 @@ int	main(void)
 			tmp = tmp->next;
 		}
 
-		// TODO parse the tokens into an abstract syntax tree
+		/* parse the tokens into an abstract syntax tree */
+		if (lex.n_toks == 0 || parse(&lex, &ast))
+			continue ;
+
 		// TODO free all before looping again
 	}
 

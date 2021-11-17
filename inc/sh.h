@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 19:09:49 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/16 12:22:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # include <sh/utils.h>
 # include <sh/prompt.h>
 # include <sh/lexer.h>
-//# include <sh/parser.h>
+# include <sh/parser.h>
+# include <sh/ast.h>
 
 /* our own implementation of libc */
 # include <libft.h>
