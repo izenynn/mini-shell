@@ -6,12 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 14:55:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/18 11:53:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/lexer.h"
-#include "sh/utils.h"
 #include <sh.h>
 
 /* get char type */

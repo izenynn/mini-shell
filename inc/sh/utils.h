@@ -6,14 +6,16 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 12:14:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/18 11:52:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
-# include <../../libft/inc/libft/ft_lst.h>
+
 /*** PROTOTYPES ***/
+# include <libft/ft_lst.h>
+
 /* utils/custom_len.c */
 
 int		custom_len(const char *s);
