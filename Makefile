@@ -83,7 +83,7 @@ SRC_EXEC =
 
 SRC_LEXER =		lexer.c
 
-SRC_PARSER =	parser.c
+SRC_PARSER =	parser.c		ast_build.c
 
 SRC_PROMPT =	prompt.c		prompt_init.c
 
