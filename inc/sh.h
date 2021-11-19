@@ -38,6 +38,10 @@
 
 # include <limits.h>
 
+/* signals */
+
+# include <signal.h>
+
 /* readline libraries */
 # include <readline/readline.h>
 # include <readline/history.h>

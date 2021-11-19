@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 12:14:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/19 17:49:22 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define UTILS_H
 # include <../../libft/inc/libft/ft_lst.h>
 /*** PROTOTYPES ***/
+/* utils/sig_handler.c */
+int		sig_init(void);
+
 /* utils/get_env.c */
 char	*ft_get_env(const char *path);
 
