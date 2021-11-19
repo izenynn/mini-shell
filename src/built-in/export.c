@@ -1,4 +1,5 @@
 #include <sh.h>
+
 static char	**lst_to_ptr(void)
 {
 	char	**env;
@@ -10,7 +11,7 @@ static char	**lst_to_ptr(void)
 	head = g_sh.env;
 	while (g_sh.env)
 	{
-		env[i++] = (char *)g_sh.env->data;
+		env[i++] = ft_strdup((char *)g_sh.env->data);
 		g_sh.env = g_sh.env->next;
 	}
 	g_sh.env = head;
@@ -24,20 +25,23 @@ static void 	print_list(char **env)
 
 	i = -1;
 	while (env[++i])
+	{
 		printf("%s\n", env[i]);
+		free(env[i]);
+	}
+	free(env);
 }
 
-static void	swap_strs(int i, int j, char **env)
+static void	swap_strs(int i, int j, char **env, char *tmp)
 {
-	char	*tmp;
-
-	tmp = NULL;
 	if (custom_len(env[j]) > custom_len(env[i]))
 	{
 		if (ft_strncmp(env[j], env[i], custom_len(env[j])) > 0)
 		{
 			tmp = ft_strdup(env[j]);
+			free(env[j]);
 			env[j] = ft_strdup(env[i]);
+			free(env[i]);
 			env[i] = tmp;
 		}
 	}
@@ -46,7 +50,9 @@ static void	swap_strs(int i, int j, char **env)
 		if (ft_strncmp(env[j], env[i], custom_len(env[i])) > 0)
 		{
 			tmp = ft_strdup(env[j]);
+			free(env[j]);
 			env[j] = ft_strdup(env[i]);
+			free(env[i]);
 			env[i] = tmp;
 		}
 	}
@@ -66,7 +72,7 @@ static void	ft_lst_sorter(void)
 	{
 		j = -1;
 		while (env[++j])
-			swap_strs(i, j, env);
+			swap_strs(i, j, env, tmp);
 	}
 	print_list(env);
 }
