@@ -14,16 +14,16 @@
 # define UTILS_H
 # include <../../libft/inc/libft/ft_lst.h>
 /*** PROTOTYPES ***/
-/* utils/custom_len.c */
+/* utils/get_env.c */
+char	*ft_get_env(const char *path);
 
+/* utils/custom_len.c */
 int		custom_len(const char *s);
 
 /* utils/list_filler.c */
-
 t_list	*fill_list(t_list *env, char **environ);
 
 /* utils/init.c */
-
 void	init_shell(void);
 
 /* utils/error_utils.c */
