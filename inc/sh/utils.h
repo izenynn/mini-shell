@@ -12,7 +12,7 @@
 
 #ifndef UTILS_H
 # define UTILS_H
-# include <../../libft/inc/libft/ft_lst.h>
+# include <libft/ft_lst.h>
 /*** PROTOTYPES ***/
 /* utils/sig_handler.c */
 int		sig_init(void);

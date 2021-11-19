@@ -12,7 +12,8 @@ char	*ft_get_env(const char *path)
 	{
 		if (ft_strncmp(path, (char *)g_sh.env->data, path_size) == 0)
 		{
-			ret = ft_substr((char *)g_sh.env->data, 0, path_size);
+			ret = ft_substr((char *)g_sh.env->data, path_size + 1,
+					ft_strlen((char *)g_sh.env->data) - path_size);
 			g_sh.env = head;
 			return (ret);
 		}
