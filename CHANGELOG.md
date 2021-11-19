@@ -2,6 +2,12 @@
 
 All changese to this project will be documented in this file to help us in the development phase.
 
+## 2021-11-19 - 0xk0sta
+
+### Changed
+- Leaks solved on export.
+- Unset now allows to unset multiple envs.
+
 ## 2021-11-16 - izenynn
 
 ### Added
@@ -9,7 +15,6 @@ All changese to this project will be documented in this file to help us in the d
 ### Changed
 
 - Improve input
-
 
 ## 2021-11-16 - 0xk0sta
 ### Changed
