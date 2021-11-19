@@ -24,28 +24,31 @@ void	delete_and_join(t_list *head, t_list *aux)
 	g_sh.env = head;
 }
 
-int	ft_unset(const char *unset)
+int	ft_unset(char **unset)
 {
 	t_list	*head;
 	t_list	*aux;
+	int		i;
 
 	head = g_sh.env;
 	aux = NULL;
+	i = -1;
 	if (unset)
 	{
-		find_pos(unset);
-		if (!g_sh.env)
+		while (unset[++i])
 		{
-			g_sh.env = head;
-			return (-1);
+			find_pos(unset[i]);
+			if (!g_sh.env)
+				g_sh.env = head;
+			else
+				delete_and_join(head, aux);
 		}
-		else
-			delete_and_join(head, aux);
 	}
 	else
 	{
 		printf("%s\n", "unset: not enough arguments");
 		return (-1);
 	}
+	g_sh.env = head;
 	return (0);
 }
