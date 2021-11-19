@@ -3,8 +3,9 @@
  * ctrl + c = 2 -> exit code = 130
  * ctrl + z = 18 -> exit code = 146
  * ctrl + \ = 3 -> exit code = 131
+ * //TODO HANDLE ctrl + d
 */
-
+//TODO set exit code on status global var
 static void	sig_handler(int signum)
 {
 	printf("\n%d\n", signum);
