@@ -6,11 +6,22 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/18 11:53:27 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/18 11:55:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+/* detroy toks (recursive) */
+/*void	destroy_tok(t_tok *tok)
+{
+	if (tok)
+	{
+		free(tok->data);
+		destroy_tok(tok->next);
+		free(tok);
+	}
+}*/
 
 /* get char type */
 static int	get_ctype(char c)
@@ -73,7 +84,7 @@ static void trim_quotes(char* dst, char* src)
 	dst[j] = 0;
 }
 
-/* initialise all tok vars at NULL (0) */
+/* initialise token */
 static void	init_tok(t_tok *tok, size_t sz)
 {
 	tok->data = (char *)malloc((sz + 1) * sizeof(char));
@@ -84,18 +95,7 @@ static void	init_tok(t_tok *tok, size_t sz)
 	tok->next = NULL;
 }
 
-/* detroy toks (recursive) */
-/*static void	destroy_tok(t_tok *tok)
-{
-	if (tok)
-	{
-		free(tok->data);
-		destroy_tok(tok->next);
-		free(tok);
-	}
-}*/
-
-/* build lexer */
+/* lexer main functions, get the tokens */
 int	lexer_build(char *line, size_t sz, t_lexer *lex)
 {
 	t_tok	*tok;
