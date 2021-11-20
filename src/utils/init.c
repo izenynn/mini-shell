@@ -6,11 +6,20 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 20:01:44 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 17:27:08 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+static void	fill_env(char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(env[i])));
+}
 
 static void	initialise_vars()
 {
@@ -20,7 +29,8 @@ static void	initialise_vars()
 /* initialise shell */
 void	init_shell()
 {
-	initialise_vars();
+	extern char	**environ;
 
-	// TODO ignore signals (call signals())
+	fill_env(environ);
+	initialise_vars();
 }
