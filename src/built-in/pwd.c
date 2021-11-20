@@ -12,16 +12,22 @@
 
 #include <sh.h>
 
-char	*ft_get_wdir(void)
+int	ft_get_wdir(void)
 {
 	char	*pwd;
 
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
+	if (!pwd)
+		return (1);
 	if (getcwd(pwd, PATH_MAX))
 	{
 		write(STDOUT_FILENO, pwd, ft_strlen(pwd));
-		return (pwd);
+		free(pwd);
+		return (0);
 	}
 	else
-		return (NULL);
+	{
+		free(pwd)
+		return (1);
+	}
 }
