@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
+/*   Updated: 2021/11/20 16:38:06 by acostal-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh.h>
 
 void	find_pos(const char *unset)
@@ -24,7 +36,6 @@ void	delete_and_join(t_list *head, t_list *aux)
 	ft_lstdelone(g_sh.env->next, free);
 	g_sh.env->next = aux;
 	g_sh.env = head;
-	free(aux);
 }
 
 int	ft_unset(char **unset)

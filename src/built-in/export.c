@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/20 16:36:31 by acostal-          #+#    #+#             */
+/*   Updated: 2021/11/20 16:36:33 by acostal-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh.h>
 
 static char	**lst_to_ptr(void)
@@ -19,7 +31,7 @@ static char	**lst_to_ptr(void)
 	return (env);
 }
 
-static void 	print_list(char **env)
+static void	print_list(char **env)
 {
 	int	i;
 
