@@ -72,7 +72,6 @@
 typedef struct s_sh {
 	int		status;
 	t_list	*env;
-	int		env_len;
 	t_tok	*tok;
 }	t_sh;
 

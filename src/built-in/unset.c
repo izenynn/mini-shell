@@ -6,14 +6,14 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 18:18:45 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 19:33:01 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* move list to desired positon */
-void	find_pos(const char *unset)
+static void	find_pos(const char *unset)
 {
 	char	*tmp;
 
@@ -33,8 +33,10 @@ void	find_pos(const char *unset)
 	free(tmp);
 }
 
-void	delete_and_join(t_list *head, t_list *aux)
+static void	delete_and_join(t_list *head)
 {
+	t_list	*aux;
+
 	aux = g_sh.env->next->next;
 	ft_lstdelone(g_sh.env->next, free);
 	g_sh.env->next = aux;
@@ -44,11 +46,9 @@ void	delete_and_join(t_list *head, t_list *aux)
 int	ft_unset(char **unset)
 {
 	t_list	*head;
-	t_list	*aux;
 	int		i;
 
 	head = g_sh.env;
-	aux = NULL;
 	i = -1;
 	if (unset)
 	{
@@ -58,14 +58,16 @@ int	ft_unset(char **unset)
 			if (!g_sh.env)
 				g_sh.env = head;
 			else
-				delete_and_join(head, aux);
+				delete_and_join(head);
 		}
 	}
 	else
 	{
-		printf("%s\n", "unset: not enough arguments");
+		write(1, "unset: not enough arguments\n", 28);
+		g_sh.status = 1;
 		return (-1);
 	}
 	g_sh.env = head;
+	g_sh.status = 0;
 	return (0);
 }

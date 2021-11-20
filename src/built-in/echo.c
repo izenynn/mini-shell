@@ -18,12 +18,15 @@ int	ft_echo(const char *str, const char *flag)
 		return (1);
 	if (ft_strncmp(flag, "-n", 3) == 0)
 	{
-		printf("%s", str);
+		g_sh.status = 0;
+		write(1, str, ft_strlen(str));
 		return (0);
 	}
 	else
 	{
-		printf("%s\n", str);
+		g_sh.status = 0;
+		write(1, str, ft_strlen(str));
+		write(1, "\n", 1);
 		return (0);
 	}
 }
