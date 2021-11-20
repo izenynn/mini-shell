@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:22 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 10:57:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:46:22 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@
  */
 
 /* parse main function */
-t_ast	*parse(t_lexer *lex, t_ast *ast)
+int	parse(t_lexer *lex, t_ast **ast)
 {
 	g_sh.tok = lex->tok_lst;
-	ast = cmd_line();
+	*ast = cmd_line();
 	if (lex->n_toks == 0)
-		return (NULL);
+		return (1);
 	if (g_sh.tok != NULL && g_sh.tok->type != 0)
 	{
 		ft_dprintf(STDERR_FILENO, "Error: syntax error near: %s\n",
 			g_sh.tok->data);
-		return (NULL);
+		return (1);
 	}
-	return (ast);
+	return (0);
 }

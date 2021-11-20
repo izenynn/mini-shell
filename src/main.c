@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 11:46:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:47:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(void)
 {
 	char	*line;
 	t_lexer	lex;
-	t_ast	ast;
+	t_ast	*ast;
 
 	/* initialise shell */
 	init_shell();
@@ -102,10 +102,10 @@ int	main(void)
 		}
 
 		/* parse the tokens into an abstract syntax tree */
-		if (lex.n_toks == 0 || parse(&lex, &ast) == NULL)
+		if (lex.n_toks == 0 || parse(&lex, &ast))
 			continue ;
 
-		print_ast(&ast);
+		print_ast(ast);
 		//print2D(&ast);
 		// TODO execute parse ast
 		// TODO ast_del(exec_ast)

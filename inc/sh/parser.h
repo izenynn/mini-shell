@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 11:25:45 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:46:42 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 /*** PROTOTYPES ***/
 
 /* parse.c */
-t_ast	*parse(t_lexer *lex, t_ast *ast);
+int		parse(t_lexer *lex, t_ast **ast);
 
 /* parser_utils.c */
 int		is_term(int type, char **buff);
