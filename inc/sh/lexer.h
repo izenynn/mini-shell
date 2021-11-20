@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 14:10:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 16:44:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,33 @@ enum {
 	ST_GEN,
 };
 
+/* token */
 struct s_tok {
 	char	*data;
 	int		type;
 	t_tok	*next;
 };
 
+/* lexer struct */
 struct s_lexer {
 	t_tok	*tok_lst;
 	int		n_toks;
 };
 
+/* lexer support struct */
+typedef struct s_lexsup {
+	t_tok	*tok;
+	char	c;
+	int		type;
+	int		st;
+	int		i;
+	int		j;
+}	t_lexsup;
+
 /*** PROTOTYPES ***/
 
 /* lexer.c */
-int		lexer_build(char *line, size_t len, t_lexer *lex);
+int		lexer_build(const char *line, const size_t len, t_lexer *lex);
 
 /* lexer_utils.c */
 void	lexer_del(t_lexer *lex);

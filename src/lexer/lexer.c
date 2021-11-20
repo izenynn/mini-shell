@@ -6,151 +6,147 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 14:07:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 16:45:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* lexer main functions, get the tokens */
-int	lexer_build(char *line, size_t sz, t_lexer *lex)
+/* process tokens */
+static int	process_tokens(t_lexer *lex)
 {
 	t_tok	*tok;
-	char	c;
-	int		ctype;
-	int		st;
-	int		i, j;
+	char	*trimed;
+	int		cnt;
 
-	/* check len */
-	lex->n_toks = 0;
-	if (sz == 0)
-		return (0);
-
-	lex->tok_lst = (t_tok *)ft_calloc(1, sizeof(t_tok));
-
-	/* allocate first token */
 	tok = lex->tok_lst;
-	tok_init(tok, sz);
-
-	/* initialise state */
-	st = ST_GEN;
-
-	/* copy to data */
-	i = 0;
-	j = 0;
-	while (1)
-	{
-		/* get char type */
-		c = line[i];
-		ctype = get_ctype(c);
-		/* if based on char type */
-		if (st == ST_GEN)
-		{
-			if (ctype == CHAR_QOUTE)
-			{
-				st = ST_IN_QUOTE;
-				tok->data[j++] = CHAR_QOUTE;
-				tok->type = TOK;
-			}
-			else if (ctype == CHAR_DQOUTE)
-			{
-				st = ST_IN_DQUOTE;
-				tok->data[j++] = CHAR_DQOUTE;
-				tok->type = TOK;
-			}
-			else if (ctype == CHAR_ESCSEQ)
-			{
-				tok->data[j++] = line[++i];
-				tok->type = TOK;
-			}
-			else if (ctype == CHAR_GEN)
-			{
-				tok->data[j++] = c;
-				tok->type = TOK;
-			}
-			else if (ctype == CHAR_WS)
-			{
-				/* new token */
-				if (j > 0)
-				{
-					tok->data[j] = 0;
-					tok->next = (t_tok *)malloc(sizeof(t_tok));
-					if (!tok->next)
-						perror_exit("malloc");
-					tok = tok->next;
-					tok_init(tok, sz - i);
-					j = 0;
-				}
-			}
-			else if (ctype == CHAR_SC || ctype == CHAR_GT || ctype == CHAR_LS
-				|| ctype == CHAR_AMP || ctype == CHAR_PIPE)
-			{
-				/* end previous token */
-				if (j > 0)
-				{
-					tok->data[j] = '\0';
-					tok->next = (t_tok *)malloc(sizeof(t_tok));
-					if (!tok->next)
-						perror_exit("malloc");
-					tok = tok->next;
-					tok_init(tok, sz - i);
-					j = 0;
-				}
-				/* create special char token */
-				tok->data[0] = ctype;
-				tok->data[1] = '\0';
-				tok->type = ctype;
-				tok->next = (t_tok *)malloc(sizeof(t_tok));
-				tok = tok->next;
-				tok_init(tok, sz - i);
-			}
-		}
-		else if (st == ST_IN_QUOTE)
-		{
-			tok->data[j++] = c;
-			if (ctype == CHAR_QOUTE)
-				st = ST_GEN;
-		}
-		else if (st == ST_IN_DQUOTE)
-		{
-			tok->data[j++] = c;
-			if (ctype == CHAR_DQOUTE)
-				st = ST_GEN;
-		}
-		/* if null */
-		if (ctype == CHAR_NULL)
-		{
-			if (j > 0)
-			{
-				tok->data[j] = '\0';
-				j = 0;
-			}
-		}
-		/* increment i */
-		i++;
-		/* do {} while () */
-		if (c == '\0')
-			break ;
-	}
-
-	/* create token */
-	tok = lex->tok_lst;
-	lex->n_toks = 0;
+	cnt = 0;
 	while (tok)
 	{
 		if (tok->type == TOK)
 		{
 			// TODO here we will handle wildcards and convert then to tokens
-			/* trim quotes and double quotes */
-			char* trimed = malloc(ft_strlen(tok->data) + 1);
+			trimed = malloc(ft_strlen(tok->data) + 1);
 			trim_quotes(trimed, tok->data);
 			free(tok->data);
 			tok->data = trimed;
-			/* set counter */
-			lex->n_toks++;
+			cnt++;
 		}
 		tok = tok->next;
 	}
-	/* return number of tokens */
+	return (cnt);
+}
+
+/* on general state */
+static void	on_gen_st(t_lexsup *ls, const char *line, const size_t sz)
+{
+	if (ls->type == CHAR_QOUTE)
+	{
+		ls->st = ST_IN_QUOTE;
+		ls->tok->data[ls->j++] = CHAR_QOUTE;
+		ls->tok->type = TOK;
+	}
+	else if (ls->type == CHAR_DQOUTE)
+	{
+		ls->st = ST_IN_DQUOTE;
+		ls->tok->data[ls->j++] = CHAR_DQOUTE;
+		ls->tok->type = TOK;
+	}
+	else if (ls->type == CHAR_ESCSEQ)
+	{
+		ls->tok->data[ls->j++] = line[++ls->i];
+		ls->tok->type = TOK;
+	}
+	else if (ls->type == CHAR_GEN)
+	{
+		ls->tok->data[ls->j++] = ls->c;
+		ls->tok->type = TOK;
+	}
+	else if (ls->type == CHAR_WS)
+	{
+		if (ls->j > 0)
+		{
+			ls->tok->data[ls->j] = 0;
+			ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
+			if (!ls->tok->next)
+				perror_exit("malloc");
+			ls->tok = ls->tok->next;
+			tok_init(ls->tok, sz - ls->i);
+			ls->j = 0;
+		}
+	}
+	else if (ls->type == CHAR_SC || ls->type == CHAR_GT
+		|| ls->type == CHAR_LS || ls->type == CHAR_AMP || ls->type == CHAR_PIPE)
+	{
+		if (ls->j > 0)
+		{
+			ls->tok->data[ls->j] = '\0';
+			ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
+			if (!ls->tok->next)
+				perror_exit("malloc");
+			ls->tok = ls->tok->next;
+			tok_init(ls->tok, sz - ls->i);
+			ls->j = 0;
+		}
+		ls->tok->data[0] = ls->type;
+		ls->tok->data[1] = '\0';
+		ls->tok->type = ls->type;
+		ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
+		ls->tok = ls->tok->next;
+		tok_init(ls->tok, sz - ls->i);
+	}
+}
+
+/* process line character */
+static void	process_char(t_lexsup *ls, const char *line, const size_t sz)
+{
+	if (ls->st == ST_GEN)
+		on_gen_st(ls, line, sz);
+	else if (ls->st == ST_IN_QUOTE)
+	{
+		ls->tok->data[ls->j++] = ls->c;
+		if (ls->type == CHAR_QOUTE)
+			ls->st = ST_GEN;
+	}
+	else if (ls->st == ST_IN_DQUOTE)
+	{
+		ls->tok->data[ls->j++] = ls->c;
+		if (ls->type == CHAR_DQOUTE)
+			ls->st = ST_GEN;
+	}
+	if (ls->type == CHAR_NULL)
+	{
+		if (ls->j > 0)
+		{
+			ls->tok->data[ls->j] = '\0';
+			ls->j = 0;
+		}
+	}
+}
+
+/* lexer main functions, get the tokens */
+int	lexer_build(const char *line, const size_t sz, t_lexer *lex)
+{
+	t_lexsup	ls;
+
+	lex->n_toks = 0;
+	if (sz == 0)
+		return (0);
+	lex->tok_lst = (t_tok *)malloc(sizeof(t_tok));
+	ls.tok = lex->tok_lst;
+	tok_init(ls.tok, sz);
+	ls.st = ST_GEN;
+	ls.i = 0;
+	ls.j = 0;
+	while (1)
+	{
+		ls.c = line[ls.i];
+		ls.type = get_ctype(ls.c);
+		process_char(&ls, line, sz);
+		ls.i++;
+		if (ls.c == '\0')
+			break ;
+	}
+	lex->n_toks = process_tokens(lex);
 	return (lex->n_toks);
 }
