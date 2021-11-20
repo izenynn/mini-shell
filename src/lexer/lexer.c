@@ -6,94 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 13:11:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 14:07:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/* detroy toks (recursive) */
-static void	tok_del(t_tok *tok)
-{
-	if (tok != NULL)
-	{
-		free(tok->data);
-		tok_del(tok->next);
-		free(tok);
-	}
-}
-
-/* get char type */
-static int	get_ctype(char c)
-{
-	if (c == '\'')
-		return (CHAR_QOUTE);
-	else if (c == '\"')
-	 	return (CHAR_DQOUTE);
-	else if (c == '|')
-	 	return (CHAR_PIPE);
-	else if (c == '&')
-	 	return (CHAR_AMP);
-	else if (c == ' ')
-	 	return (CHAR_WS);
-	else if (c == ';')
-	 	return (CHAR_SC);
-	else if (c == '\\')
-	 	return (CHAR_ESCSEQ);
-	else if (c == '\t')
-	 	return (CHAR_TAB);
-	else if (c == '\n')
-	 	return (CHAR_NL);
-	else if (c == '>')
-	 	return (CHAR_GT);
-	else if (c == '<')
-	 	return (CHAR_LS);
-	else if (c == '\0')
-		return (CHAR_NULL);
-	return (CHAR_GEN);
-}
-
-/* trim quotes and double quotes */
-static void trim_quotes(char* dst, char* src)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	l_quote;
-
-	len = ft_strlen(src);
-	if (len <= 1)
-	{
-		ft_strcpy(dst, src);
-		return ;
-	}
-
-
-	l_quote = 0;
-	i = -1;
-	j = 0;
-	while (++i < len)
-	{
-		if ((src[i] == '\'' || src[i] == '\"') && l_quote == 0)
-			l_quote = src[i];
-		else if (src[i] == l_quote)
-			l_quote = 0;
-		else
-			dst[j++] = src[i];
-	}
-	dst[j] = 0;
-}
-
-/* initialise token */
-static void	init_tok(t_tok *tok, size_t sz)
-{
-	tok->data = (char *)malloc((sz + 1) * sizeof(char));
-	if (!tok->data)
-		perror_exit("malloc");
-	tok->data[0] = '\0';
-	tok->type = CHAR_NULL;
-	tok->next = NULL;
-}
 
 /* lexer main functions, get the tokens */
 int	lexer_build(char *line, size_t sz, t_lexer *lex)
@@ -113,7 +30,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 
 	/* allocate first token */
 	tok = lex->tok_lst;
-	init_tok(tok, sz);
+	tok_init(tok, sz);
 
 	/* initialise state */
 	st = ST_GEN;
@@ -161,7 +78,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 					if (!tok->next)
 						perror_exit("malloc");
 					tok = tok->next;
-					init_tok(tok, sz - i);
+					tok_init(tok, sz - i);
 					j = 0;
 				}
 			}
@@ -176,7 +93,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 					if (!tok->next)
 						perror_exit("malloc");
 					tok = tok->next;
-					init_tok(tok, sz - i);
+					tok_init(tok, sz - i);
 					j = 0;
 				}
 				/* create special char token */
@@ -185,7 +102,7 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 				tok->type = ctype;
 				tok->next = (t_tok *)malloc(sizeof(t_tok));
 				tok = tok->next;
-				init_tok(tok, sz - i);
+				tok_init(tok, sz - i);
 			}
 		}
 		else if (st == ST_IN_QUOTE)
@@ -236,12 +153,4 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 	}
 	/* return number of tokens */
 	return (lex->n_toks);
-}
-
-/* destroy lexer */
-void	lexer_del(t_lexer *lex)
-{
-	if (lex == NULL)
-		return ;
-	tok_del(lex->tok_lst);
 }
