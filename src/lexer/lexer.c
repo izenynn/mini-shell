@@ -6,13 +6,22 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/15 14:55:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 13:11:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/lexer.h"
-#include "sh/utils.h"
 #include <sh.h>
+
+/* detroy toks (recursive) */
+static void	tok_del(t_tok *tok)
+{
+	if (tok != NULL)
+	{
+		free(tok->data);
+		tok_del(tok->next);
+		free(tok);
+	}
+}
 
 /* get char type */
 static int	get_ctype(char c)
@@ -75,7 +84,7 @@ static void trim_quotes(char* dst, char* src)
 	dst[j] = 0;
 }
 
-/* initialise all tok vars at NULL (0) */
+/* initialise token */
 static void	init_tok(t_tok *tok, size_t sz)
 {
 	tok->data = (char *)malloc((sz + 1) * sizeof(char));
@@ -86,18 +95,7 @@ static void	init_tok(t_tok *tok, size_t sz)
 	tok->next = NULL;
 }
 
-/* detroy toks (recursive) */
-/*static void	destroy_tok(t_tok *tok)
-{
-	if (tok)
-	{
-		free(tok->data);
-		destroy_tok(tok->next);
-		free(tok);
-	}
-}*/
-
-/* build lexer */
+/* lexer main functions, get the tokens */
 int	lexer_build(char *line, size_t sz, t_lexer *lex)
 {
 	t_tok	*tok;
@@ -220,19 +218,30 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 
 	/* create token */
 	tok = lex->tok_lst;
+	lex->n_toks = 0;
 	while (tok)
 	{
-		// TODO here we will handle wildcards and convert any wildcards to new tokens
 		if (tok->type == TOK)
 		{
+			// TODO here we will handle wildcards and convert then to tokens
 			/* trim quotes and double quotes */
 			char* trimed = malloc(ft_strlen(tok->data) + 1);
 			trim_quotes(trimed, tok->data);
 			free(tok->data);
 			tok->data = trimed;
+			/* set counter */
+			lex->n_toks++;
 		}
 		tok = tok->next;
 	}
 	/* return number of tokens */
 	return (lex->n_toks);
+}
+
+/* destroy lexer */
+void	lexer_del(t_lexer *lex)
+{
+	if (lex == NULL)
+		return ;
+	tok_del(lex->tok_lst);
 }

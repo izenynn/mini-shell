@@ -6,33 +6,36 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 17:49:22 by                  ###   ########.fr       */
+/*   Updated: 2021/11/20 13:17:07 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
+
 # include <libft/ft_lst.h>
+
 /*** PROTOTYPES ***/
-/* utils/sig_handler.c */
+
+/* sig_handler.c */
 int		sig_init(void);
 
-/* utils/get_env.c */
+/* get_env.c */
 char	*ft_get_env(const char *path);
 
-/* utils/custom_len.c */
+/* custom_len.c */
 int		custom_len(const char *s);
 
-/* utils/list_filler.c */
+/* list_filler.c */
 t_list	*fill_list(t_list *env, char **environ);
 
-/* utils/init.c */
+/* init.c */
 void	init_shell(void);
 
-/* utils/error_utils.c */
+/* error_utils.c */
 void	perror_exit(const char *s);
 
-/* utils/signals.c */
+/* signals.c */
 void	init_signals(void);
 
 #endif

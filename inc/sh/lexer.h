@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/13 12:10:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 13:12:13 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define LEXER_H
 
 /*** include ***/
-#include <stddef.h>
+
+# include <stddef.h>
 
 /*** DATA ***/
 
@@ -37,13 +38,12 @@ enum e_tok_type {
 	CHAR_GT = '>',
 	CHAR_LS = '<',
 	CHAR_NULL = '\0',
-
 	TOK = -1,
 };
 
 /* states */
 enum {
-	ST_IN_QUOTE,
+	ST_IN_QUOTE = 0,
 	ST_IN_DQUOTE,
 	ST_IN_ESC,
 	ST_GEN,
@@ -76,6 +76,7 @@ struct s_lexer {
 /*** PROTOTYPES ***/
 
 /* lexer/lexer.c */
-int	lexer_build(char *line, size_t len, t_lexer *lex);
+void	lexer_del(t_lexer *lex);
+int		lexer_build(char *line, size_t len, t_lexer *lex);
 
 #endif

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/11/09 21:43:51 by dpoveda-          #+#    #+#              #
-#   Updated: 2021/11/19 17:49:22 by                  ###   ########.fr       # #
+#    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
+#    Updated: 2021/11/20 13:15:31 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@
 
 # COLORS
 NOCOL=\033[0m
-
 RED=\033[31m
 GRN=\033[32m
 YEL=\033[33m
@@ -75,17 +74,19 @@ OBJ_DIRS = $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS_NAME))
 
 SRC_MAIN =		main.c
 
-SRC_BUILTIN =	cd.c			echo.c				env.c					\
-				exit.c			export.c			pwd.c					\
+SRC_BUILTIN =	cd.c				echo.c				env.c				\
+				exit.c				export.c			pwd.c				\
 				unset.c
 
 SRC_EXEC =
 
 SRC_LEXER =		lexer.c
 
-SRC_PARSER =	parser.c
+SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
+				parse_cmd_line_1.c	parse_cmd_line_2.c	parse_job.c			\
+				parse_cmd.c			parse_simple_cmd.c	parse_tok_lst.c
 
-SRC_PROMPT =	prompt.c		prompt_init.c
+SRC_PROMPT =	prompt.c			prompt_init.c
 
 SRC_UTILS =		init.c			error_utils.c		sig_handler.c				\
 				list_filler.c	custom_len.c		get_env.c

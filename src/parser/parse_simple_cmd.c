@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 11:14:11 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 13:15:47 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/20 10:18:29 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/20 10:32:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include <sh.h>
 
-/*** PROTOTYPES ***/
+/* test simple cmd */
+t_ast	*simple_cmd(void)
+{
+	return (simple_cmd_1());
+}
 
-int		ft_export(char **new_env);
-char	*ft_get_wdir(void);
-void	ft_env(void);
-int		ft_unset(char **unset);
-void	ft_exit(int exit_code);
-int		ft_echo(const char *str, const char *flag);
-int		ft_changedir(const char *dir);
+/* <name> <token list> */
+t_ast	*simple_cmd_1(void)
+{
+	char	*name;
+	t_ast	*tok_lst_nd;
+	t_ast	*res;
 
-#endif
+	if (!is_term(TOK, &name))
+		return (NULL);
+	tok_lst_nd = tok_lst();
+	res = (t_ast *)malloc(sizeof(t_ast));
+	ast_settype(res, AST_CMD);
+	ast_setdata(res, name);
+	ast_attach(res, NULL, tok_lst_nd);
+	return (res);
+}

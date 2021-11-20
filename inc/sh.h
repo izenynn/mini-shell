@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/17 12:34:19 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/17 12:48:23 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@
 #  define PATH_MAX 256
 # endif
 
-/* prompt */
-
-# define MAXCHR 1000 // max number of letters to be supported
-# define MAXCMD 100 // max number of commands to be supported
-
 /*** DATA ***/
 
 /* shell global struct
@@ -72,13 +67,13 @@
  * status	=> last exit status
  * *env		=> enviroment vars
  * env_len	=> number of enviroment vars
- * cur_tok	=> current token (used for creating the ast)
+ * *tok		=> to iterate tokens (used for creating the ast)
  */
 typedef struct s_sh {
 	int		status;
 	t_list	*env;
 	int		env_len;
-	t_tok	cur_tok;
+	t_tok	*tok;
 }	t_sh;
 
 extern t_sh	g_sh;
