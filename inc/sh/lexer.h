@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 11:13:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:06:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ enum e_tok_type {
 
 /* states */
 enum {
-	ST_IN_QUOTE,
+	ST_IN_QUOTE = 0,
 	ST_IN_DQUOTE,
 	ST_IN_ESC,
 	ST_GEN,

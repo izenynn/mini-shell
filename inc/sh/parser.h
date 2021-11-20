@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 12:05:48 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 11:25:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@
 /*** PROTOTYPES ***/
 
 /* parse.c */
-int		parse(t_lexer *lex, t_ast *ast);
+t_ast	*parse(t_lexer *lex, t_ast *ast);
 
 /* parser_utils.c */
 int		is_term(int type, char **buff);
 
 /* parse_cmd_line_1.c */
 t_ast	*cmd_line(void);
+
+/* parse_cmd_line_2.c */
 t_ast	*cmd_line_1(void);
 t_ast	*cmd_line_2(void);
 t_ast	*cmd_line_3(void);
 t_ast	*cmd_line_4(void);
 t_ast	*cmd_line_5(void);
-
-/* parse_cmd_line_2.c */
 
 /* parse_job.c */
 t_ast	*job(void);

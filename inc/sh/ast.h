@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 11:13:05 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 10:37:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef enum e_asttype{
 	AST_SEQ =		(1 << 2),
 	AST_REDIR_IN =	(1 << 3),
 	AST_REDIR_OUT =	(1 << 4),
-	AST_CMDPATH =	(1 << 5),
-	AST_ARGS =		(1 << 6),
+	AST_CMD =		(1 << 5),
+	AST_ARG =		(1 << 6),
 	AST_DATA =		(1 << 7),
 }	t_asttype;
 

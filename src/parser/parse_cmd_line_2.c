@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 12:23:11 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 12:23:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 11:59:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_ast	*cmd_line_3(void)
 		return (NULL);
 	}
 	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_SEQ);
+	ast_settype(res, AST_BG);
 	ast_attach(res, job_nd, cmd_line_nd);
 	return (res);
 }
@@ -101,7 +101,7 @@ t_ast	*cmd_line_4(void)
 		return (NULL);
 	}
 	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_SEQ);
+	ast_settype(res, AST_BG);
 	ast_attach(res, job_nd, NULL);
 	return (res);
 }

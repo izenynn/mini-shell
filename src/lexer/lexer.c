@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/18 11:55:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 11:07:46 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,16 +218,19 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 
 	/* create token */
 	tok = lex->tok_lst;
+	lex->n_toks = 0;
 	while (tok)
 	{
-		// TODO here we will handle wildcards and convert any wildcards to new tokens
 		if (tok->type == TOK)
 		{
+			// TODO here we will handle wildcards and convert then to tokens
 			/* trim quotes and double quotes */
 			char* trimed = malloc(ft_strlen(tok->data) + 1);
 			trim_quotes(trimed, tok->data);
 			free(tok->data);
 			tok->data = trimed;
+			/* set counter */
+			lex->n_toks++;
 		}
 		tok = tok->next;
 	}
