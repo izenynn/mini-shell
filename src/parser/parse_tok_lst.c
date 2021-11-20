@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 10:34:22 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 11:25:09 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:12:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_ast	*tok_lst(void)
 /* <token> <token list> */
 t_ast	*tok_lst_1(void)
 {
-	char 	*arg;
+	char	*arg;
 	t_ast	*tok_lst_nd;
 	t_ast	*res;
 
