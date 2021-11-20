@@ -63,7 +63,9 @@ static void	ft_lst_sorter(void)
 	int		i;
 	int		j;
 	char	**env;
+	char	*tmp;
 
+	tmp = NULL;
 	i = -1;
 	env = lst_to_ptr();
 	while (env[++i])
