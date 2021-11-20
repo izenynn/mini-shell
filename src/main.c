@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 12:47:00 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:47:53 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void print_ast(t_ast *ast)
 {
 	if (ast == NULL)
 		return ;
+	printf("-------------------------------------------\n");
 	printf("type: %d\n", ast->type);
 	if (ast->type & AST_DATA)
 		printf("data: %s\n", ast->data);
 	printf("left: %p, right: %p\n", (void *)ast->left, (void *)ast->right);
+	printf("-------------------------------------------\n");
 	print_ast(ast->right);
 	print_ast(ast->left);
 }
