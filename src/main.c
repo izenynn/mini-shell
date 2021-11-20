@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 12:47:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:56:46 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/ast.h"
 #include <sh.h>
 
 /* global var */
@@ -22,29 +21,49 @@ t_sh	g_sh;
 // It does reverse inorder traversal
 void print2DUtil(t_ast *root, int space)
 {
-    // Base case
-    if (root == NULL)
-        return;
- 
-    // Increase distance between levels
-    space += COUNT;
- 
-    // Process right child first
-    print2DUtil(root->right, space);
- 
-    // Print current node after space
-    // count
-    printf("\n");
-    for (int i = COUNT; i < space; i++)
-        printf(" ");
-    printf("t: %d\n", root->type);
-	if (root->type == AST_CMD || root->type == AST_ARG)
-		printf("s: %s\n", root->data);
- 
-    // Process left child
-    print2DUtil(root->left, space);
+	// Base case
+	if (root == NULL)
+		return;
+
+	// Increase distance between levels
+	space += COUNT;
+
+	// Process right child first
+	print2DUtil(root->right, space);
+
+	// Print current node after space
+	// count
+	printf("\n");
+	for (int i = COUNT; i < space; i++)
+		printf(" ");
+	// get type
+	char *type;
+	if (ast_gettype(root) & AST_PIPE)
+		type = ft_strdup("pipe");
+	else if (ast_gettype(root) & AST_BG)
+		type = ft_strdup("background");
+	else if (ast_gettype(root) & AST_SEQ)
+		type = ft_strdup("seq");
+	else if (ast_gettype(root) & AST_REDIR_IN)
+		type = ft_strdup("redir_in");
+	else if (ast_gettype(root) & AST_REDIR_OUT)
+		type = ft_strdup("redir_out");
+	else if (ast_gettype(root) & AST_CMD)
+		type = ft_strdup("cmd");
+	else if (ast_gettype(root) & AST_ARG)
+		type = ft_strdup("arg");
+	else
+		type = ft_strdup("error: unknow type");
+
+	if (root->type & AST_DATA)
+		printf("t: %s, s: %s\n", type, root->data);
+	else
+		printf("t: %s\n", type);
+
+	// Process left child
+	print2DUtil(root->left, space);
 }
- 
+
 // Wrapper over print2DUtil()
 void print2D(t_ast *root)
 {
@@ -52,20 +71,6 @@ void print2D(t_ast *root)
    print2DUtil(root, 0);
 }
 /*********************************************************/
-
-void print_ast(t_ast *ast)
-{
-	if (ast == NULL)
-		return ;
-	printf("-------------------------------------------\n");
-	printf("type: %d\n", ast->type);
-	if (ast->type & AST_DATA)
-		printf("data: %s\n", ast->data);
-	printf("left: %p, right: %p\n", (void *)ast->left, (void *)ast->right);
-	printf("-------------------------------------------\n");
-	print_ast(ast->right);
-	print_ast(ast->left);
-}
 
 /* main */
 int	main(void)
@@ -107,8 +112,7 @@ int	main(void)
 		if (lex.n_toks == 0 || parse(&lex, &ast))
 			continue ;
 
-		print_ast(ast);
-		//print2D(&ast);
+		print2D(ast);
 		// TODO execute parse ast
 		// TODO ast_del(exec_ast)
 		// TODO lexer_destroy(&lex)
