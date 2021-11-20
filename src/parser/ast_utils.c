@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 10:59:13 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 11:12:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:30:10 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@ void	ast_del(t_ast *ast)
 		return ;
 	if (ast->type & AST_DATA)
 		free(ast->data);
-	ast_del(ast->right);
 	ast_del(ast->left);
+	ast_del(ast->right);
 	free(ast);
 }
 
 /* attach leafs to node */
-void	ast_attach(t_ast *root, t_ast *right, t_ast *left)
+void	ast_attach(t_ast *root, t_ast *left, t_ast *right)
 {
 	if (root == NULL)
 		return ;
-	root->right = right;
 	root->left = left;
+	root->right = right;
 }
 
 /* set node type */

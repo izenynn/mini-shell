@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 10:37:44 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 12:30:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ struct s_ast {
 /* ast_utils.c */
 int		ast_gettype(t_ast *ast);
 void	ast_del(t_ast *ast);
-void	ast_attach(t_ast *root, t_ast *right, t_ast *left);
+void	ast_attach(t_ast *root, t_ast *left, t_ast *right);
 void	ast_settype(t_ast *ast, t_asttype type);
 void	ast_setdata(t_ast *ast, char *data);
 
