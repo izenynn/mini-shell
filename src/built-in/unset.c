@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:33:01 by                  ###   ########.fr       */
+/*   Updated: 2021/11/20 19:33:27 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_unset(char **unset)
 	}
 	else
 	{
-		write(1, "unset: not enough arguments\n", 28);
+		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
 		g_sh.status = 1;
 		return (-1);
 	}

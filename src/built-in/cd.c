@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 18:55:25 by                  ###   ########.fr       */
+/*   Updated: 2021/11/20 19:23:18 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	print_error(const char *dir)
 {
-	write(1, "cd: no such file or directory: ",
+	write(STDERR_FILENO, "cd: no such file or directory: ",
 		  ft_strlen("cd: no such file or directory: "));
-	write(1, dir, ft_strlen(dir));
-	write(1, "\n", 1);
+	write(STDERR_FILENO, dir, ft_strlen(dir));
+	write(STDERR_FILENO, "\n", 1);
 }
 
 void	update_env(void)

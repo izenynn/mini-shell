@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:18 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:30:49 by                  ###   ########.fr       */
+/*   Updated: 2021/11/20 19:31:28 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	ft_env(const char *n)
 	}
 	else
 	{
-		write(1, "env: ", 5);
-		write(1, n, ft_strlen(n));
-		write(1, ": No such file or directory\n", 28);
+		write(STDERR_FILENO, "env: ", 5);
+		write(STDERR_FILENO, n, ft_strlen(n));
+		write(STDERR_FILENO, ": No such file or directory\n", 28);
 	}
 }
