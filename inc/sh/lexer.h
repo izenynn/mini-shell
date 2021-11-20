@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 12:06:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 13:12:13 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ struct s_lexer {
 /*** PROTOTYPES ***/
 
 /* lexer/lexer.c */
-int	lexer_build(char *line, size_t len, t_lexer *lex);
+void	lexer_del(t_lexer *lex);
+int		lexer_build(char *line, size_t len, t_lexer *lex);
 
 #endif

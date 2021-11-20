@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 12:56:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 13:12:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,28 @@
 /* global var */
 t_sh	g_sh;
 
-/*********************************************************/
+/************************* TEST FUNC. *************************/
+
+/* spaces between levels */
 #define COUNT 10
-// Function to print binary tree in 2D
-// It does reverse inorder traversal
-void print2DUtil(t_ast *root, int space)
+
+/* print binary tree in 2d */
+/*static void print_ast(t_ast *root, int space)
 {
-	// Base case
 	if (root == NULL)
 		return;
 
-	// Increase distance between levels
+	// increase distance between levels
 	space += COUNT;
 
-	// Process right child first
-	print2DUtil(root->right, space);
+	// process right child
+	print_ast(root->right, space);
 
-	// Print current node after space
-	// count
+	// print current node
 	printf("\n");
 	for (int i = COUNT; i < space; i++)
 		printf(" ");
-	// get type
+	// get ast node type
 	char *type;
 	if (ast_gettype(root) & AST_PIPE)
 		type = ft_strdup("pipe");
@@ -55,22 +55,30 @@ void print2DUtil(t_ast *root, int space)
 	else
 		type = ft_strdup("error: unknow type");
 
+	// print type and data
 	if (root->type & AST_DATA)
 		printf("t: %s, s: %s\n", type, root->data);
 	else
 		printf("t: %s\n", type);
 
-	// Process left child
-	print2DUtil(root->left, space);
-}
+	// process left child
+	print_ast(root->left, space);
+}*/
 
-// Wrapper over print2DUtil()
-void print2D(t_ast *root)
+/* print tokens */
+/*static void print_tokens(t_lexer *lex)
 {
-   // Pass initial space count as 0
-   print2DUtil(root, 0);
-}
-/*********************************************************/
+	t_tok *tmp;
+
+	tmp = lex->tok_lst;
+	while (tmp)
+	{
+		printf("type: %d, data: %s\n", tmp->type, tmp->data);
+		tmp = tmp->next;
+	}
+}*/
+
+/************************* TEST FUNC. *************************/
 
 /* main */
 int	main(void)
@@ -79,49 +87,25 @@ int	main(void)
 	t_lexer	lex;
 	t_ast	*ast;
 
-	/* initialise shell */
 	init_shell();
-
-	/* initialise terminal */
+	// TODO handle signals
 	init_prompt();
-
-	/* minishell loop */
 	while (1)
 	{
-		// TODO handle signals
-
 		line = prompt_read_input();
 		if (line == NULL || ft_strlen(line) <= 0)
 			continue ;
-
-		/* lexer */
 		if (!lexer_build(line, ft_strlen(line), &lex))
 			continue ;
 		free(line);
-
-		// TODO remove this, is only for tests
-		t_tok *tmp;
-		tmp = lex.tok_lst;
-		while (tmp)
-		{
-			//printf("type: %d, data: %s\n", tmp->type, tmp->data);
-			tmp = tmp->next;
-		}
-
-		/* parse the tokens into an abstract syntax tree */
+		//print_tokens(&lex);
 		if (lex.n_toks == 0 || parse(&lex, &ast))
 			continue ;
-
-		print2D(ast);
+		//print_ast(ast, 0);
 		// TODO execute parse ast
-		// TODO ast_del(exec_ast)
-		// TODO lexer_destroy(&lex)
-		// TODO free all
+		lexer_del(&lex);
+		ast_del(ast);
 	}
-
-	/* shutdown and cleanup */
-	// TODO
-
 	return (EXIT_SUCCESS);
 }
 

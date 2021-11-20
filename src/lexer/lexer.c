@@ -6,22 +6,22 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 11:07:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/20 13:11:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* detroy toks (recursive) */
-/*void	destroy_tok(t_tok *tok)
+static void	tok_del(t_tok *tok)
 {
-	if (tok)
+	if (tok != NULL)
 	{
 		free(tok->data);
-		destroy_tok(tok->next);
+		tok_del(tok->next);
 		free(tok);
 	}
-}*/
+}
 
 /* get char type */
 static int	get_ctype(char c)
@@ -236,4 +236,12 @@ int	lexer_build(char *line, size_t sz, t_lexer *lex)
 	}
 	/* return number of tokens */
 	return (lex->n_toks);
+}
+
+/* destroy lexer */
+void	lexer_del(t_lexer *lex)
+{
+	if (lex == NULL)
+		return ;
+	tok_del(lex->tok_lst);
 }
