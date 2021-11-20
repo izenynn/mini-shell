@@ -89,7 +89,7 @@ SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 SRC_PROMPT =	prompt.c			prompt_init.c
 
 SRC_UTILS =		init.c			error_utils.c		sig_handler.c				\
-				list_filler.c	custom_len.c		get_env.c
+				custom_len.c		get_env.c
 
 SRC_NAME =	$(SRC_MAIN)														\
 			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))				\

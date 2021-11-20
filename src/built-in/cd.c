@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 16:36:07 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/20 18:55:13 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	update_env(void)
 {
 	char	*n_path;
 
-	n_path = ft_get_wdir();
+	n_path = malloc(sizeof(char) * (PATH_MAX + 1));
+	if (!n_path)
+		return ;
+	if (getcwd(n_path, PATH_MAX) == NULL)
+		return ;
 	free(g_sh.env->data);
 	g_sh.env->data = ft_strdup("PWD=");
 	g_sh.env->data = ft_realloc(g_sh.env->data, sizeof(char)
@@ -33,7 +37,13 @@ int	ft_changedir(const char *dir)
 	if (!dir)
 		return (1);
 	if (chdir(dir) == -1)
+	{
+		write(1, "cd: no such file or directory: ",
+			  ft_strlen("cd: no such file or directory: "));
+		write(1, dir, ft_strlen(dir));
+		write(1, "\n", 1);
 		return (-1);
+	}
 	else
 	{
 		while (g_sh.env)
