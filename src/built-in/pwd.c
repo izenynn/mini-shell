@@ -12,7 +12,7 @@
 
 #include <sh.h>
 
-void	print_error(void)
+static void	p_print_error(void)
 {
 	write(STDERR_FILENO, "pwd: too many arguments\n", 25);
 	g_sh.status = 1;
@@ -42,6 +42,6 @@ int	ft_get_wdir(const char *n)
 			return (1);
 		}
 	}
-	print_error();
+	p_print_error();
 	return (0);
 }

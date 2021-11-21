@@ -6,19 +6,11 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:31:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:57:02 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-static void	print_error(const char *dir)
-{
-	write(STDERR_FILENO, "cd: no such file or directory: ",
-		  ft_strlen("cd: no such file or directory: "));
-	write(STDERR_FILENO, dir, ft_strlen(dir));
-	write(STDERR_FILENO, "\n", 1);
-}
 
 void	update_env(void)
 {
@@ -37,19 +29,21 @@ void	update_env(void)
 	free(n_path);
 }
 
-static void	goto_home(void)
+static int	goto_home(void)
 {
 	char	*home;
 
 	home = ft_getenv("HOME");
 	if (chdir(home) == -1)
 	{
+		print_error(home);
 		free(home);
 		g_sh.status = 1;
-		return ;
+		return (1);
 	}
 	g_sh.status = 0;
 	free(home);
+	return (0);
 }
 
 int	locate_env(t_list *head)
@@ -69,26 +63,58 @@ int	locate_env(t_list *head)
 	return (1);
 }
 
+static int	goto_dir(const char *dir)
+{
+	char	*aux;
+	char	*tmp;
+	char	*home;
+
+	aux = ft_substr(dir, 1, ft_strlen(dir) - 1);
+	home = ft_getenv("HOME");
+	if (!home)
+		return (1);
+	aux = ft_realloc(aux, ft_strlen(dir) + ft_strlen(home) + 1);
+	tmp = ft_strjoin(home, aux);
+	if (chdir(tmp) == -1)
+	{
+		print_error(tmp);
+		free(home);
+		free(aux);
+		free(tmp);
+		g_sh.status = 1;
+		return (1);
+	}
+	free(home);
+	free(aux);
+	free(tmp);
+	return (0);
+}
+
 int	ft_changedir(const char *dir)
 {
 	t_list	*head;
 
 	head = g_sh.env;
-	if (!dir)
+	if (!dir || dir[0] == '~')
 	{
-		goto_home();
+		if (!dir[1])
+			goto_home();
+		else
+		{
+			if (goto_dir(dir) == 1)
+				return (1);
+		}
 		return (0);
 	}
 	if (chdir(dir) == -1)
 	{
 		print_error(dir);
-		g_sh.status = 1;
-		return (-1);
+		return (1);
 	}
 	else
 	{
 		if (locate_env(head) == 1)
-			return (-1);
+			return (1);
 	}
 	return (1);
 }
