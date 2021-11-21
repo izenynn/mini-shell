@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 13:12:13 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 12:51:40 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,44 @@ enum {
 	ST_GEN,
 };
 
-/*struct s_io {
-	int	fd_stdin;
-	int	fd_stdout;
-	int	fd_stderr;
-};
-
-struct s_tok {
-	char	*cmd;
-	char	**args;
-	t_io	io;
-	t_tok	*next;
-};*/
-
+/* token */
 struct s_tok {
 	char	*data;
 	int		type;
 	t_tok	*next;
 };
 
+/* lexer struct */
 struct s_lexer {
 	t_tok	*tok_lst;
 	int		n_toks;
 };
 
+/* lexer support struct */
+typedef struct s_lexsup {
+	t_tok	*tok;
+	char	c;
+	int		type;
+	int		st;
+	int		i;
+	int		j;
+}	t_lexsup;
+
 /*** PROTOTYPES ***/
 
-/* lexer/lexer.c */
+/* lexer.c */
+int		lexer_build(const char *line, const size_t len, t_lexer *lex);
+
+/* process_char.c */
+void	process_char(t_lexsup *ls, const char *line, const size_t sz);
+
+/* utils.c */
 void	lexer_del(t_lexer *lex);
-int		lexer_build(char *line, size_t len, t_lexer *lex);
+int		get_ctype(char c);
+void	trim_quotes(char *dst, char *src);
+
+/* token_utils.c */
+void	tok_del(t_tok *tok);
+void	tok_init(t_tok *tok, size_t sz);
 
 #endif
