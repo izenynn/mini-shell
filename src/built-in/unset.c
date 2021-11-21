@@ -6,43 +6,53 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:33:27 by                  ###   ########.fr       */
+/*   Updated: 2021/11/21 14:26:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* move list to desired positon */
-static void	find_pos(const char *unset)
+static int	find_pos(const char *unset)
 {
 	char	*tmp;
 
+	if (unset == NULL)
+		return (1);
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
 	if (!tmp)
-		return ;
+		return (1);
 	strcpy(tmp, unset);
 	tmp[ft_strlen(unset)] = '=';
 	tmp[ft_strlen(unset) + 1] = '\0';
-	while (g_sh.env)
+	while (g_sh.env && g_sh.env->next)
 	{
 		if (ft_strncmp((char *)g_sh.env->next->data, tmp,
 				   ft_strlen(tmp)) == 0)
-			break ;
+		{
+			free(tmp);
+			return (0);
+		}
 		g_sh.env = g_sh.env->next;
 	}
 	free(tmp);
+	return (1);
 }
 
+/* */
 static void	delete_and_join(t_list *head)
 {
 	t_list	*aux;
 
-	aux = g_sh.env->next->next;
+	aux = NULL;
+	if (g_sh.env->next && g_sh.env->next->next)
+		aux = g_sh.env->next->next;
 	ft_lstdelone(g_sh.env->next, free);
 	g_sh.env->next = aux;
 	g_sh.env = head;
 }
 
+/* */
 int	ft_unset(char **unset)
 {
 	t_list	*head;
