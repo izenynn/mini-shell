@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/21 13:36:22 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/21 16:23:02 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				exit.c				export.c			pwd.c				\
 				unset.c
 
-SRC_EXEC =
+SRC_EXEC =		exec.c
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c

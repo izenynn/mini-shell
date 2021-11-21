@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 16:33:54 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:25:31 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	main(void)
 		if (lex.n_toks == 0 || parse(&lex, &ast))
 			continue ;
 		print_ast(ast, 0);
-		// TODO execute parse ast
+		exec_ast(ast);
 		lexer_del(&lex);
 		ast_del(ast);
 	}
