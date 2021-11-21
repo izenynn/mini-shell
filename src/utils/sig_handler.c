@@ -10,11 +10,11 @@ static void	sig_handler(int signum)
 {
 	printf("\n%d\n", signum);
 	if (signum == 18)
-		ft_exit(146);
+		ft_exit("146");
 	if (signum == 2)
-		ft_exit(130);
+		ft_exit("130");
 	if (signum == 3)
-		ft_exit(131);
+		ft_exit("131");
 }
 
 int	sig_init(void)
