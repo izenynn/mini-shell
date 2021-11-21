@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/20 16:16:23 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/21 12:57:52 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,8 @@ SRC_BUILTIN =	cd.c				echo.c				env.c				\
 
 SRC_EXEC =
 
-SRC_LEXER =		lexer.c				lexer_utils.c		token_utils.c
+SRC_LEXER =		lexer.c				utils.c				process_char.c		\
+				token_utils.c
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 				parse_cmd_line_1.c	parse_cmd_line_2.c	parse_job.c			\

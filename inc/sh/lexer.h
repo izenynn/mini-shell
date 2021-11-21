@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 16:44:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 12:51:40 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ typedef struct s_lexsup {
 /* lexer.c */
 int		lexer_build(const char *line, const size_t len, t_lexer *lex);
 
-/* lexer_utils.c */
+/* process_char.c */
+void	process_char(t_lexsup *ls, const char *line, const size_t sz);
+
+/* utils.c */
 void	lexer_del(t_lexer *lex);
 int		get_ctype(char c);
 void	trim_quotes(char *dst, char *src);
