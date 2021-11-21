@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:53:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:21:22 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_str.h"
 #include <sh.h>
 
 /* get line */
@@ -32,20 +33,20 @@ static int	check_for_home(char **dir)
 	home = ft_getenv("HOME");
 	if (home == NULL)
 		return (1);
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(*dir)
-				- (ft_strlen(home) + 2)));
+	tmp = (char *)malloc((ft_strlen(*dir) - ft_strlen(home) + 2) * sizeof(char));
 	if (!tmp)
 		return (1);
 	if (ft_strncmp(*dir, home, ft_strlen(home)) == 0)
 	{
 		tmp = ft_substr(*dir, ft_strlen(home) - 1,
-				ft_strlen(*dir) - ft_strlen(home));
+				ft_strlen(*dir) - ft_strlen(home) + 1);
 		tmp[0] = '~';
 		free(*dir);
 		*dir = ft_strdup(tmp);
 		free(tmp);
 		return (0);
 	}
+	free(home);
 	free(tmp);
 	return (1);
 }
@@ -56,10 +57,10 @@ static void	print_prompt_msg(void)
 	char	*dir;
 	char	*prompt_clr;
 
-	dir = (char *)malloc(PATH_MAX * sizeof(char));
+	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
 	if (getcwd(dir, PATH_MAX) == NULL)
 		dir = NULL;
-	dir[PATH_MAX - 1] = '\0';
+	dir[PATH_MAX] = '\0';
 	if (check_for_home(&dir) == 1)
 	{
 		if (getcwd(dir, PATH_MAX) == NULL)
