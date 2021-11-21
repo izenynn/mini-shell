@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:23:35 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 17:50:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@
 # include <limits.h>
 
 /* signals */
-
 # include <signal.h>
 
 /* readline libraries */
@@ -55,6 +54,10 @@
 # include <term.h>
 
 /*** DEFINES ***/
+
+/* bool */
+# define TRUE 1
+# define FALSE 0
 
 /* path */
 # ifndef PATH_MAX

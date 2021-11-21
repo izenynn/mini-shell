@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 19:45:54 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/21 19:48:40 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include <sh.h>
 
-/*** INCLUDES ***/
+/* */
 
-# include <sh/ast.h>
-# include <libft/ft_bool.h>
+/* free cmd struct */
+void	cmd_del(t_cmd *cmd)
+{
+	int	i;
 
-/*** DATA ***/
-
-typedef struct s_cmd {
-	int		argc;
-	char	**argv;
-	t_bool	async;
-}	t_cmd;
-
-/*** PROTOTYPES ***/
-
-/* exec.c */
-void	exec_ast(t_ast *ast);
-
-/* cmd_utils.c */
-void	cmd_del(t_cmd *cmd);
-
-#endif
+	i = -1;
+	while (++i < cmd->argc)
+		free(cmd->argv[i]);
+	free(cmd->argv);
+	cmd->argc = 0;
+}
