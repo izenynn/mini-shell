@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 13:33:24 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:34:56 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 13:54:21 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
  * ctrl + z = 18 -> exit code = 146
  * ctrl + \ = 3 -> exit code = 131
  * //TODO HANDLE ctrl + d
-*/
+ *
+ */
 
 //TODO set exit code on status global var
 
