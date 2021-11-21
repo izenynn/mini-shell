@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:37:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:30:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_shell(void);
 
 /* error_utils.c */
 void	perror_exit(const char *s);
+int		perror_ret(const char *s, int ret_code);
 
 /* signals.c */
 void	init_signals(void);

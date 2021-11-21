@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 12:57:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:52:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,34 @@ static void	on_gen_st_quotes(t_lexsup *ls)
 }
 
 /* on general state handle withe spaces */
-static void	on_gen_st_ws(t_lexsup *ls, const size_t sz)
+static int	on_gen_st_ws(t_lexsup *ls, const size_t sz)
 {
 	if (ls->j > 0)
 	{
 		ls->tok->data[ls->j] = 0;
 		ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
-		if (!ls->tok->next)
-			perror_exit("malloc");
+		if (ls->tok->next == NULL)
+			perror_ret("malloc", 1);
 		ls->tok = ls->tok->next;
-		tok_init(ls->tok, sz - ls->i);
+		if (tok_init(ls->tok, sz - ls->i))
+			perror_ret("malloc", 1);
 		ls->j = 0;
 	}
+	return (0);
 }
 
 /* on general state handle special characters */
-static void	on_gen_st_sp(t_lexsup *ls, const size_t sz)
+static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 {
 	if (ls->j > 0)
 	{
 		ls->tok->data[ls->j] = '\0';
 		ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
 		if (!ls->tok->next)
-			perror_exit("malloc");
+			perror_ret("malloc", 1);
 		ls->tok = ls->tok->next;
-		tok_init(ls->tok, sz - ls->i);
+		if (tok_init(ls->tok, sz - ls->i))
+			perror_ret("malloc", 1);
 		ls->j = 0;
 	}
 	ls->tok->data[0] = ls->type;
@@ -63,11 +66,13 @@ static void	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 	ls->tok->type = ls->type;
 	ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
 	ls->tok = ls->tok->next;
-	tok_init(ls->tok, sz - ls->i);
+	if (tok_init(ls->tok, sz - ls->i))
+		perror_ret("malloc", 1);
+	return (0);
 }
 
 /* on general state */
-static void	on_gen_st(t_lexsup *ls, const char *line, const size_t sz)
+int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 {
 	if (ls->type == CHAR_QOUTE || ls->type == CHAR_DQOUTE)
 		on_gen_st_quotes(ls);
@@ -82,18 +87,23 @@ static void	on_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 		ls->tok->type = TOK;
 	}
 	else if (ls->type == CHAR_WS)
-		on_gen_st_ws(ls, sz);
+	{
+		if (on_gen_st_ws(ls, sz))
+			return (1);
+	}
 	else if (ls->type == CHAR_SC || ls->type == CHAR_GT
 		|| ls->type == CHAR_LS || ls->type == CHAR_AMP || ls->type == CHAR_PIPE)
-		on_gen_st_sp(ls, sz);
+	{
+		if (on_gen_st_sp(ls, sz))
+			return (1);
+	}
+	return (0);
 }
 
-/* process line character */
-void	process_char(t_lexsup *ls, const char *line, const size_t sz)
+/* on other states */
+void	handle_other_st(t_lexsup *ls)
 {
-	if (ls->st == ST_GEN)
-		on_gen_st(ls, line, sz);
-	else if (ls->st == ST_IN_QUOTE)
+	if (ls->st == ST_IN_QUOTE)
 	{
 		ls->tok->data[ls->j++] = ls->c;
 		if (ls->type == CHAR_QOUTE)
@@ -104,13 +114,5 @@ void	process_char(t_lexsup *ls, const char *line, const size_t sz)
 		ls->tok->data[ls->j++] = ls->c;
 		if (ls->type == CHAR_DQOUTE)
 			ls->st = ST_GEN;
-	}
-	if (ls->type == CHAR_NULL)
-	{
-		if (ls->j > 0)
-		{
-			ls->tok->data[ls->j] = '\0';
-			ls->j = 0;
-		}
 	}
 }

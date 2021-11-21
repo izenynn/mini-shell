@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:25:31 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:36:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	main(void)
 		line = prompt_read_input();
 		if (line == NULL || ft_strlen(line) <= 0)
 			continue ;
-		if (!lexer_build(line, ft_strlen(line), &lex))
+		if (lexer_build(line, ft_strlen(line), &lex) == 0)
 			continue ;
 		free(line);
 		//print_tokens(&lex);

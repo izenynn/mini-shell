@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:45:54 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/12 11:54:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:30:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,11 @@ void	perror_exit(const char *s)
 {
 	perror(s);
 	exit(EXIT_FAILURE);
+}
+
+/* return with custom error code */
+int	perror_ret(const char *s, int ret_code)
+{
+	perror(s);
+	return (ret_code);
 }
