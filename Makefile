@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/21 12:57:52 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/21 13:36:22 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,8 +89,8 @@ SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 
 SRC_PROMPT =	prompt.c			prompt_init.c
 
-SRC_UTILS =		init.c			error_utils.c		sig_handler.c				\
-				custom_len.c		get_env.c
+SRC_UTILS =		init.c				error_utils.c		sig_handler.c		\
+				custom_len.c		getenv.c
 
 SRC_NAME =	$(SRC_MAIN)														\
 			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))				\

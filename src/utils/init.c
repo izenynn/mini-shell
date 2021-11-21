@@ -6,12 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 17:27:08 by                  ###   ########.fr       */
+/*   Updated: 2021/11/21 13:33:13 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
+/* initialise enviroment */
 static void	fill_env(char **env)
 {
 	int	i;
@@ -21,13 +22,14 @@ static void	fill_env(char **env)
 		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(env[i])));
 }
 
-static void	initialise_vars()
+/* initialise global var */
+static void	initialise_vars(void)
 {
 	g_sh.status = EXIT_SUCCESS;
 }
 
 /* initialise shell */
-void	init_shell()
+void	init_shell(void)
 {
 	extern char	**environ;
 

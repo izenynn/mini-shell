@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:23:18 by                  ###   ########.fr       */
+/*   Updated: 2021/11/21 13:31:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	goto_home(void)
 {
 	char	*home;
 
-	home = ft_get_env("HOME");
+	home = ft_getenv("HOME");
 	if (chdir(home) == -1)
 	{
 		free(home);

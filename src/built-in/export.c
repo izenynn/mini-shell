@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:31 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 16:36:33 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/21 13:37:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static void	print_list(char **env)
 
 static void	swap_strs(int i, int j, char **env, char *tmp)
 {
-	if (custom_len(env[j]) > custom_len(env[i]))
+	if (get_var_len(env[j]) > get_var_len(env[i]))
 	{
-		if (ft_strncmp(env[j], env[i], custom_len(env[j])) > 0)
+		if (ft_strncmp(env[j], env[i], get_var_len(env[j])) > 0)
 		{
 			tmp = ft_strdup(env[j]);
 			free(env[j]);
@@ -59,7 +59,7 @@ static void	swap_strs(int i, int j, char **env, char *tmp)
 	}
 	else
 	{
-		if (ft_strncmp(env[j], env[i], custom_len(env[i])) > 0)
+		if (ft_strncmp(env[j], env[i], get_var_len(env[i])) > 0)
 		{
 			tmp = ft_strdup(env[j]);
 			free(env[j]);

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 13:17:07 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 13:37:49 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 /* sig_handler.c */
 int		sig_init(void);
 
-/* get_env.c */
-char	*ft_get_env(const char *path);
+/* getenv.c */
+char	*ft_getenv(const char *path);
 
 /* custom_len.c */
-int		custom_len(const char *s);
+int		get_var_len(const char *s);
 
 /* list_filler.c */
 t_list	*fill_list(t_list *env, char **environ);
