@@ -6,13 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 19:01:26 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/22 19:53:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_printf.h"
-#include "sh/exec.h"
-#include "sh/utils.h"
 #include <sh.h>
 
 /* initialise io struct */
@@ -133,6 +130,8 @@ int	handle_exec_cmd(t_cmd *cmd)
 				perror_exit("open");
 			dup2(fd_io[FD_OUT], STDOUT_FILENO);
 		}
+		if (cmd->io->pipe[FD_IN] == TRUE)
+			dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
 		if (cmd->io->pipe[FD_OUT] == TRUE)
 			dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
 		exec_cmd(cmd);
