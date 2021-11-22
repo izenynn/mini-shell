@@ -16,6 +16,7 @@
 /*** PROTOTYPES ***/
 
 int		ft_export(char **new_env);
+int		error_handle(char *new_env);
 int		ft_get_wdir(const char *n);
 void	print_error(const char *dir);
 void	ft_env(const char *n);

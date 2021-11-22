@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:31 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:37:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/22 16:09:47 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	ft_export(char **new_env)
 	else
 	{
 		while (new_env[++i])
-			ft_lstadd_back(&g_sh.env, ft_lstnew(new_env[i]));
+		{
+			if (error_handle(new_env[i]) == 0)
+				ft_lstadd_back(&g_sh.env, ft_lstnew(new_env[i]));
+		}
 		g_sh.status = 0;
 	}
 	return (0);
