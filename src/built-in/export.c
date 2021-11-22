@@ -93,8 +93,8 @@ int	ft_export(char **new_env)
 {
 	int		i;
 
-	i = -1;
-	if (!new_env)
+	i = 0;
+	if (!new_env[1])
 		ft_lst_sorter();
 	else
 	{

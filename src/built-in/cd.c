@@ -90,25 +90,25 @@ static int	goto_dir(const char *dir)
 	return (0);
 }
 
-int	ft_changedir(const char *dir)
+int	ft_changedir(const char **dir)
 {
 	t_list	*head;
 
 	head = g_sh.env;
 	set_oldpwd(head);
-	if (!dir || dir[0] == '~')
+	if (!dir[1] || dir[1][0] == '~')
 	{
-		if (dir[1])
+		if (dir[1][1])
 		{
-			if (goto_dir(dir) == 1)
+			if (goto_dir(dir[1]) == 1)
 				return (1);
 		}
 		goto_home();
 		return (0);
 	}
-	if (chdir(dir) == -1)
+	if (chdir(dir[1]) == -1)
 	{
-		print_error(dir);
+		print_error(dir[1]);
 		return (1);
 	}
 	else

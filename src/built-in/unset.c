@@ -59,8 +59,8 @@ int	ft_unset(char **unset)
 	int		i;
 
 	head = g_sh.env;
-	i = -1;
-	if (unset)
+	i = 0;
+	if (unset[1])
 	{
 		while (unset[++i])
 		{

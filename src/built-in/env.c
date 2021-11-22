@@ -12,7 +12,7 @@
 
 #include <sh.h>
 
-void	ft_env(const char *n)
+void	ft_env(const char **n)
 {
 	t_list	*head;
 
@@ -33,7 +33,7 @@ void	ft_env(const char *n)
 	else
 	{
 		write(STDERR_FILENO, "env: ", 5);
-		write(STDERR_FILENO, n, ft_strlen(n));
+		write(STDERR_FILENO, n[1], ft_strlen(n[1]));
 		write(STDERR_FILENO, ": No such file or directory\n", 28);
 	}
 }
