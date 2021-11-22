@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:11 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/22 19:34:32 by                  ###   ########.fr       */
+/*   Updated: 2021/11/22 19:34:42 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	ft_echo(const char **str)
 	{
 		if (str[1][0] == '-' && str[1][1] == 'n')
 		{
-			while (str[1][i] == '-' && str[1][i + 1] == 'n')
+			while (str[i][0] == '-' && str[i][1] == 'n')
 				i++;
 		}
-		nstr = ft_substr(str[1], i, ft_strlen(str[1]) - i);
+		nstr = ft_substr(str[i]);
 		g_sh.status = 0;
 		write(1, nstr, ft_strlen(nstr));
 		free(nstr);
