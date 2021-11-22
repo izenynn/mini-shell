@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 17:50:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/22 12:53:46 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 /* sys libraries */
 # include <sys/types.h>
 # include <sys/wait.h>
-
 # include <limits.h>
 
 /* signals */
@@ -52,6 +51,9 @@
 /* terminal library */
 # include <termios.h>
 # include <term.h>
+
+/* open() */
+# include <fcntl.h>
 
 /*** DEFINES ***/
 
