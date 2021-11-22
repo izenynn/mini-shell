@@ -23,7 +23,7 @@ void	ft_env(const char *n)
 	{
 		while (g_sh.env)
 		{
-			write(1, g_sh.env->data, ft_strlen((char *) g_sh.env->data));
+			write(1, g_sh.env->data, ft_strlen((char *)g_sh.env->data));
 			write(1, "\n", 1);
 			g_sh.env = g_sh.env->next;
 		}

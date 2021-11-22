@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:57:02 by                  ###   ########.fr       */
+/*   Updated: 2021/11/22 18:01:31 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ int	ft_changedir(const char *dir)
 	t_list	*head;
 
 	head = g_sh.env;
+	set_oldpwd(head);
 	if (!dir || dir[0] == '~')
 	{
-		if (!dir[1])
-			goto_home();
-		else
+		if (dir[1])
 		{
 			if (goto_dir(dir) == 1)
 				return (1);
 		}
+		goto_home();
 		return (0);
 	}
 	if (chdir(dir) == -1)

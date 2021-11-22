@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/21 13:36:22 by dpoveda-         ###   ########.fr        #
+#   Updated: 2021/11/22 16:14:24 by                  ###   ########.fr       # #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,8 @@ SRC_MAIN =		main.c
 
 SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				exit.c				export.c			pwd.c				\
-				unset.c				cd_error_handle.c	export_error_handle.c
+				unset.c				cd_error_handle.c	export_error_handle.c \
+				cd_utils.c
 
 SRC_EXEC =
 

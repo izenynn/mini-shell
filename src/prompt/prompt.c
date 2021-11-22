@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:21:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/22 18:04:34 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	check_for_home(char **dir)
 	home = ft_getenv("HOME");
 	if (home == NULL)
 		return (1);
-	tmp = (char *)malloc((ft_strlen(*dir) - ft_strlen(home) + 2) * sizeof(char));
+	tmp = (char *)malloc((ft_strlen(*dir) - ft_strlen(home) + 2)
+			* sizeof(char));
 	if (!tmp)
 		return (1);
 	if (ft_strncmp(*dir, home, ft_strlen(home)) == 0)
@@ -44,6 +45,7 @@ static int	check_for_home(char **dir)
 		free(*dir);
 		*dir = ft_strdup(tmp);
 		free(tmp);
+		free(home);
 		return (0);
 	}
 	free(home);
