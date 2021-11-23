@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:01:31 by                  ###   ########.fr       */
+/*   Updated: 2021/11/23 17:37:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,5 @@ int	ft_changedir(char **dir)
 		print_error(dir[1]);
 		return (1);
 	}
-	return (1);
+	return (0);
 }
