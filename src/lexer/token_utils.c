@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:04:10 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 14:05:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:37:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void	tok_del(t_tok *tok)
 }
 
 /* initialise token */
-void	tok_init(t_tok *tok, size_t sz)
+int	tok_init(t_tok *tok, size_t sz)
 {
 	tok->data = (char *)malloc((sz + 1) * sizeof(char));
-	if (!tok->data)
-		perror_exit("malloc");
+	if (tok->data == NULL)
+		perror_ret("malloc", 1);
 	tok->data[0] = '\0';
 	tok->type = CHAR_NULL;
 	tok->next = NULL;
+	return (0);
 }

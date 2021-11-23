@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#   Updated: 2021/11/22 16:14:24 by                  ###   ########.fr       # #
+#    Updated: 2021/11/23 14:00:24 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				unset.c				cd_error_handle.c	export_error_handle.c \
 				cd_utils.c
 
-SRC_EXEC =
+SRC_EXEC =		exec.c				cmd_utils.c			utils.c
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c
@@ -91,7 +91,7 @@ SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 SRC_PROMPT =	prompt.c			prompt_init.c
 
 SRC_UTILS =		init.c				error_utils.c		sig_handler.c		\
-				custom_len.c		getenv.c
+				custom_len.c		getenv.c			env_utils.c
 
 SRC_NAME =	$(SRC_MAIN)														\
 			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))				\

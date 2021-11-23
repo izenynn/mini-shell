@@ -6,23 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:04:34 by                  ###   ########.fr       */
+/*   Updated: 2021/11/23 14:01:49 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
-
-/* get line */
-static char	*rl_gets(void)
-{
-	char	*line;
-
-	line = readline("❯ " FG_DEF);
-	if (line && *line)
-		add_history(line);
-	return (line);
-}
 
 /* If part of the pwd is home, we'll change it for ~ like bash does*/
 static int	check_for_home(char **dir)
@@ -32,10 +20,6 @@ static int	check_for_home(char **dir)
 
 	home = ft_getenv("HOME");
 	if (home == NULL)
-		return (1);
-	tmp = (char *)malloc((ft_strlen(*dir) - ft_strlen(home) + 2)
-			* sizeof(char));
-	if (!tmp)
 		return (1);
 	if (ft_strncmp(*dir, home, ft_strlen(home)) == 0)
 	{
@@ -49,15 +33,13 @@ static int	check_for_home(char **dir)
 		return (0);
 	}
 	free(home);
-	free(tmp);
 	return (1);
 }
 
 /* prompt message */
-static void	print_prompt_msg(void)
+static void	print_cwd(void)
 {
 	char	*dir;
-	char	*prompt_clr;
 
 	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
 	if (getcwd(dir, PATH_MAX) == NULL)
@@ -68,22 +50,20 @@ static void	print_prompt_msg(void)
 		if (getcwd(dir, PATH_MAX) == NULL)
 			dir = NULL;
 	}
-	if (g_sh.status == EXIT_SUCCESS)
-		prompt_clr = ft_strdup(FG_MAG);
-	else
-		prompt_clr = ft_strdup(FG_RED);
-	ft_dprintf(STDERR_FILENO, "\n" FG_BLU "%s" FG_DEF "\n" "%s",
-		dir, prompt_clr);
+	ft_dprintf(STDERR_FILENO, "\n" FG_BLU "%s" FG_DEF "\n",
+		dir);
 	free(dir);
-	free(prompt_clr);
 }
 
 /* read input on prompt */
-char	*prompt_read_input(void)
+char	*get_prompt(void)
 {
 	char	*line;
 
-	print_prompt_msg();
-	line = rl_gets();
+	print_cwd();
+	if (g_sh.status == EXIT_SUCCESS)
+		line = readline(FG_MAG "❯ " FG_DEF);
+	else
+		line = readline(FG_RED "❯ " FG_DEF);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/17 12:48:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:52:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sh/lexer.h>
 # include <sh/parser.h>
 # include <sh/ast.h> 
+# include <sh/exec.h>
 
 /* our own implementation of libc */
 # include <libft.h>
@@ -35,11 +36,9 @@
 /* sys libraries */
 # include <sys/types.h>
 # include <sys/wait.h>
-
 # include <limits.h>
 
 /* signals */
-
 # include <signal.h>
 
 /* readline libraries */
@@ -53,7 +52,14 @@
 # include <termios.h>
 # include <term.h>
 
+/* open() */
+# include <fcntl.h>
+
 /*** DEFINES ***/
+
+/* bool */
+# define TRUE 1
+# define FALSE 0
 
 /* path */
 # ifndef PATH_MAX
@@ -73,6 +79,7 @@ typedef struct s_sh {
 	int		status;
 	t_list	*env;
 	t_tok	*tok;
+	t_blti	*bi;
 }	t_sh;
 
 extern t_sh	g_sh;

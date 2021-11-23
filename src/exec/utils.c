@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 12:01:22 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 17:03:47 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/22 18:48:15 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/22 18:48:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* parse main function */
-int	parse(t_lexer *lex, t_ast **ast)
+/* join two strings with a '/' between them */
+char	*dir_join(char const *dir1, char const *dir2)
 {
-	g_sh.tok = lex->tok_lst;
-	*ast = cmd_line();
-	if (lex->n_toks == 0)
-		return (1);
-	if (g_sh.tok != NULL && g_sh.tok->type != 0)
-	{
-		ft_dprintf(STDERR_FILENO, "Error: syntax error near: %s\n",
-			g_sh.tok->data);
-		return (1);
-	}
-	return (0);
+	char	*save;
+	char	*out;
+
+	if (!dir1 || !dir2)
+		return (NULL);
+	out = malloc(ft_strlen(dir1) + ft_strlen(dir2) + 2);
+	if (!out)
+		return (NULL);
+	save = out;
+	while (*dir1)
+		*out++ = *dir1++;
+	*out++ = '/';
+	while (*dir2)
+		*out++ = *dir2++;
+	*out = '\0';
+	return (save);
 }
