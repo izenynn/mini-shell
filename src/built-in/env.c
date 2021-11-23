@@ -19,7 +19,7 @@ int	ft_env(char **n)
 	head = g_sh.env;
 	if (!g_sh.env)
 		return (0);
-	if (!n)
+	if (!n[1])
 	{
 		while (g_sh.env)
 		{

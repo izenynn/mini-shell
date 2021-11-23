@@ -22,28 +22,8 @@ void	update_env(void)
 	if (getcwd(n_path, PATH_MAX) == NULL)
 		return ;
 	free(g_sh.env->data);
-	g_sh.env->data = ft_strdup("PWD=");
-	g_sh.env->data = ft_realloc(g_sh.env->data, sizeof(char)
-			* (ft_strlen(n_path) + 5));
-	g_sh.env->data = ft_strcat((char *)g_sh.env->data, n_path);
+	g_sh.env->data = ft_strjoin("PWD=", n_path);
 	free(n_path);
-}
-
-static int	goto_home(void)
-{
-	char	*home;
-
-	home = ft_getenv("HOME");
-	if (chdir(home) == -1)
-	{
-		print_error(home);
-		free(home);
-		g_sh.status = 1;
-		return (1);
-	}
-	g_sh.status = 0;
-	free(home);
-	return (0);
 }
 
 int	locate_env(t_list *head)
@@ -61,6 +41,26 @@ int	locate_env(t_list *head)
 	}
 	g_sh.status = 1;
 	return (1);
+}
+
+static int	goto_home(void)
+{
+	char	*home;
+	t_list	*head;
+
+	home = ft_getenv("HOME");
+	head = g_sh.env;
+	if (chdir(home) == -1)
+	{
+		print_error(home);
+		free(home);
+		g_sh.status = 1;
+		return (1);
+	}
+	g_sh.status = 0;
+	locate_env(head);
+	free(home);
+	return (0);
 }
 
 static int	goto_dir(const char *dir)
@@ -98,23 +98,18 @@ int	ft_changedir(char **dir)
 	set_oldpwd(head);
 	if (!dir[1] || dir[1][0] == '~')
 	{
-		if (dir[1][1])
+		if (!dir[1])
 		{
-			if (goto_dir(dir[1]) == 1)
-				return (1);
+			goto_home();
+			return (0);
 		}
-		goto_home();
-		return (0);
+		if (goto_dir(dir[1]) == 1)
+			return (1);
 	}
 	if (chdir(dir[1]) == -1)
 	{
 		print_error(dir[1]);
 		return (1);
-	}
-	else
-	{
-		if (locate_env(head) == 1)
-			return (1);
 	}
 	return (1);
 }

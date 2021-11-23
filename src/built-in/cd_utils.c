@@ -25,7 +25,7 @@ int	set_oldpwd(t_list *head)
 	if (g_sh.env)
 	{
 		free(g_sh.env->data);
-		g_sh.env = (void *)ft_strdup(aux);
+		g_sh.env->data = (void *)ft_strdup(aux);
 	}
 	else
 		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)aux));

@@ -101,7 +101,7 @@ int	ft_export(char **new_env)
 		while (new_env[++i])
 		{
 			if (error_handle(new_env[i]) == 0)
-				ft_lstadd_back(&g_sh.env, ft_lstnew(new_env[i]));
+				ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(new_env[i])));
 		}
 		g_sh.status = 0;
 	}

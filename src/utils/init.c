@@ -66,15 +66,16 @@ static void	fill_env(char **env)
 	sh_lvl = ft_strdup("SHLVL=1");
 	while (env[++i])
 		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(env[i])));
-	if (i == 0)
+	if (!env)
 	{
 		if (getcwd(pwd, PATH_MAX))
 		{
 			aux = ft_strjoin("PWD=", pwd);
-			ft_lstadd_back(&g_sh.env, ft_lstnew((void *)aux));
+			ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
 		}
-		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)sh_lvl));
+		ft_lstadd_back(&g_sh.env, ft_lstnew(ft_strdup((void *)sh_lvl)));
 	}
+	free(aux);
 	free(pwd);
 	free(sh_lvl);
 }

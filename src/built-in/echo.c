@@ -14,28 +14,39 @@
 
 int	ft_echo(char **str)
 {
-	char	*nstr;
 	int		i;
-
-	i = 0;
-	if (!str)
-		write(1, "\n", 1);
-	else if (ft_strncmp(str[1], "-n", 3) == 0)
+	
+	i = 1;
+	if (!str[1])
 	{
-		if (str[1][0] == '-' && str[1][1] == 'n')
-		{
-			while (str[i][0] == '-' && str[i][1] == 'n')
-				i++;
-		}
-		nstr = ft_substr(str[i], i, ft_strlen(str[i]) - i);
+		write(1, "\n", 1);
+		return (0);
+	}
+	if (ft_strncmp(str[1], "-n", 2) == 0)
+	{
+		i++;
+		while (str[i][0] == '-' && str[i][1] == 'n')
+			i++;
 		g_sh.status = 0;
-		write(1, nstr, ft_strlen(nstr));
-		free(nstr);
+		while (str[i])
+		{
+			write(1, str[i], ft_strlen(str[i]));
+			if (str[i + 1])
+				write(1, " ", 1);
+			i++;
+		}
 	}
 	else
 	{
+		i = 1;
 		g_sh.status = 0;
-		write(1, str[1], ft_strlen(str[1]));
+		while (str[i])
+		{
+			write(1, str[i], ft_strlen(str[i]));
+			if (str[i + 1])
+				write(1, " ", 1);
+			i++;
+		}
 		write(1, "\n", 1);
 	}
 	return (0);

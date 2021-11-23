@@ -19,9 +19,9 @@ int	ft_exit(char **exitc)
 	int	i;
 
 	i = 0;
-	if (exitc[1][i] == '+' || exitc[1][i] == '-')
+	if (exitc[1] && (exitc[1][i] == '+' || exitc[1][i] == '-'))
 		i++;
-	while (exitc[1][i])
+	while (exitc[1] && exitc[1][i])
 	{
 		if (!ft_isdigit(exitc[1][i++]))
 		{
@@ -31,10 +31,15 @@ int	ft_exit(char **exitc)
 			g_sh.status = 1;
 			exit(2);
 		}
-	}	
-	exit_code = ft_atoi(exitc[1]);
-	exit((unsigned char)exit_code);
-	g_sh.status = exit_code;
-	exit(exit_code);
+	}
+	if (exitc[1])
+	{	
+		exit_code = ft_atoi(exitc[1]);
+		exit((unsigned char)exit_code);
+		g_sh.status = exit_code;
+		exit(exit_code);
+	}
+	ft_lstclear(&g_sh.env, free);
+	exit(0);
 	return (0);
 }
