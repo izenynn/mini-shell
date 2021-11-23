@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:19:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:23:42 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <readline/readline.h>
 #include <sh.h>
 
 /* global var */
@@ -92,7 +93,10 @@ int	main(void)
 	init_prompt();
 	while (1)
 	{
-		line = prompt_read_input();
+		line = get_prompt();
+		if (line && *line)
+			add_history(line);
+		continue ;
 		if (line == NULL || ft_strlen(line) <= 0)
 			continue ;
 		if (lexer_build(line, ft_strlen(line), &lex) == 0)

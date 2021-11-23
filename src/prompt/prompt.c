@@ -6,22 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:19:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:26:14 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/* get line */
-static char	*rl_gets(void)
-{
-	char	*line;
-
-	line = readline("❯ " FG_DEF);
-	if (line && *line)
-		add_history(line);
-	return (line);
-}
 
 /* If part of the pwd is home, we'll change it for ~ like bash does*/
 static int	check_for_home(char **dir)
@@ -48,10 +37,9 @@ static int	check_for_home(char **dir)
 }
 
 /* prompt message */
-static void	print_prompt_msg(void)
+static void	print_cwd(void)
 {
 	char	*dir;
-	char	*prompt_clr;
 
 	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
 	if (getcwd(dir, PATH_MAX) == NULL)
@@ -62,22 +50,20 @@ static void	print_prompt_msg(void)
 		if (getcwd(dir, PATH_MAX) == NULL)
 			dir = NULL;
 	}
-	if (g_sh.status == EXIT_SUCCESS)
-		prompt_clr = ft_strdup(FG_MAG);
-	else
-		prompt_clr = ft_strdup(FG_RED);
-	ft_dprintf(STDERR_FILENO, "\n" FG_BLU "%s" FG_DEF "\n" "%s",
-		dir, prompt_clr);
+	ft_dprintf(STDERR_FILENO, "\n" FG_BLU "%s" FG_DEF "\n",
+		dir);
 	free(dir);
-	free(prompt_clr);
 }
 
 /* read input on prompt */
-char	*prompt_read_input(void)
+char	*get_prompt(void)
 {
 	char	*line;
 
-	print_prompt_msg();
-	line = rl_gets();
+	print_cwd();
+	if (g_sh.status == EXIT_SUCCESS)
+		line = readline(FG_MAG "❯ " FG_DEF);
+	else
+		line = readline(FG_RED "❯ " FG_DEF);
 	return (line);
 }
