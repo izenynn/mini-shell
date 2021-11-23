@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 13:33:24 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 13:54:21 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 14:07:03 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 /* handle signals */
 static void	sig_handler(int signum)
 {
-	printf("\n%d\n", signum);
+	(void)signum;
+	/*printf("\n%d\n", signum);
 	if (signum == 18)
 		ft_exit("146");
 	if (signum == 2)
 		ft_exit("130");
 	if (signum == 3)
-		ft_exit("131");
+		ft_exit("131");*/
 }
 
 /* initialise signals */
