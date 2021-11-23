@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 16:33:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 20:17:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,17 @@ typedef struct s_cmd {
 
 /*** PROTOTYPES ***/
 
-/* exec.c */
+/* exec_ast.c */
 int		exec_ast(t_ast *ast);
 
-/* cmd_utils.c */
+/* exec_cmd.c */
 t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2]);
 int		handle_exec_cmd(t_cmd *cmd);
 int		cmd_init(t_cmd *cmd, t_ast *ast, t_io *io);
 void	cmd_del(t_cmd *cmd);
+
+/* exec_utils */
+void	handle_zombies(void);
 
 /* utils.c */
 char	*dir_join(char const *dir1, char const *dir2);

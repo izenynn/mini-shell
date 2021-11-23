@@ -1,17 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 16:31:09 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 20:24:25 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
-#include "sh/builtin.h"
 #include <sh.h>
 
 /* initialise io struct */
@@ -100,7 +98,6 @@ int	handle_exec_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
 	int		fd_io[2];
-	int		p_status;
 	t_blti	*bi;
 
 	// TODO free cmd->io struct somewhere
@@ -109,14 +106,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
-	if (pid > 0)
-	{
-		waitpid(pid, &p_status, 0);
-		g_sh.status = WEXITSTATUS(p_status);
-		if (g_sh.status != EXIT_SUCCESS)
-			return (1);
-	}
-	else
+	if (pid == 0)
 	{
 		// TODO restore signals for child
 		if (redir_getin(cmd->io->redir) == RD_INFILE)
@@ -153,6 +143,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	}
 	return (0);
 } 
+
 /* initialise cmd struct */
 int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 {
