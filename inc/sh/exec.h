@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:53:03 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:33:57 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_io {
 	t_bool	pipe[2];
 	int		fd_pipe[2];
 	int		redir;
-	char	(*files)[2];
+	char	*files[2];
 }	t_io;
 
 typedef struct s_cmd {

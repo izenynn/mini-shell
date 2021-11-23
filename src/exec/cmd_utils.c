@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:52:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:31:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2])
 		io->fd_pipe[READ_END] = fd_pipe[READ_END];
 	if (pipe_out)
 		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
+	io->redir = 0;
 	return (io);
 }
 
@@ -66,7 +67,7 @@ static char	*get_path(char *cmd, const char *path)
 			path++;
 	}
 	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 	return (NULL);
 }
@@ -85,7 +86,7 @@ static void	exec_cmd(t_cmd *cmd)
 		if (path == NULL)
 		{
 			ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+			ft_putstr_fd(": command not found: \n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 		cmd_path = get_path(cmd->argv[0], path);
@@ -105,18 +106,6 @@ int	handle_exec_cmd(t_cmd *cmd)
 	// TODO free cmd->io struct somewhere
 	if (cmd->argc < 0)
 		return (1);
-	// check for built in
-	bi = g_sh.bi;
-	while (bi != NULL)
-	{
-		if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
-		{
-			g_sh.status = bi->f(cmd->argv);
-			return (0);
-		}
-		bi = bi->next;
-	}
-	//
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
@@ -148,11 +137,22 @@ int	handle_exec_cmd(t_cmd *cmd)
 			dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
 		if (cmd->io->pipe[FD_OUT] == TRUE)
 			dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
+		// check for built in
+		bi = g_sh.bi;
+		while (bi != NULL)
+		{
+			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+			{
+				g_sh.status = bi->f(cmd->argv);
+				return (0);
+			}
+			bi = bi->next;
+		}
+		// exec cmd
 		exec_cmd(cmd);
 	}
 	return (0);
-}
-
+} 
 /* initialise cmd struct */
 int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 {
