@@ -13,7 +13,7 @@
 #include "libft/ft_nbr.h"
 #include <sh.h>
 
-void	ft_exit(char **exitc)
+int	ft_exit(char **exitc)
 {
 	int	exit_code;
 	int	i;
@@ -36,4 +36,5 @@ void	ft_exit(char **exitc)
 	exit((unsigned char)exit_code);
 	g_sh.status = exit_code;
 	exit(exit_code);
+	return (0);
 }

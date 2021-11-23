@@ -12,9 +12,9 @@
 
 #include <sh.h>
 
-int	ft_echo(const char **str)
+int	ft_echo(char **str)
 {
-	/*char	*nstr;
+	char	*nstr;
 	int		i;
 
 	i = 0;
@@ -27,7 +27,7 @@ int	ft_echo(const char **str)
 			while (str[i][0] == '-' && str[i][1] == 'n')
 				i++;
 		}
-		nstr = ft_substr(str[i]);
+		nstr = ft_substr(str[i], i, ft_strlen(str[i]) - i);
 		g_sh.status = 0;
 		write(1, nstr, ft_strlen(nstr));
 		free(nstr);
@@ -37,8 +37,6 @@ int	ft_echo(const char **str)
 		g_sh.status = 0;
 		write(1, str[1], ft_strlen(str[1]));
 		write(1, "\n", 1);
-	}*/
-	(void)str;
-	write(STDOUT_FILENO, "you execute the echo command :D\n", 32);
+	}
 	return (0);
 }

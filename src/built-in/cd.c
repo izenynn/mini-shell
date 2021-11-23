@@ -90,7 +90,7 @@ static int	goto_dir(const char *dir)
 	return (0);
 }
 
-int	ft_changedir(const char **dir)
+int	ft_changedir(char **dir)
 {
 	t_list	*head;
 

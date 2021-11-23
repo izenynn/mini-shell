@@ -12,7 +12,7 @@
 
 #include <sh.h>
 
-int	ft_get_wdir(const char **n)
+int	ft_get_wdir(char **n)
 {
 	char	*pwd;
 
