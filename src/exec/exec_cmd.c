@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 20:24:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 21:16:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
 				g_sh.status = bi->f(cmd->argv);
-				return (0);
+				exit (EXIT_SUCCESS);
 			}
 			bi = bi->next;
 		}
