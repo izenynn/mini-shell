@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:53:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 17:04:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	fill_env(char **env)
 	pwd = malloc(sizeof(char) * PATH_MAX);
 	if (!pwd)
 		return ;
+	aux = NULL;
 	sh_lvl = ft_strdup("SHLVL=1");
 	while (env[++i])
 		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(env[i])));
@@ -75,7 +76,8 @@ static void	fill_env(char **env)
 		}
 		ft_lstadd_back(&g_sh.env, ft_lstnew(ft_strdup((void *)sh_lvl)));
 	}
-	free(aux);
+	if (aux)
+		free(aux);
 	free(pwd);
 	free(sh_lvl);
 }
