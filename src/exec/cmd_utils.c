@@ -6,10 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 19:53:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 14:52:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_str.h"
+#include "sh/builtin.h"
 #include <sh.h>
 
 /* initialise io struct */
@@ -98,11 +100,23 @@ int	handle_exec_cmd(t_cmd *cmd)
 	pid_t	pid;
 	int		fd_io[2];
 	int		p_status;
+	t_blti	*bi;
 
 	// TODO free cmd->io struct somewhere
 	if (cmd->argc < 0)
 		return (1);
-	// TODO check for built-in and alias
+	// check for built in
+	bi = g_sh.bi;
+	while (bi != NULL)
+	{
+		if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+		{
+			g_sh.status = bi->f(cmd->argv);
+			return (0);
+		}
+		bi = bi->next;
+	}
+	//
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);

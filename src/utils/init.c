@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:24:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 14:53:22 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static t_blti	*init_blti(void)
 
 	bi = NULL;
 	add_blti(&bi, "echo", ft_echo);
-	//add_blti(&bi, "cd", ft_changedir);
+	add_blti(&bi, "cd", ft_changedir);
 	add_blti(&bi, "pwd", ft_get_wdir);
-	//add_blti(&bi, "export", ft_export);
-	//add_blti(&bi, "unset", ft_unset);
-	//add_blti(&bi, "env", ft_env);
-	//new_blti(&bi, "alias", ft_changedir());
-	//add_blti(&bi, "exit", ft_exit);
+	add_blti(&bi, "export", ft_export);
+	add_blti(&bi, "unset", ft_unset);
+	add_blti(&bi, "env", ft_env);
+	//add_blti(&bi, "alias", ft_alias);
+	add_blti(&bi, "exit", ft_exit);
 	return (bi);
 }
 
