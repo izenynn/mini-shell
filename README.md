@@ -57,7 +57,7 @@ Execute the `./minishell` binary generated after running `make`
 - Recreates most of the bash shell.
 - Pipes `|` works like in bash.
 - Redirections `<`, `>`, `<<`, `>>` work like in bash.
-- Semicolon `;`, `&`, `&&`, `||`, work like in bash.
+- `;`, `&&` and `||` work like in bash.
 - Parentesis: `(` and `)` works with `&&` and `||` for priorities.
 - `$?` works like in bash.
 - wildcard `*` work for the current directory.
