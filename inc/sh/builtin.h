@@ -6,12 +6,22 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 19:49:49 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:49:51 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:49:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
+
+/*** DATA ***/
+
+typedef struct s_blti	t_blti;
+
+struct s_blti {
+	char	*name;
+	void	(*f)(char **);
+	t_blti	*next;
+};
 
 /*** PROTOTYPES ***/
 

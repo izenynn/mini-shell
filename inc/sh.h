@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 12:53:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:52:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_sh {
 	int		status;
 	t_list	*env;
 	t_tok	*tok;
+	t_blti	*bi;
 }	t_sh;
 
 extern t_sh	g_sh;
