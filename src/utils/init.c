@@ -6,13 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:02:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/23 14:24:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/*static void	add_blti(t_blti **head, char *name, void (*f)(char **))
+static void	add_blti(t_blti **head, char *name, int (*f)(char **))
 {
 	t_blti	*new;
 	t_blti	*aux;
@@ -22,6 +22,7 @@
 		perror_exit("malloc");
 	new->name = name;
 	new->f = f;
+	new->next = NULL;
 	if (*head != NULL)
 	{
 		aux = *head;
@@ -31,7 +32,7 @@
 	}
 	else
 		*head = new;
-}*/
+}
 
 /* initialise built ins */
 static t_blti	*init_blti(void)
@@ -39,14 +40,14 @@ static t_blti	*init_blti(void)
 	t_blti	*bi;
 
 	bi = NULL;
-	/*add_blti(&bi, "echo", ft_echo);
-	new_blti(&bi, "cd", ft_changedir);
-	new_blti(&bi, "pwd", ft_get_wdir);
-	new_blti(&bi, "export", ft_export);
-	new_blti(&bi, "unset", ft_unset);
-	new_blti(&bi, "env", ft_env);
+	add_blti(&bi, "echo", ft_echo);
+	//add_blti(&bi, "cd", ft_changedir);
+	add_blti(&bi, "pwd", ft_get_wdir);
+	//add_blti(&bi, "export", ft_export);
+	//add_blti(&bi, "unset", ft_unset);
+	//add_blti(&bi, "env", ft_env);
 	//new_blti(&bi, "alias", ft_changedir());
-	new_blti(&bi, "exit", ft_exit);*/
+	//add_blti(&bi, "exit", ft_exit);
 	return (bi);
 }
 
