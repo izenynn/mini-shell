@@ -26,7 +26,7 @@ int	ft_exit(char **exitc)
 		if (!ft_isdigit(exitc[1][i++]))
 		{
 			write(STDERR_FILENO, "exit: ", 6);
-			write(STDERR_FILENO, exitc, ft_strlen(exitc[1]));
+			write(STDERR_FILENO, exitc[1], ft_strlen(exitc[1]));
 			write(STDERR_FILENO, ": numeric argument required\n", 28);
 			g_sh.status = 1;
 			exit(2);
