@@ -6,10 +6,9 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:46:48 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:56:26 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <sh.h>
 
 /* add built in to built in list */
@@ -52,44 +51,13 @@ static t_blti	*init_blti(void)
 	return (bi);
 }
 
-/* initialise enviroment */
-static void	fill_env(char **env)
-{
-	int		i;
-	char	*pwd;
-	char	*sh_lvl;
-	char	*aux;
-
-	i = -1;
-	pwd = malloc(sizeof(char) * PATH_MAX);
-	if (!pwd)
-		return ;
-	aux = NULL;
-	sh_lvl = ft_strdup("SHLVL=1");
-	while (env[++i])
-		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(env[i])));
-	if (!env)
-	{
-		if (getcwd(pwd, PATH_MAX))
-		{
-			aux = ft_strjoin("PWD=", pwd);
-			ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
-		}
-		ft_lstadd_back(&g_sh.env, ft_lstnew(ft_strdup((void *)sh_lvl)));
-	}
-	if (aux)
-		free(aux);
-	free(pwd);
-	free(sh_lvl);
-}
-
 /* initialise global var */
 static void	initialise_vars(void)
 {
 	g_sh.status = EXIT_SUCCESS;
 	g_sh.bi = init_blti();
-	dup2(STDIN_FILENO, g_sh.fd_bak[0]);
-	dup2(STDOUT_FILENO, g_sh.fd_bak[1]);
+	dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 }
 
 /* initialise shell */

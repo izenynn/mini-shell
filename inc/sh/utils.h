@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 17:49:07 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:58:58 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ t_list	*fill_list(t_list *env, char **environ);
 
 /* init.c */
 void	init_shell(void);
+
+/* init_utils.c  */
+void	fill_env(char **env);
 
 /* error_utils.c */
 void	perror_exit(const char *s);
