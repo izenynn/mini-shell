@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/20 16:36:31 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/22 16:09:47 by                  ###   ########.fr       */
+/*   Created: 2021/11/24 19:20:01 by acostal-          #+#    #+#             */
+/*   Updated: 2021/11/24 19:22:24 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	ft_export(char **new_env)
 		while (new_env[++i])
 		{
 			if (error_handle(new_env[i]) == 0)
-				ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(new_env[i])));
+				ft_lstadd_back(&g_sh.env,
+					ft_lstnew((void *)ft_strdup(new_env[i])));
 		}
 	}
 	return (0);
