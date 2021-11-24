@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 17:10:07 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:46:48 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ static void	initialise_vars(void)
 {
 	g_sh.status = EXIT_SUCCESS;
 	g_sh.bi = init_blti();
-	dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	dup2(STDIN_FILENO, g_sh.fd_bak[0]);
+	dup2(STDOUT_FILENO, g_sh.fd_bak[1]);
 }
 
 /* initialise shell */

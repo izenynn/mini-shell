@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 17:28:17 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:43:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,6 @@ int	handle_exec_cmd(t_cmd *cmd)
 			redir(cmd);
 			g_sh.status = bi->f(cmd->argv);
 			// restore fd
-			dup2(STDIN_FILENO, g_sh.fd_bak[0]);
-			dup2(STDOUT_FILENO, g_sh.fd_bak[1]);
 			return (0);
 		}
 		bi = bi->next;

@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 17:20:40 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:46:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/exec.h"
 #include <sh.h>
 
 /* interpret simple cmd */
@@ -86,6 +87,8 @@ static int	handle_job(t_ast *ast)
 	else
 		handle_cmd(ast, init_io(FALSE, FALSE, NULL));
 	handle_zombies();
+	dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	return (0);
 }
 
@@ -99,11 +102,6 @@ static int	handle_cmd_line(t_ast *ast)
 		handle_job(ast->left);
 		handle_cmd_line(ast->right);
 	}
-	else if (ast_gettype(ast) == AST_BG)
-	{
-		handle_job(ast->right);
-		handle_cmd_line(ast->right);
-	}
 	else
 		handle_job(ast);
 	return (0);
@@ -113,5 +111,6 @@ static int	handle_cmd_line(t_ast *ast)
 int	exec_ast(t_ast *ast)
 {
 	handle_cmd_line(ast);
+	handle_zombies();
 	return (0);
 }
