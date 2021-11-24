@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 00:44:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:32:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(void)
 	init_shell();
 	while (1)
 	{
-		line = get_prompt();
+		line = read_prompt();
 		if (line == NULL || ft_strlen(line) <= 0)
 			continue ;
 		add_history(line);

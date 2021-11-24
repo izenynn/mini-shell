@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 23:56:06 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 12:16:33 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:51:23 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	handle_sig_child(int signal)
 {
 	if (signal == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
+		//write(STDOUT_FILENO, "\n", 1);
 		g_sh.status = SIGINT_EXIT;
 	}
 	else if (signal == SIGQUIT)
@@ -35,7 +35,6 @@ static void	handle_sig_parent(int signal)
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		print_prompt_cwd();
 		rl_redisplay();
 		g_sh.status = SIGINT_EXIT;
 	}

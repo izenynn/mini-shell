@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/24 00:45:19 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/24 13:22:05 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,6 +122,11 @@ LDFLAGS = -L ./$(LFT_DIR)
 LDLIBS = -lft
 
 LDLIBS += -lreadline
+
+ifeq ($(UNAME_S),Darwin)
+	CFLAGS += -I /Users/$(USER)/.brew/opt/readline/include
+	LDFLAGS += -L /Users/$(USER)/.brew/opt/readline/lib
+endif
 
 # **************************************************************************** #
 #                                    RULES                                     #

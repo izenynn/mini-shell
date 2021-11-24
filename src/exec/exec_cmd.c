@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 12:10:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:18:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/signals.h"
 #include <sh.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -124,7 +125,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	}
 	else
 	{
-		// TODO restore signals for child
+		sig_child();
 		if (redir_getin(cmd->io->redir) == RD_INFILE)
 		{
 			fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
