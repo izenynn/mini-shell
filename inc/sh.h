@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 12:39:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:04:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@
 
 /* shell global struct
  *
+ * fd_bak	=> back up STDIN and STDOUT to restore it
  * status	=> last exit status
  * *env		=> enviroment vars
  * env_len	=> number of enviroment vars
@@ -81,6 +82,7 @@ typedef struct s_sh {
 	t_list	*env;
 	t_tok	*tok;
 	t_blti	*bi;
+	int		fd_bak[2];
 }	t_sh;
 
 extern t_sh	g_sh;

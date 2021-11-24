@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 20:16:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 20:16:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:24:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	handle_zombies(void)
 	while (child)
 	{
 		pid = waitpid(-1, &status, 0);
-		g_sh.status = WEXITSTATUS(status);
 		if (pid <= 0)
 			child = 0;
 	}

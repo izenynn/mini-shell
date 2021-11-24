@@ -6,14 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 12:18:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:28:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/signals.h"
 #include <sh.h>
-#include <stdlib.h>
-#include <sys/wait.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2])
@@ -87,7 +84,7 @@ static void	exec_cmd(t_cmd *cmd)
 		if (path == NULL)
 		{
 			ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-			ft_putstr_fd(": command not found: \n", STDERR_FILENO);
+			ft_putstr_fd(": command not found\n", STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 		cmd_path = get_path(cmd->argv[0], path);
@@ -96,17 +93,58 @@ static void	exec_cmd(t_cmd *cmd)
 	perror_exit(cmd_path);
 }
 
+/* redir */
+void	redir(t_cmd *cmd)
+{
+	int	fd_io[2];
+
+	if (redir_getin(cmd->io->redir) == RD_INFILE)
+	{
+		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
+		if (fd_io[FD_IN] == -1)
+			perror_exit("open");
+		dup2(fd_io[FD_IN], STDIN_FILENO);
+	}
+	if (redir_getout(cmd->io->redir) == RD_TRUNC)
+	{
+		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+		if (fd_io[FD_OUT] == -1)
+			perror_exit("open");
+		dup2(fd_io[FD_OUT], STDOUT_FILENO);
+	}
+	if (cmd->io->pipe[FD_IN] == TRUE)
+		dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
+	if (cmd->io->pipe[FD_OUT] == TRUE)
+		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
+}
+
 /* execute command */
 int	handle_exec_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;
-	int		fd_io[2];
 	t_blti	*bi;
 
 	// TODO free cmd->io struct somewhere
 	if (cmd->argc < 0)
 		return (1);
+
+	// check for built in
+	bi = g_sh.bi;
+	while (bi != NULL)
+	{
+		if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+		{
+			redir(cmd);
+			g_sh.status = bi->f(cmd->argv);
+			// restore fd
+			dup2(STDIN_FILENO, g_sh.fd_bak[0]);
+			dup2(STDOUT_FILENO, g_sh.fd_bak[1]);
+			return (0);
+		}
+		bi = bi->next;
+	}
+	// not a built-in
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
@@ -126,35 +164,8 @@ int	handle_exec_cmd(t_cmd *cmd)
 	else
 	{
 		sig_child();
-		if (redir_getin(cmd->io->redir) == RD_INFILE)
-		{
-			fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
-			if (fd_io[FD_IN] == -1)
-				perror_exit("open");
-			dup2(fd_io[FD_IN], STDIN_FILENO);
-		}
-		if (redir_getout(cmd->io->redir) == RD_TRUNC)
-		{
-			fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			if (fd_io[FD_OUT] == -1)
-				perror_exit("open");
-			dup2(fd_io[FD_OUT], STDOUT_FILENO);
-		}
-		if (cmd->io->pipe[FD_IN] == TRUE)
-			dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
-		if (cmd->io->pipe[FD_OUT] == TRUE)
-			dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
-		// check for built in
-		bi = g_sh.bi;
-		while (bi != NULL)
-		{
-			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
-			{
-				g_sh.status = bi->f(cmd->argv);
-				exit (EXIT_SUCCESS);
-			}
-			bi = bi->next;
-		}
+		// redir
+		redir(cmd);
 		// exec cmd
 		exec_cmd(cmd);
 	}

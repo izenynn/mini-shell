@@ -6,12 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 00:44:05 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 17:10:07 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
+/* add built in to built in list */
 static void	add_blti(t_blti **head, char *name, int (*f)(char **))
 {
 	t_blti	*new;
@@ -87,6 +88,8 @@ static void	initialise_vars(void)
 {
 	g_sh.status = EXIT_SUCCESS;
 	g_sh.bi = init_blti();
+	dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 }
 
 /* initialise shell */
