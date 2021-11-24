@@ -6,14 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:55:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:18:25 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* initialise io struct */
-t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2])
+t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_in, int fd_out)
 {
 	t_io	*io;
 
@@ -21,9 +21,9 @@ t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2])
 	io->pipe[FD_IN] = pipe_in;
 	io->pipe[FD_OUT] = pipe_out;
 	if (pipe_in)
-		io->fd_pipe[READ_END] = fd_pipe[READ_END];
+		io->fd_pipe[READ_END] = fd_in;
 	if (pipe_out)
-		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
+		io->fd_pipe[WRITE_END] = fd_out;
 	io->redir = 0;
 	return (io);
 }

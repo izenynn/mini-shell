@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 16:44:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:18:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_cmd {
 int		exec_ast(t_ast *ast);
 
 /* exec_cmd.c */
-t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2]);
+t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_in, int fd_out);
 int		handle_exec_cmd(t_cmd *cmd);
 int		cmd_init(t_cmd *cmd, t_ast *ast, t_io *io);
 void	cmd_del(t_cmd *cmd);

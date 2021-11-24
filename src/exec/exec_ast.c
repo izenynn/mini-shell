@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:52:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:23:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,41 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 static int	handle_pipe(t_ast *ast)
 {
 	int		fd[2];
-	int		save;
+	int		p_read;
+	int		p_write;
 	t_ast	*job;
 
 	if (pipe(fd) == -1)
 		perror_ret("pipe", 1);
-	handle_cmd(ast->left, init_io(FALSE, TRUE, fd));
+
+	p_write = fd[WRITE_END];
+	p_read = fd[READ_END];
+
+	handle_cmd(ast->left, init_io(FALSE, TRUE, 0, p_write));
 	job = ast->right;
+
 	while (job != NULL && ast_gettype(job) == AST_PIPE)
 	{
-		close(fd[WRITE_END]);
-		save = fd[READ_END];
+		close(p_write);
+
 		if (pipe(fd) == -1)
 			perror_ret("pipe", 1);
-		handle_cmd(job->left, init_io(TRUE, TRUE, fd));
-		close(save);
+
+		p_write = fd[WRITE_END];
+
+		handle_cmd(job->left, init_io(TRUE, TRUE, p_read, p_write));
+
+		close(p_read);
+		p_read = fd[READ_END];
+
+		job = job->right;
 	}
-	close(fd[WRITE_END]);
-	handle_cmd(job, init_io(TRUE, FALSE, fd));
-	close(fd[READ_END]);
+	p_read = fd[READ_END];
+	close (p_write);
+
+	handle_cmd(job, init_io(TRUE, FALSE, p_read, 0));
+
+	close(p_read);
 	return (0);
 }
 
@@ -86,7 +102,7 @@ static int	handle_job(t_ast *ast)
 	if (ast_gettype(ast) == AST_PIPE)
 		handle_pipe(ast);
 	else
-		handle_cmd(ast, init_io(FALSE, FALSE, NULL));
+		handle_cmd(ast, init_io(FALSE, FALSE, 0, 0));
 	handle_zombies();
 	dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
