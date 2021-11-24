@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 13:52:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 00:40:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sh/builtin.h>
 # include <sh/colors.h>
 # include <sh/utils.h>
+# include <sh/signals.h>
 # include <sh/prompt.h>
 # include <sh/lexer.h>
 # include <sh/parser.h>

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:01:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 01:04:31 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_for_home(char **dir)
 }
 
 /* prompt message */
-static void	print_cwd(void)
+void	print_prompt_cwd(void)
 {
 	char	*dir;
 
@@ -60,7 +60,7 @@ char	*get_prompt(void)
 {
 	char	*line;
 
-	print_cwd();
+	print_prompt_cwd();
 	if (g_sh.status == EXIT_SUCCESS)
 		line = readline(FG_MAG "❯ " FG_DEF);
 	else

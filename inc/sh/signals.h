@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.h                                           :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/13 12:13:46 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 01:04:57 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/11/24 00:40:12 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/11/24 00:41:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROMPT_H
-# define PROMPT_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-/*** PROTOYPES ***/
+/*** PROTOTYPES ***/
 
-/* prompt/prompt.c */
-char	*get_prompt(void);
-
-/* prompt/init_prompt.c */
-void	init_prompt(void);
-void	print_prompt_cwd(void);
+/* utils/signals.c */
+void	sig_child(void);
+void	sig_parent(void);
+void	sig_ignore(void);
 
 #endif

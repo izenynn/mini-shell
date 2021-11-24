@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 17:04:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 00:44:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,6 @@ void	init_shell(void)
 
 	fill_env(environ);
 	initialise_vars();
+	init_prompt();
+	sig_parent();
 }

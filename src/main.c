@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 13:55:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 00:44:53 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	main(void)
 	t_ast	*ast;
 
 	init_shell();
-	// TODO handle signals
-	init_prompt();
 	while (1)
 	{
 		line = get_prompt();
