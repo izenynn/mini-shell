@@ -15,7 +15,7 @@
 int	ft_echo(char **str)
 {
 	int		i;
-	
+
 	i = 1;
 	if (!str[1])
 	{
@@ -27,7 +27,6 @@ int	ft_echo(char **str)
 		i++;
 		while (str[i][0] == '-' && str[i][1] == 'n')
 			i++;
-		g_sh.status = 0;
 		while (str[i])
 		{
 			write(1, str[i], ft_strlen(str[i]));
@@ -39,7 +38,6 @@ int	ft_echo(char **str)
 	else
 	{
 		i = 1;
-		g_sh.status = 0;
 		while (str[i])
 		{
 			write(1, str[i], ft_strlen(str[i]));

@@ -28,7 +28,6 @@ int	ft_env(char **n)
 			g_sh.env = g_sh.env->next;
 		}
 		g_sh.env = head;
-		g_sh.status = 0;
 	}
 	else
 	{

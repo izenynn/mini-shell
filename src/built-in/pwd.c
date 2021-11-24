@@ -24,13 +24,11 @@ int	ft_get_wdir(char **n)
 	{
 		write(STDOUT_FILENO, pwd, ft_strlen(pwd));
 		write(STDOUT_FILENO, "\n", 1);
-		g_sh.status = 0;
 		free(pwd);
 		return (0);
 	}
 	else
 	{
-		g_sh.status = 1;
 		free(pwd);
 		return (1);
 	}

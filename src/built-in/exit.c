@@ -28,18 +28,18 @@ int	ft_exit(char **exitc)
 			write(STDERR_FILENO, "exit: ", 6);
 			write(STDERR_FILENO, exitc[1], ft_strlen(exitc[1]));
 			write(STDERR_FILENO, ": numeric argument required\n", 28);
-			g_sh.status = 1;
+			g_sh.status = 2;
 			exit(2);
 		}
 	}
 	if (exitc[1])
 	{	
 		exit_code = ft_atoi(exitc[1]);
+		g_sh.status = (unsigned char)exit_code;
 		exit((unsigned char)exit_code);
-		g_sh.status = exit_code;
-		exit(exit_code);
 	}
 	ft_lstclear(&g_sh.env, free);
+	g_sh.status = 0;
 	exit(0);
 	return (0);
 }

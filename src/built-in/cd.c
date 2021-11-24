@@ -34,12 +34,10 @@ int	locate_env(t_list *head)
 		{
 			update_env();
 			g_sh.env = head;
-			g_sh.status = 0;
 			return (0);
 		}
 		g_sh.env = g_sh.env->next;
 	}
-	g_sh.status = 1;
 	return (1);
 }
 
@@ -54,10 +52,8 @@ static int	goto_home(void)
 	{
 		print_error(home);
 		free(home);
-		g_sh.status = 1;
 		return (1);
 	}
-	g_sh.status = 0;
 	locate_env(head);
 	free(home);
 	return (0);
@@ -81,7 +77,6 @@ static int	goto_dir(const char *dir)
 		free(home);
 		free(aux);
 		free(tmp);
-		g_sh.status = 1;
 		return (1);
 	}
 	free(home);

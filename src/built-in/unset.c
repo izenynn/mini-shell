@@ -74,10 +74,8 @@ int	ft_unset(char **unset)
 	else
 	{
 		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
-		g_sh.status = 1;
-		return (-1);
+		return (1);
 	}
 	g_sh.env = head;
-	g_sh.status = 0;
 	return (0);
 }
