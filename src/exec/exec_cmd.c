@@ -6,11 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/23 21:16:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:10:57 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+#include <stdlib.h>
+#include <sys/wait.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_pipe[2])
@@ -97,6 +99,7 @@ static void	exec_cmd(t_cmd *cmd)
 int	handle_exec_cmd(t_cmd *cmd)
 {
 	pid_t	pid;
+	int		status;
 	int		fd_io[2];
 	t_blti	*bi;
 
@@ -106,7 +109,20 @@ int	handle_exec_cmd(t_cmd *cmd)
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
-	if (pid == 0)
+	if (pid > 0)
+	{
+		if (!ft_strncmp(cmd->argv[0], "exit", 5))
+		{
+			waitpid(pid, &status, 0);
+			g_sh.status = WEXITSTATUS(status);
+			exit(g_sh.status);
+		}
+		waitpid(pid, &status, WNOHANG);
+		g_sh.status = WEXITSTATUS(status);
+		if (g_sh.status != EXIT_SUCCESS)
+			return (1);
+	}
+	else
 	{
 		// TODO restore signals for child
 		if (redir_getin(cmd->io->redir) == RD_INFILE)

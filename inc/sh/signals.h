@@ -6,12 +6,17 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 00:40:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 00:41:15 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 11:21:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIGNALS_H
 # define SIGNALS_H
+
+/*** DEFINES ***/
+
+# define SIGINT_EXIT 130
+# define SIGQUIT_EXIT 131
 
 /*** PROTOTYPES ***/
 
