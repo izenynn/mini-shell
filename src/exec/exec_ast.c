@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:46:12 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/24 18:52:57 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/exec.h"
 #include <sh.h>
 
 /* interpret simple cmd */
@@ -80,6 +79,8 @@ static int	handle_pipe(t_ast *ast)
 /* interpret job */
 static int	handle_job(t_ast *ast)
 {
+	dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	if (ast == NULL)
 		return (0);
 	if (ast_gettype(ast) == AST_PIPE)
