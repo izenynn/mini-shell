@@ -6,24 +6,26 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 20:18:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 14:35:29 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_str.h"
 #include <sh.h>
 
 /* initialise io struct */
-t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_in, int fd_out)
+t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_stdin, int fd_stdout)
 {
 	t_io	*io;
 
 	io = (t_io *)malloc(sizeof(t_io));
 	io->pipe[FD_IN] = pipe_in;
 	io->pipe[FD_OUT] = pipe_out;
-	if (pipe_in)
-		io->fd_pipe[READ_END] = fd_in;
-	if (pipe_out)
-		io->fd_pipe[WRITE_END] = fd_out;
+	if (pipe_in || pipe_out)
+	{
+		io->fd_pipe[READ_END] = fd_stdin;
+		io->fd_pipe[WRITE_END] = fd_stdout;
+	}
 	io->redir = 0;
 	return (io);
 }
@@ -89,6 +91,8 @@ static void	exec_cmd(t_cmd *cmd)
 		}
 		cmd_path = get_path(cmd->argv[0], path);
 	}
+	write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
+	write(2, ": execve...\n", 12);
 	execve(cmd_path, cmd->argv, get_env_char());
 	perror_exit(cmd_path);
 }
@@ -113,14 +117,31 @@ void	redir(t_cmd *cmd)
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
 	if (cmd->io->pipe[FD_IN] == TRUE)
+	{
 		dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
+	}
 	if (cmd->io->pipe[FD_OUT] == TRUE)
+	{
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
+	}
+	if (cmd->io->pipe[FD_IN] || cmd->io->pipe[FD_OUT])
+	{
+		dprintf(2, "cmd: %s, closing fd's... %d and %d...\n", cmd->argv[0],
+			cmd->io->fd_pipe[READ_END], cmd->io->fd_pipe[WRITE_END]);
+		close(cmd->io->fd_pipe[READ_END]);
+		close(cmd->io->fd_pipe[WRITE_END]);
+	}
+
+	//dprintf(2, "---\ncmd: %s, read?: %d, write?: %d, read fd: %d, write fd: %d\n---\n",
+	//	  cmd->argv[0], cmd->io->pipe[FD_IN], cmd->io->pipe[FD_OUT],
+	//	  cmd->io->fd_pipe[READ_END], cmd->io->fd_pipe[WRITE_END]);
 }
 
 /* execute command */
 int	handle_exec_cmd(t_cmd *cmd)
 {
+	write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
+	write(2, ": executing...\n", 15);
 	pid_t	pid;
 	int		status;
 	t_blti	*bi;
