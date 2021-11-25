@@ -6,25 +6,27 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 14:35:29 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 15:53:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
 
 /* initialise io struct */
-t_io	*init_io(t_bool pipe_in, t_bool pipe_out, int fd_stdin, int fd_stdout)
+t_io	*old_init_io(t_bool pipe_in, t_bool pipe_out, int fd_stdin, int fd_stdout);
+
+t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
 {
 	t_io	*io;
 
 	io = (t_io *)malloc(sizeof(t_io));
-	io->pipe[FD_IN] = pipe_in;
-	io->pipe[FD_OUT] = pipe_out;
-	if (pipe_in || pipe_out)
+	io->pipe[READ_END] = p_read;
+	io->pipe[WRITE_END] = p_write;
+	if (p_read || p_write)
 	{
-		io->fd_pipe[READ_END] = fd_stdin;
-		io->fd_pipe[WRITE_END] = fd_stdout;
+		io->fd_pipe[READ_END] = fd_pipe[READ_END];
+		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
+		io->fd_read = fd_read;
 	}
 	io->redir = 0;
 	return (io);
@@ -118,7 +120,7 @@ void	redir(t_cmd *cmd)
 	}
 	if (cmd->io->pipe[FD_IN] == TRUE)
 	{
-		dup2(cmd->io->fd_pipe[READ_END], STDIN_FILENO);
+		dup2(cmd->io->fd_read, STDIN_FILENO);
 	}
 	if (cmd->io->pipe[FD_OUT] == TRUE)
 	{
@@ -130,6 +132,7 @@ void	redir(t_cmd *cmd)
 			cmd->io->fd_pipe[READ_END], cmd->io->fd_pipe[WRITE_END]);
 		close(cmd->io->fd_pipe[READ_END]);
 		close(cmd->io->fd_pipe[WRITE_END]);
+		close(cmd->io->fd_read);
 	}
 
 	//dprintf(2, "---\ncmd: %s, read?: %d, write?: %d, read fd: %d, write fd: %d\n---\n",

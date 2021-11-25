@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 15:41:11 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 15:52:23 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static int	handle_pipe(t_ast *ast)
 
 	dprintf(2, "%d: exec: %s, read fd: %d, write fd: %d\n",
 				cnt++, ast->left->data, p_read, p_write);
-	handle_cmd(ast->left, init_io(FALSE, TRUE, p_read, p_write));
+	//handle_cmd(ast->left, init_io(FALSE, TRUE, p_read, p_write));
+	handle_cmd(ast->left, init_io(FALSE, TRUE, fd, p_read));
 
 	job = ast->right;
 
@@ -89,7 +90,8 @@ static int	handle_pipe(t_ast *ast)
 
 		dprintf(2, "%d: exec: %s, read fd: %d, write fd: %d\n",
 				cnt++, job->left->data, p_read, p_write);
-		handle_cmd(job->left, init_io(TRUE, TRUE, p_read, p_write));
+		//handle_cmd(job->left, init_io(TRUE, TRUE, p_read, p_write));
+		handle_cmd(job->left, init_io(TRUE, TRUE, fd, p_read));
 
 		close(p_read);
 		dprintf(2, "%d: close fd: %d\n", cnt++, p_read);
@@ -102,7 +104,8 @@ static int	handle_pipe(t_ast *ast)
 
 	dprintf(2, "%d: exec: %s, read fd: %d, write fd: %d\n",
 			cnt++, job->data, p_read, p_write);
-	handle_cmd(job, init_io(TRUE, FALSE, p_read, p_write));
+	//handle_cmd(job, init_io(TRUE, FALSE, p_read, p_write));
+	handle_cmd(job, init_io(TRUE, FALSE, fd, p_read));
 
 	close (p_write);
 	dprintf(2, "%d, close fd: %d\n", cnt++, p_write);
