@@ -40,8 +40,8 @@ int		ft_exit(char **exit);
 
 /* built in utils */
 int		error_handle(char *new_env);
-void	try_to_goto_olpwd(void);
 int		set_oldpwd(t_list *head);
-void	print_error(const char *dir);
+int		print_error(const char *dir);
+void	try_to_goto_olpwd(void);
 
 #endif
