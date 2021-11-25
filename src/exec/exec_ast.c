@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 15:58:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 19:59:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,23 @@ static int	handle_pipe(t_ast *ast)
 
 	if (pipe(fd) == -1)
 		perror_ret("pipe", 1);
-
 	p_write = fd[WRITE_END];
 	p_read = fd[READ_END];
 
 	handle_cmd(ast->left, init_io(FALSE, TRUE, fd, p_read));
 
 	job = ast->right;
-
 	while (job != NULL && ast_gettype(job) == AST_PIPE)
 	{
 		close(p_write);
-
 		if (pipe(fd) == -1)
 			perror_ret("pipe", 1);
-
-
 		p_write = fd[WRITE_END];
 
 		handle_cmd(job->left, init_io(TRUE, TRUE, fd, p_read));
 
 		close(p_read);
-
 		p_read = fd[READ_END];
-
 		job = job->right;
 	}
 	p_read = fd[READ_END];
@@ -98,8 +91,6 @@ static int	handle_pipe(t_ast *ast)
 /* interpret job */
 static int	handle_job(t_ast *ast)
 {
-	dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	if (ast == NULL)
 		return (0);
 	if (ast_gettype(ast) == AST_PIPE)
@@ -107,8 +98,6 @@ static int	handle_job(t_ast *ast)
 	else
 		handle_cmd(ast, init_io(FALSE, FALSE, 0, 0));
 	handle_zombies();
-	dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	return (0);
 }
 
@@ -131,6 +120,6 @@ static int	handle_cmd_line(t_ast *ast)
 int	exec_ast(t_ast *ast)
 {
 	handle_cmd_line(ast);
-	handle_zombies();
+	//handle_zombies();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 15:58:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 19:56:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void	redir(t_cmd *cmd)
 {
 	int	fd_io[2];
 
+	dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	if (redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
@@ -118,12 +120,6 @@ void	redir(t_cmd *cmd)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
-	if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
-	{
-		close(cmd->io->fd_pipe[READ_END]);
-		close(cmd->io->fd_pipe[WRITE_END]);
-		close(cmd->io->fd_read);
-	}
 }
 
 /* execute command */
@@ -146,6 +142,10 @@ int	handle_exec_cmd(t_cmd *cmd)
 			redir(cmd);
 			g_sh.status = bi->f(cmd->argv);
 			// restore fd
+			//close();
+			//close();
+			dup2(g_sh.fd_bak[0], STDIN_FILENO);
+			dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 			return (0);
 		}
 		bi = bi->next;
@@ -172,6 +172,12 @@ int	handle_exec_cmd(t_cmd *cmd)
 		sig_child();
 		// redir
 		redir(cmd);
+		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
+		{
+			close(cmd->io->fd_pipe[READ_END]);
+			close(cmd->io->fd_pipe[WRITE_END]);
+			close(cmd->io->fd_read);
+		}
 		// exec cmd
 		exec_cmd(cmd);
 	}

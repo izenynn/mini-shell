@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:11 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/25 11:12:58 by                  ###   ########.fr       */
+/*   Updated: 2021/11/25 16:46:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	put_str_no_nl(char *const *str, int i)
 	{
 		write(1, str[i], ft_strlen(str[i]));
 		if (str[i + 1])
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 }
@@ -32,7 +32,7 @@ static void	put_strl_nl(char *const *str)
 	{
 		write(1, str[i], ft_strlen(str[i]));
 		if (str[i + 1])
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 	write(1, "\n", 1);
@@ -45,7 +45,7 @@ int	ft_echo(char **str)
 	i = 1;
 	if (!str[1])
 	{
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
 	if (ft_strncmp(str[1], "-n", 2) == 0)
