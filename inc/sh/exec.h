@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 15:48:42 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 15:56:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ enum e_redir {
  * file[2]		=> input and output files for redirection (null if not redir)
  */
 typedef struct s_io {
-	t_bool	pipe[2];
+	t_bool	is_pipe[2];
 	int		fd_pipe[2];
 	int		fd_read;
 	int		redir;

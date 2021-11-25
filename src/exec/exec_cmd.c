@@ -6,22 +6,20 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 15:53:12 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/25 15:58:57 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* initialise io struct */
-t_io	*old_init_io(t_bool pipe_in, t_bool pipe_out, int fd_stdin, int fd_stdout);
-
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
 {
 	t_io	*io;
 
 	io = (t_io *)malloc(sizeof(t_io));
-	io->pipe[READ_END] = p_read;
-	io->pipe[WRITE_END] = p_write;
+	io->is_pipe[READ_END] = p_read;
+	io->is_pipe[WRITE_END] = p_write;
 	if (p_read || p_write)
 	{
 		io->fd_pipe[READ_END] = fd_pipe[READ_END];
@@ -93,8 +91,6 @@ static void	exec_cmd(t_cmd *cmd)
 		}
 		cmd_path = get_path(cmd->argv[0], path);
 	}
-	write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-	write(2, ": execve...\n", 12);
 	execve(cmd_path, cmd->argv, get_env_char());
 	perror_exit(cmd_path);
 }
@@ -118,33 +114,21 @@ void	redir(t_cmd *cmd)
 			perror_exit("open");
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
-	if (cmd->io->pipe[FD_IN] == TRUE)
-	{
+	if (cmd->io->is_pipe[FD_IN] == TRUE)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
-	}
-	if (cmd->io->pipe[FD_OUT] == TRUE)
-	{
+	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
-	}
-	if (cmd->io->pipe[FD_IN] || cmd->io->pipe[FD_OUT])
+	if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
 	{
-		dprintf(2, "cmd: %s, closing fd's... %d and %d...\n", cmd->argv[0],
-			cmd->io->fd_pipe[READ_END], cmd->io->fd_pipe[WRITE_END]);
 		close(cmd->io->fd_pipe[READ_END]);
 		close(cmd->io->fd_pipe[WRITE_END]);
 		close(cmd->io->fd_read);
 	}
-
-	//dprintf(2, "---\ncmd: %s, read?: %d, write?: %d, read fd: %d, write fd: %d\n---\n",
-	//	  cmd->argv[0], cmd->io->pipe[FD_IN], cmd->io->pipe[FD_OUT],
-	//	  cmd->io->fd_pipe[READ_END], cmd->io->fd_pipe[WRITE_END]);
 }
 
 /* execute command */
 int	handle_exec_cmd(t_cmd *cmd)
 {
-	write(2, cmd->argv[0], ft_strlen(cmd->argv[0]));
-	write(2, ": executing...\n", 15);
 	pid_t	pid;
 	int		status;
 	t_blti	*bi;
