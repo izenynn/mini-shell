@@ -19,7 +19,7 @@ int	error_handle(char *new_env)
 	{
 		while (new_env[++i])
 		{
-			if (ft_isalnum(new_env[i]) == 0 && new_env[i] != '_')
+			if (ft_isalnum(new_env[i]) == 0 && new_env[i] != '_' && new_env[i] != '=')
 			{
 				print_err(new_env);
 				return (1);
