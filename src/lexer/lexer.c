@@ -6,19 +6,43 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:47:44 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:38:31 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
+/* check token is not empty after expand */
+static int	check_empty_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
+{
+	if (ft_strlen((*cur)->data) <= 0)
+	{
+		if (prev == NULL)
+ 			lex->tok_lst = (*cur)->next;
+		else
+			prev->next = (*cur)->next;
+		free((*cur)->data);
+		free(*cur);
+		if (prev == NULL)
+			*cur = lex->tok_lst;
+		else
+			*cur = prev->next;
+		return (1);
+	}
+	return (0);
+}
+
+/* process tok type token */
+
 /* process tokens */
 static int	process_tokens(t_lexer *lex)
 {
 	t_tok	*tok;
+	t_tok	*prev;
 	char	*trimed;
 	int		cnt;
 
+	prev = NULL;
 	tok = lex->tok_lst;
 	cnt = 0;
 	while (tok)
@@ -27,8 +51,10 @@ static int	process_tokens(t_lexer *lex)
 		{
 			if (expand(tok))
 				return (0);
+			if (check_empty_tok(lex, &tok, prev))
+				continue ;
 			// TODO wildcards
-			trimed = malloc(ft_strlen(tok->data) + 1);
+			trimed = (char *)malloc(ft_strlen(tok->data) + 1);
 			if (trimed == NULL)
 				return (perror_ret("fatal error", 0));
 			trim_quotes(trimed, tok->data);
@@ -36,6 +62,7 @@ static int	process_tokens(t_lexer *lex)
 			tok->data = trimed;
 			cnt++;
 		}
+		prev = tok;
 		tok = tok->next;
 	}
 	return (cnt);
