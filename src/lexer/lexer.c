@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 12:46:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:47:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	process_tokens(t_lexer *lex)
 	{
 		if (tok->type == TOK)
 		{
-			expand(tok);
+			if (expand(tok))
+				return (0);
 			// TODO wildcards
 			trimed = malloc(ft_strlen(tok->data) + 1);
 			if (trimed == NULL)

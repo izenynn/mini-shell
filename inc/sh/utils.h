@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:58:58 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/26 16:47:11 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	fill_env(char **env);
 /* error_utils.c */
 void	perror_exit(const char *s);
 int		perror_ret(const char *s, int ret_code);
+int		error_ret(const char *s, int ret_code);
 
 /* signals.c */
 void	init_signals(void);

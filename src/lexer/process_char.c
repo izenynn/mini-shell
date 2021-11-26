@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 12:07:13 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 17:39:32 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ static void	on_gen_st_quotes(t_lexsup *ls)
 	{
 		ls->st = ST_IN_DQUOTE;
 		ls->tok->data[ls->j++] = CHAR_DQOUTE;
+		ls->tok->type = TOK;
+	}
+	else if (ls->type == CHAR_OCL)
+	{
+		ls->st = ST_IN_CURLY;
+		ls->tok->data[ls->j++] = CHAR_OCL;
 		ls->tok->type = TOK;
 	}
 }
@@ -73,7 +79,7 @@ static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 /* on general state */
 int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 {
-	if (ls->type == CHAR_QOUTE || ls->type == CHAR_DQOUTE)
+	if (ls->type == CHAR_QOUTE || ls->type == CHAR_DQOUTE || ls->type == CHAR_OCL)
 		on_gen_st_quotes(ls);
 	else if (ls->type == CHAR_ESCSEQ)
 	{
@@ -112,6 +118,12 @@ void	handle_other_st(t_lexsup *ls)
 	{
 		ls->tok->data[ls->j++] = ls->c;
 		if (ls->type == CHAR_DQOUTE)
+			ls->st = ST_GEN;
+	}
+	else if (ls->st == ST_IN_CURLY)
+	{
+		ls->tok->data[ls->j++] = ls->c;
+		if (ls->type == CHAR_CCL)
 			ls->st = ST_GEN;
 	}
 }
