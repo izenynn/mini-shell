@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:18 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/20 19:31:28 by                  ###   ########.fr       */
+/*   Updated: 2021/11/26 21:22:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,49 +15,47 @@
 static void printer()
 {
 	int i;
-	int count;
-	char *aux;
+	int cnt;
+	char *data;
+	t_list *aux;
 
-	while (g_sh.env)
+	aux = g_sh.env;
+	while (aux)
 	{
 		i = -1;
-		count = 0;
-		aux = (char *)g_sh.env->data;
-		while (aux[++i])
+		cnt = 0;
+		data = (char *)g_sh.env->data;
+		while (data[++i])
 		{
-			if (aux[i] == '=')
+			if (data[i] == '=')
 			{
-				count++;
+				cnt++;
 				break ;
 			}
 		}
-		if (count != 0)
+		if (cnt != 0)
 		{
-			write(1, g_sh.env->data, ft_strlen((char *)g_sh.env->data));
+			write(1, aux->data, ft_strlen((char *)aux->data));
 			write(1, "\n", 1);
 		}
-		g_sh.env = g_sh.env->next;
+		aux = aux->next;
 	}
 }
 
 int	ft_env(char **n)
 {
-	t_list	*head;
-
-	head = g_sh.env;
 	if (!g_sh.env)
 		return (0);
-	if (!n[1])
+	if (n[1] == NULL)
 	{
 		printer();
-		g_sh.env = head;
 	}
 	else
 	{
 		write(STDERR_FILENO, "env: ", 5);
 		write(STDERR_FILENO, n[1], ft_strlen(n[1]));
 		write(STDERR_FILENO, ": No such file or directory\n", 28);
-		return (1);
+		return (127);
 	}
 	return (0);
 }
