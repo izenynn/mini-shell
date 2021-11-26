@@ -6,65 +6,84 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 14:44:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 18:10:23 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-void	expand_var(t_tok *tok, int start, int st)
+int	expand_var(t_tok *tok, int start, int st)
 {
 	int		end;
+	int		is_curly;
 	char	*name;
 	char	*value;
 	char	*res;
 
+	is_curly = 0;
 	end = start;
-	if (tok->data[end] == '?')
+	if (tok->data[start] == '?')
 	{
 		name = ft_strdup("?");
 		value = ft_itoa(g_sh.status);
 	}
 	else
 	{
+		if (tok->data[end] == '{' && ++end)
+			is_curly = 1;
 		while (tok->data[end] != '\0')
 		{
+			if (is_curly && !ft_isalnum(tok->data[end]) && tok->data[end] != '_'
+				&& tok->data[end] != '}')
+					return (error_ret("error: bad substitution\n", 1));
 			if (st == ST_GEN)
 			{
-				if (tok->data[end] == CHAR_QOUTE || tok->data[end] == CHAR_DQOUTE
-					|| tok->data[end] == CHAR_DL)
+				/*if (tok->data[end] == CHAR_QOUTE || tok->data[end] == CHAR_DQOUTE
+					|| tok->data[end] == CHAR_DL || tok->data[end] == CHAR_QUEST
+					|| tok->data[end] == CHAR_WS)*/
+				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
 					break ;
 			}
 			else if (st == ST_IN_DQUOTE)
 			{
-				if (tok->data[end] == CHAR_DQOUTE || tok->data[end] == CHAR_QOUTE
-					|| tok->data[end] == CHAR_DL)
+				/*if (tok->data[end] == CHAR_DQOUTE || tok->data[end] == CHAR_QOUTE
+					|| tok->data[end] == CHAR_DL || tok->data[end] == CHAR_QUEST
+					|| tok->data[end] == CHAR_WS)*/
+				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
 					break ;
 			}
 			end++;
 		}
-		name = ft_substr(tok->data, start, end - start);
-		value = ft_getenv(name);
+		//if (is_curly)
+		//	end--;
+		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
+		if (start + is_curly == end)
+			value = ft_strdup("\'$\'");
+		else
+			value = ft_getenv(name);
 	}
 	//printf("NAME: %s\n", name);
 	if (value == NULL)
 		value = ft_strdup("");
-	//printf("VALUE: %s\n", value);
+	//printf("VALUE: '%s'\n", value);
 	res = (char *)ft_calloc(sizeof(char),
-		ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value));
+		ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
+	if (res == NULL)
+		perror_ret("malloc", 1);
 	strncpy(res, tok->data, start - 1);
-	//printf("res: %s\n", res);
+	//printf("res: '%s'\n", res);
 	strcat(res, value);
-	//printf("res: %s\n", res);
-	strcat(res, tok->data + start + ft_strlen(name));
-	//printf("res: %s\n", res);
+	//printf("res: '%s'\n", res);
+	strcat(res, tok->data + start + ft_strlen(name) + (is_curly * 2));
+	//printf("res: '%s'\n", res);
 	free(name);
 	free(value);
 	free(tok->data);
 	tok->data = res;
+	return (0);
 }
 
-void	expand(t_tok *tok)
+int	expand(t_tok *tok)
 {
 	int		st;
 	int		i;
@@ -77,7 +96,8 @@ void	expand(t_tok *tok)
 		{
 			if (tok->data[i] == CHAR_DL)
 			{
-				expand_var(tok, i + 1, st);
+				if (expand_var(tok, i + 1, st))
+					return (1);
 				i = -1;
 				continue ;
 			}
@@ -95,7 +115,8 @@ void	expand(t_tok *tok)
 		{
 			if (tok->data[i] == CHAR_DL)
 			{
-				expand_var(tok, i + 1, st);
+				if (expand_var(tok, i + 1, st))
+					return (1);
 				st = ST_GEN;
 				i = -1;
 				continue ;
@@ -104,4 +125,5 @@ void	expand(t_tok *tok)
 				st = ST_GEN;
 		}
 	}
+	return (0);
 }

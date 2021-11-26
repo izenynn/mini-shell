@@ -6,11 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 11:23:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 19:22:53 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+#include <stdlib.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
@@ -68,7 +69,7 @@ static char	*get_path(char *cmd, const char *path)
 	}
 	ft_putstr_fd(cmd, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	exit(127);
 	return (NULL);
 }
 
@@ -156,14 +157,11 @@ int	handle_exec_cmd(t_cmd *cmd)
 		perror_ret("fork", 1);
 	if (pid > 0)
 	{
-		if (!ft_strncmp(cmd->argv[0], "exit", 5))
-		{
-			waitpid(pid, &status, 0);
-			g_sh.status = WEXITSTATUS(status);
-			exit(g_sh.status);
-		}
 		waitpid(pid, &status, WNOHANG);
-		g_sh.status = WEXITSTATUS(status);
+		if (WIFEXITED(status))
+		{	
+			g_sh.status = WEXITSTATUS(status);
+		}
 		if (g_sh.status != EXIT_SUCCESS)
 			return (1);
 	}
