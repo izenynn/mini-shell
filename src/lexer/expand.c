@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 13:23:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 14:43:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_mem.h"
 #include "libft/ft_str.h"
 #include <sh.h>
 
@@ -22,28 +21,33 @@ void	expand_var(t_tok *tok, int start, int st)
 	char	*res;
 
 	end = start;
-	while (tok->data[end] != '\0')
+	if (tok->data[end] == '?')
 	{
-		if (st == ST_GEN)
-		{
-			if (tok->data[end] == CHAR_QOUTE || tok->data[end] == CHAR_DQOUTE)
-				break ;
-		}
-		else if (st == ST_IN_QUOTE)
-		{
-			if (tok->data[end] == CHAR_QOUTE)
-				break ;
-		}
-		else if (st == ST_IN_DQUOTE)
-		{
-			if (tok->data[end] == CHAR_DQOUTE)
-				break ;
-		}
-		end++;
+		name = ft_strdup("?");
+		value = ft_itoa(g_sh.status);
 	}
-	name = ft_substr(tok->data, start, end - start);
+	else
+	{
+		while (tok->data[end] != '\0')
+		{
+			if (st == ST_GEN)
+			{
+				if (tok->data[end] == CHAR_QOUTE || tok->data[end] == CHAR_DQOUTE
+					|| tok->data[end] == CHAR_DL)
+					break ;
+			}
+			else if (st == ST_IN_DQUOTE)
+			{
+				if (tok->data[end] == CHAR_DQOUTE || tok->data[end] == CHAR_QOUTE
+					|| tok->data[end] == CHAR_DL)
+					break ;
+			}
+			end++;
+		}
+		name = ft_substr(tok->data, start, end - start);
+		value = ft_getenv(name);
+	}
 	//printf("NAME: %s\n", name);
-	value = ft_getenv(name);
 	if (value == NULL)
 		value = ft_strdup("");
 	//printf("VALUE: %s\n", value);
