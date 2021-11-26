@@ -6,12 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 10:34:22 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/20 12:12:00 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 14:45:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/ast.h"
-#include "sh/parser.h"
 #include <sh.h>
 
 /* test token list */

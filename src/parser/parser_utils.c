@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:57:55 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/19 12:14:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 14:45:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
 
 /* is a terminal special character ? */

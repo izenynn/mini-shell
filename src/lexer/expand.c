@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 14:43:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 14:44:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
 
 void	expand_var(t_tok *tok, int start, int st)
