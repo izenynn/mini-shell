@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 19:56:27 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 11:23:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	exec_cmd(t_cmd *cmd)
 }
 
 /* redir */
-void	redir(t_cmd *cmd)
+void	redir(t_cmd *cmd, t_bool is_builtin)
 {
 	int	fd_io[2];
 
@@ -116,7 +116,7 @@ void	redir(t_cmd *cmd)
 			perror_exit("open");
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
-	if (cmd->io->is_pipe[FD_IN] == TRUE)
+	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
@@ -139,7 +139,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	{
 		if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 		{
-			redir(cmd);
+			redir(cmd, TRUE);
 			g_sh.status = bi->f(cmd->argv);
 			// restore fd
 			//close();
@@ -171,7 +171,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	{
 		sig_child();
 		// redir
-		redir(cmd);
+		redir(cmd, FALSE);
 		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
 		{
 			close(cmd->io->fd_pipe[READ_END]);
