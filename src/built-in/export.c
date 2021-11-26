@@ -34,11 +34,26 @@ static char	**lst_to_ptr(void)
 static void	print_list(char **env)
 {
 	int	i;
+	int j;
+	int chk;
 
 	i = -1;
 	while (env[++i])
 	{
-		printf("%s\n", env[i]);
+		chk = 0;
+		j = -1;
+		write(1, env[i], ft_strlen(env[i]));
+		while (env[i][++j])
+		{
+			if (env[i][j] == '=')
+			{
+				chk++;
+				break ;
+			}
+		}
+		if (chk == 0)
+			write(1, "=''", 3);
+		write(1, "\n", 1);
 		free(env[i]);
 	}
 	free(env);

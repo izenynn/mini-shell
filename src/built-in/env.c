@@ -12,6 +12,34 @@
 
 #include <sh.h>
 
+static void printer()
+{
+	int i;
+	int count;
+	char *aux;
+
+	while (g_sh.env)
+	{
+		i = -1;
+		count = 0;
+		aux = (char *)g_sh.env->data;
+		while (aux[++i])
+		{
+			if (aux[i] == '=')
+			{
+				count++;
+				break ;
+			}
+		}
+		if (count != 0)
+		{
+			write(1, g_sh.env->data, ft_strlen((char *)g_sh.env->data));
+			write(1, "\n", 1);
+		}
+		g_sh.env = g_sh.env->next;
+	}
+}
+
 int	ft_env(char **n)
 {
 	t_list	*head;
@@ -21,12 +49,7 @@ int	ft_env(char **n)
 		return (0);
 	if (!n[1])
 	{
-		while (g_sh.env)
-		{
-			write(1, g_sh.env->data, ft_strlen((char *)g_sh.env->data));
-			write(1, "\n", 1);
-			g_sh.env = g_sh.env->next;
-		}
+		printer();
 		g_sh.env = head;
 	}
 	else
@@ -38,3 +61,4 @@ int	ft_env(char **n)
 	}
 	return (0);
 }
+
