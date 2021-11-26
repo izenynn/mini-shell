@@ -6,37 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 21:37:32 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 21:39:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
-#include "sh/utils.h"
 #include <sh.h>
-
-/* change home folder for '~' */
-/*static int	check_for_home(char **dir)
-{
-	char	*home;
-	char	*tmp;
-
-	home = ft_getenv("HOME");
-	if (home == NULL)
-		return (1);
-	if (ft_strncmp(*dir, home, ft_strlen(home)) == 0)
-	{
-		tmp = ft_substr(*dir, ft_strlen(home) - 1,
-				ft_strlen(*dir) - ft_strlen(home) + 1);
-		tmp[0] = '~';
-		free(*dir);
-		*dir = ft_strdup(tmp);
-		free(tmp);
-		free(home);
-		return (0);
-	}
-	free(home);
-	return (1);
-}*/
 
 /* prompt message */
 static char	*get_prompt_cwd(void)
