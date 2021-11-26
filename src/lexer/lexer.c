@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:56:45 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 12:46:53 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/utils.h"
 #include <sh.h>
 
 /* process tokens */
@@ -26,6 +25,8 @@ static int	process_tokens(t_lexer *lex)
 	{
 		if (tok->type == TOK)
 		{
+			expand(tok);
+			// TODO wildcards
 			trimed = malloc(ft_strlen(tok->data) + 1);
 			if (trimed == NULL)
 				return (perror_ret("fatal error", 0));

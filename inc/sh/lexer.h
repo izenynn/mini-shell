@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 16:55:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 12:46:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ enum e_tok_type {
 	CHAR_NL = '\n',
 	CHAR_GT = '>',
 	CHAR_LS = '<',
+	CHAR_DL = '$',
 	CHAR_NULL = '\0',
 	TOK = -1,
 };
@@ -89,5 +90,8 @@ void	trim_quotes(char *dst, char *src);
 /* token_utils.c */
 void	tok_del(t_tok *tok);
 int		tok_init(t_tok *tok, size_t sz);
+
+/* expand.c */
+void	expand(t_tok *tok);
 
 #endif

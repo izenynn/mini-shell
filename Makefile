@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/24 18:59:30 by acostal-         ###   ########.fr        #
+#    Updated: 2021/11/26 12:47:23 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ SRC_EXEC =		exec_ast.c			exec_cmd.c			exec_utils.c		\
 				utils.c
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
-				token_utils.c
+				token_utils.c		expand.c
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 				parse_cmd_line_1.c	parse_cmd_line_2.c	parse_job.c			\
@@ -92,7 +92,7 @@ SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 SRC_PROMPT =	prompt.c			init_prompt.c
 
 SRC_UTILS =		init.c				error_utils.c		signals.c			\
-				custom_len.c		getenv.c			env_utils.c			\
+				custom_len.c		ft_getenv.c			env_utils.c			\
 				init_utils.c
 
 SRC_NAME =	$(SRC_MAIN)														\
