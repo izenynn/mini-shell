@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/22 19:18:49 by                  ###   ########.fr       */
+/*   Updated: 2021/11/26 22:20:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ int	ft_get_wdir(char **n)
 	if (!pwd)
 		return (1);
 	(void)n;
-	if (getcwd(pwd, PATH_MAX))
+	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
-		write(STDOUT_FILENO, pwd, ft_strlen(pwd));
-		write(STDOUT_FILENO, "\n", 1);
 		free(pwd);
-		return (0);
+		pwd = NULL;
 	}
-	else
-	{
-		free(pwd);
+	if (pwd == NULL)
+		pwd = ft_getenv("PWD");
+	if (pwd == NULL)
 		return (1);
-	}
+	write(STDOUT_FILENO, pwd, ft_strlen(pwd));
+	write(STDOUT_FILENO, "\n", 1);
+	free(pwd);
 	return (0);
 }
