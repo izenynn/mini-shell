@@ -34,6 +34,7 @@ char	*ft_getenv(const char *path)
 		}
 		g_sh.env = g_sh.env->next;
 	}
+	free(aux);
 	g_sh.env = head;
 	return (NULL);
 }
