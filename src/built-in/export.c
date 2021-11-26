@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:20:01 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/24 19:22:24 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/26 21:27:35 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ static char	**lst_to_ptr(void)
 {
 	char	**env;
 	int		i;
-	t_list	*head;
+	t_list	*aux;
 
 	i = 0;
 	env = malloc(sizeof(char *) * (ft_lstsize(g_sh.env) + 1));
-	head = g_sh.env;
-	while (g_sh.env)
+	aux = g_sh.env;
+	while (aux)
 	{
-		env[i++] = ft_strdup((char *)g_sh.env->data);
-		g_sh.env = g_sh.env->next;
+		env[i++] = ft_strdup((char *)aux->data);
+		aux = aux->next;
 	}
-	g_sh.env = head;
 	env[i] = NULL;
 	return (env);
 }
