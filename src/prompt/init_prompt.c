@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:17:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 00:44:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 19:47:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	welcome(void)
 	FG_YEL "88'`88'`88 88 88'  `88 88 " FG_MAG "Y8ooooo. 88'  `88 88ooood8 88 88\n"\
 	FG_YEL "88  88  88 88 88    88 88 " FG_BLU "      88 88    88 88.  ... 88 88\n"\
 	FG_YEL "dP  dP  dP dP dP    dP dP " FG_CYN "`88888P' dP    dP `88888P' dP dP\n"\
-	FG_DEF);
+	FG_DEF "\n");
 }
 
 /* initialise prompt */
