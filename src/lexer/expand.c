@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 18:10:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 20:41:52 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	expand_var(t_tok *tok, int start, int st)
 	{
 		if (tok->data[end] == '{' && ++end)
 			is_curly = 1;
+		if (tok->data[end] == '=')
+			end++;
 		while (tok->data[end] != '\0')
 		{
 			if (is_curly && !ft_isalnum(tok->data[end]) && tok->data[end] != '_'
@@ -60,7 +62,12 @@ int	expand_var(t_tok *tok, int start, int st)
 		if (start + is_curly == end)
 			value = ft_strdup("\'$\'");
 		else
-			value = ft_getenv(name);
+		{
+			if (tok->data[start] == '=' || (is_curly && tok->data[start + 1] == '='))
+			 value = ft_getenv(name + 1);
+			else
+			 value = ft_getenv(name);
+		}
 	}
 	//printf("NAME: %s\n", name);
 	if (value == NULL)
