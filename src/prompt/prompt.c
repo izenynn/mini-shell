@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 19:51:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/26 21:37:32 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,15 @@ static char	*get_prompt_cwd(void)
 
 	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
 	if (getcwd(dir, PATH_MAX) == NULL)
+	{
+		free(dir);
 		dir = NULL;
-	dir[PATH_MAX] = '\0';
+	}
+	if (dir == NULL)
+		dir = ft_getenv("PWD");
+	if (dir == NULL)
+		return (ft_strdup("error"));
+	dir[ft_strlen(dir)] = '\0';
 	home = ft_getenv("HOME");
 	if (home != NULL && !ft_strncmp(home, dir, ft_strlen(dir) + 1))
 	{
