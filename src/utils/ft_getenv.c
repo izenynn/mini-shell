@@ -26,7 +26,7 @@ char	*ft_getenv(const char *path)
 	{
 		if (ft_strncmp(aux, (char *)g_sh.env->data, path_size) == 0)
 		{
-			ret = ft_substr((char *)g_sh.env->data, path_size + 1,
+			ret = ft_substr((char *)g_sh.env->data, path_size,
 					ft_strlen((char *)g_sh.env->data) - path_size);
 			g_sh.env = head;
 			free(aux);
