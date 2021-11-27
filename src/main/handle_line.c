@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 17:24:35 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 17:50:39 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,19 @@
 
 /************************* TEST FUNC. *************************/
 
+/* check is line is a commet */
+static int	is_comment(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isblank(line[i]))
+		i++;
+	if (line[i] == '#')
+		return (1);
+	return (0);
+}
+
 /* handle line -> lexer, parser and exec */
 void	handle_line(char *line)
 {
@@ -86,8 +99,14 @@ void	handle_line(char *line)
 	t_ast	*ast;
 
 	ast = NULL;
+	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
+	{
+		free(line);
+		return ;
+	}
 	if (lexer_build(line, ft_strlen(line), &lex) == 0)
 	{
+		free(line);
 		lexer_del(&lex);
 		return ;
 	}

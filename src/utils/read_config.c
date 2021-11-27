@@ -6,34 +6,46 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 13:57:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 16:11:54 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 17:50:49 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* read config from .minishrc */
-void	read_config(void)
+/* open rc file */
+static int	open_rc(void)
 {
 	char	*home;
 	char	*file;
-	char	*line;
 	int		fd;
 
 	home = ft_getenv("HOME");
 	if (home == NULL)
-		return ;
+		return (-1);
 	file = dir_join(home, RC_FILE);
 	free(home);
 	if (access(file, R_OK))
 	{
 		free(file);
-		return ;
+		return (-1);
 	}
 	fd = open(file, O_RDONLY);
-	free(file);
 	if (fd == -1)
-		return ;
+	{
+		free(file);
+		return (-1);
+	}
+	free(file);
+	return (fd);
+}
+
+/* read config from .minishrc */
+void	read_config(void)
+{
+	char	*line;
+	int		fd;
+
+	fd = open_rc();
 	line = ft_get_next_line(fd);
 	while (line)
 	{
