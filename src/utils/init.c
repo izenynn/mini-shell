@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:56:26 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/27 14:09:04 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <sh.h>
@@ -69,4 +69,5 @@ void	init_shell(void)
 	initialise_vars();
 	init_prompt();
 	sig_parent();
+	read_config();
 }

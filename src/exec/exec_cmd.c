@@ -6,12 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 19:22:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 13:33:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-#include <stdlib.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
@@ -135,21 +134,24 @@ int	handle_exec_cmd(t_cmd *cmd)
 		return (1);
 
 	// check for built in
-	bi = g_sh.bi;
-	while (bi != NULL)
+	if (!cmd->io->is_pipe[READ_END] && !cmd->io->is_pipe[WRITE_END])
 	{
-		if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+		bi = g_sh.bi;
+		while (bi != NULL)
 		{
-			redir(cmd, TRUE);
-			g_sh.status = bi->f(cmd->argv);
-			// restore fd
-			//close();
-			//close();
-			dup2(g_sh.fd_bak[0], STDIN_FILENO);
-			dup2(g_sh.fd_bak[1], STDOUT_FILENO);
-			return (0);
+			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+			{
+				redir(cmd, TRUE);
+				g_sh.status = bi->f(cmd->argv);
+				// restore fd
+				//close();
+				//close();
+				dup2(g_sh.fd_bak[0], STDIN_FILENO);
+				dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+				return (0);
+			}
+			bi = bi->next;
 		}
-		bi = bi->next;
 	}
 	// not a built-in
 	pid = fork();
@@ -176,11 +178,26 @@ int	handle_exec_cmd(t_cmd *cmd)
 			close(cmd->io->fd_pipe[WRITE_END]);
 			close(cmd->io->fd_read);
 		}
+		// check for built-in
+		bi = g_sh.bi;
+		while (bi != NULL)
+		{
+			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
+			{
+				redir(cmd, TRUE);
+				g_sh.status = bi->f(cmd->argv);
+				// restore fd
+				dup2(g_sh.fd_bak[0], STDIN_FILENO);
+				dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+				exit (EXIT_SUCCESS);
+			}
+			bi = bi->next;
+		}
 		// exec cmd
 		exec_cmd(cmd);
 	}
 	return (0);
-} 
+}
 
 /* initialise cmd struct */
 int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
