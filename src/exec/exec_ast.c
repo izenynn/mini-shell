@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/25 19:59:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 18:46:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	handle_simple_cmd(t_ast *ast, t_io *io)
 }
 
 /* interpret cmd */
+// TODO we will remove this for the new redirs
 static int	handle_cmd(t_ast *ast, t_io *io)
 {
 	int	type;

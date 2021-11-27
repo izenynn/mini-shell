@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 17:28:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 18:42:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	handle_exec_cmd(t_cmd *cmd)
 	int		status;
 	t_blti	*bi;
 
-	// TODO free cmd->io struct somewhere
 	if (cmd->argc < 0)
 		return (1);
 

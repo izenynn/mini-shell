@@ -20,7 +20,7 @@ All changese to this project will be documented in this file to help us in the d
 ### Changed
 - Every function related to envs work with lists now.
 - Every env related function has been rewritten.
-- `[TODO]` Add to unset functionality to remove multiple envs.
+- `[todo]` Add to unset functionality to remove multiple envs.
 ### Added 
 - Added a couple of utils for env related functions.
 ### Fixed
@@ -89,8 +89,6 @@ Create repo
 - sh_loop.c -> shell loop func.
 
 ### Changed
-
-- main.c -> add TODO comments
 
 ### Fixed
 
