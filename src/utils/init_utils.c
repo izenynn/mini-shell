@@ -46,8 +46,8 @@ static void	update_shlvl(void)
 	tmp2 = ft_strjoin("SHLVL=", tmp);
 	free(g_sh.env->data);
 	g_sh.env->data = ft_strdup(tmp2);
-	free(tmp);
 	free(tmp2);
+	free(tmp);
 	g_sh.env = head;
 }
 

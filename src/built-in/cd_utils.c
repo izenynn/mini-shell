@@ -20,7 +20,10 @@ int	set_oldpwd(t_list *head)
 		return (1);
 	try_to_goto_olpwd();
 	if (!getcwd(pwd, PATH_MAX))
+	{
+		free(pwd);
 		return (1);
+	}
 	aux = ft_strjoin("OLDPWD=", pwd);
 	if (g_sh.env)
 	{

@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/25 11:23:59 by                  ###   ########.fr       */
+/*   Updated: 2021/11/27 09:03:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	update_env(void)
 	if (!n_path)
 		return ;
 	if (getcwd(n_path, PATH_MAX) == NULL)
+	{
+		free(n_path);
 		return ;
+	}
 	free(g_sh.env->data);
 	g_sh.env->data = ft_strjoin("PWD=", n_path);
 	free(n_path);
@@ -99,7 +102,7 @@ int	ft_changedir(char **dir)
 			update_env();
 			return (0);
 		}
-		if (goto_dir(dir[1]) == 1)
+		else if (goto_dir(dir[1]) == 1)
 			return (1);
 		else
 		{
@@ -109,6 +112,7 @@ int	ft_changedir(char **dir)
 	}
 	else if (chdir(dir[1]) == -1)
 		return (print_error(dir[1]));
-	update_env();
+	else
+		locate_env(head);
 	return (0);
 }
