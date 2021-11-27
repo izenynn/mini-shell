@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 13:33:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 17:28:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void	redir(t_cmd *cmd, t_bool is_builtin)
 {
 	int	fd_io[2];
 
-	dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
+	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	if (redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);

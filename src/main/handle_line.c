@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 16:34:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 17:24:35 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define COUNT 10
 
 /* print binary tree in 2d */
-static void print_ast(t_ast *root, int space)
+/*static void print_ast(t_ast *root, int space)
 {
 	if (root == NULL)
 		return;
@@ -61,10 +61,10 @@ static void print_ast(t_ast *root, int space)
 
 	// process left child
 	print_ast(root->left, space);
-}
+}*/
 
 /* print tokens */
-static void print_tokens(t_lexer *lex)
+/*static void print_tokens(t_lexer *lex)
 {
 	t_tok *tmp;
 
@@ -75,7 +75,7 @@ static void print_tokens(t_lexer *lex)
 		tmp = tmp->next;
 	}
 	printf("\n");
-}
+}*/
 
 /************************* TEST FUNC. *************************/
 
@@ -92,14 +92,14 @@ void	handle_line(char *line)
 		return ;
 	}
 	free(line);
-	print_tokens(&lex);
+	//print_tokens(&lex);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		lexer_del(&lex);
 		ast_del(ast);
 		return ;
 	}
-	print_ast(ast, 0);
+	//print_ast(ast, 0);
 	exec_ast(ast);
 	lexer_del(&lex);
 	ast_del(ast);
