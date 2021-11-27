@@ -127,9 +127,11 @@ int	ft_export(char **new_env)
 				free(tmp);
 			}
 			else
+			{
+				free(aux);
 				update_var(tmp, new_env[i]);
+			}
 		}
 	}
-	free(aux);
 	return (0);
 }
