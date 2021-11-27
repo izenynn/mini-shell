@@ -20,3 +20,15 @@ int	print_error(const char *dir)
 	write(STDERR_FILENO, ": no such file or directory:\n", 29);
 	return (1);
 }
+
+void	home_handler(t_list *head)
+{
+	goto_home();
+	locate_env(head);
+}
+
+void	set_env(t_list *head)
+{
+	locate_env(head);
+	g_sh.env = head;
+}

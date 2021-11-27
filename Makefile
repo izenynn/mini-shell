@@ -76,7 +76,7 @@ SRC_MAIN =		main.c
 
 SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				exit.c				export.c			pwd.c				\
-				unset.c				cd_error.c			export_error.c		\
+				unset.c				cd_error.c			export_utils.c		\
 				cd_utils.c
 
 SRC_EXEC =		exec_ast.c			exec_cmd.c			exec_utils.c		\

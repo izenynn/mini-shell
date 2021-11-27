@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:20:01 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/26 21:27:35 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 11:43:13 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,26 @@ static char	**lst_to_ptr(void)
 {
 	char	**env;
 	int		i;
-	t_list	*aux;
+	t_list	*head;
 
 	i = 0;
 	env = malloc(sizeof(char *) * (ft_lstsize(g_sh.env) + 1));
-	aux = g_sh.env;
-	while (aux)
+	head = g_sh.env;
+	while (g_sh.env)
 	{
-		env[i++] = ft_strdup((char *)aux->data);
-		aux = aux->next;
+		env[i++] = ft_strdup((char *)g_sh.env->data);
+		g_sh.env = g_sh.env->next;
 	}
 	env[i] = NULL;
+	g_sh.env = head;
 	return (env);
 }
 
 static void	print_list(char **env)
 {
 	int	i;
-	int j;
-	int chk;
+	int	j;
+	int	chk;
 
 	i = -1;
 	while (env[++i])
@@ -106,6 +107,8 @@ static void	ft_lst_sorter(void)
 int	ft_export(char **new_env)
 {
 	int		i;
+	char	*tmp;
+	char	*aux;
 
 	i = 0;
 	if (!new_env[1])
@@ -114,9 +117,17 @@ int	ft_export(char **new_env)
 	{
 		while (new_env[++i])
 		{
-			if (error_handle(new_env[i]) == 0)
-				ft_lstadd_back(&g_sh.env,
-					ft_lstnew((void *)ft_strdup(new_env[i])));
+			tmp = ft_substr(new_env[i], 0, get_var_len(new_env[i]));
+			aux = ft_getenv(tmp);
+			if (!aux)
+			{
+				if (error_handle(new_env[i]) == 0)
+					ft_lstadd_back(&g_sh.env,
+						ft_lstnew((void *)ft_strdup(new_env[i])));
+				free(tmp);
+			}
+			else
+				update_var(tmp, new_env[i]);
 		}
 	}
 	return (0);

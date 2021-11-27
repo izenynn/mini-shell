@@ -1,6 +1,12 @@
 #include <sh.h>
 
-static void print_err(const char *new_env)
+void	free_aux(char *tmp, char *aux)
+{
+	free(tmp);
+	free(aux);
+}
+
+static void	print_err(const char *new_env)
 {
 	write(STDERR_FILENO, "export: ", 8);
 	write(STDERR_FILENO, new_env, ft_strlen(new_env));
@@ -10,7 +16,7 @@ static void print_err(const char *new_env)
 
 int	error_handle(char *new_env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if ((new_env[0] >= 'A' && new_env[0] <= 'Z')
@@ -19,7 +25,8 @@ int	error_handle(char *new_env)
 	{
 		while (new_env[++i])
 		{
-			if (ft_isalnum(new_env[i]) == 0 && new_env[i] != '_' && new_env[i] != '=')
+			if (ft_isalnum(new_env[i]) == 0
+				&& new_env[i] != '_' && new_env[i] != '=')
 			{
 				print_err(new_env);
 				return (1);
@@ -31,4 +38,3 @@ int	error_handle(char *new_env)
 		print_err(new_env);
 	return (1);
 }
-

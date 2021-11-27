@@ -12,12 +12,12 @@
 
 #include <sh.h>
 
-static void printer()
+static void	printer(void)
 {
-	int i;
-	int cnt;
-	char *data;
-	t_list *aux;
+	int		i;
+	int		cnt;
+	char	*data;
+	t_list	*aux;
 
 	aux = g_sh.env;
 	while (aux)
@@ -27,11 +27,8 @@ static void printer()
 		data = (char *)g_sh.env->data;
 		while (data[++i])
 		{
-			if (data[i] == '=')
-			{
-				cnt++;
+			if (data[i] == '=' && cnt++)
 				break ;
-			}
 		}
 		if (cnt != 0)
 		{
@@ -59,4 +56,3 @@ int	ft_env(char **n)
 	}
 	return (0);
 }
-

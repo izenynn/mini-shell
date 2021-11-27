@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 19:49:49 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/23 14:18:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 11:31:12 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int		ft_unset(char **unset);
 int		ft_exit(char **exit);
 
 /* built in utils */
+void	update_var(char *var_name, char *var);
+void	free_aux(char *tmp, char *aux);
 void	home_handler(t_list *head);
 void	set_env(t_list *head);
 int		locate_env(t_list *head);
