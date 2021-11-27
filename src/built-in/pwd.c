@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/27 08:50:04 by                  ###   ########.fr       */
+/*   Updated: 2021/11/27 08:50:58 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	print_pwd(const char *pwd)
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-void error_handler(char *pwd) {
+static void	error_handler(char *pwd)
+{
 	write(1, "pwd: too many arguments\n", 24);
 	free(pwd);
 }

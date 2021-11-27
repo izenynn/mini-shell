@@ -23,6 +23,7 @@ static void	validate_exit_code(char *const *exitc, int i)
 			write(STDERR_FILENO, exitc[1], ft_strlen(exitc[1]));
 			write(STDERR_FILENO, ": numeric argument required\n", 28);
 			g_sh.status = 2;
+			ft_lstclear(&g_sh.env, free);
 			exit(2);
 		}
 	}
@@ -41,6 +42,7 @@ int	ft_exit(char **exitc)
 	{
 		exit_code = ft_atoi(exitc[1]);
 		g_sh.status = (unsigned char)exit_code;
+		ft_lstclear(&g_sh.env, free);
 		exit((unsigned char)exit_code);
 	}
 	ft_lstclear(&g_sh.env, free);

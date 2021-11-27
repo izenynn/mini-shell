@@ -1,5 +1,17 @@
 #include <sh.h>
 
+void	home_handler(t_list *head)
+{
+	goto_home();
+	locate_env(head);
+}
+
+void	set_env(t_list *head)
+{
+	locate_env(head);
+	g_sh.env = head;
+}
+
 void	try_to_goto_olpwd(void)
 {
 	while (g_sh.env)

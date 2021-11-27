@@ -21,7 +21,7 @@ void	lexer_del(t_lexer *lex)
 }
 
 /* support for get type func */
-static int get_ctype_2(char c)
+static int	get_ctype_2(char c)
 {
 	if (c == CHAR_OCL)
 		return (CHAR_OCL);

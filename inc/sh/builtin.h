@@ -39,6 +39,10 @@ int		ft_unset(char **unset);
 int		ft_exit(char **exit);
 
 /* built in utils */
+void	home_handler(t_list *head);
+void	set_env(t_list *head);
+int		locate_env(t_list *head);
+int		goto_home(void);
 int		error_handle(char *new_env);
 int		set_oldpwd(t_list *head);
 int		print_error(const char *dir);

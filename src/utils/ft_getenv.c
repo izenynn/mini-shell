@@ -17,24 +17,22 @@ char	*ft_getenv(const char *path)
 	int		path_size;
 	char	*aux;
 	char	*ret;
-	t_list	*head;
+	t_list	*tmp;
 
-	head = g_sh.env;
+	tmp = g_sh.env;
 	aux = ft_strjoin(path, "=");
 	path_size = ft_strlen(aux);
-	while (g_sh.env)
+	while (tmp)
 	{
-		if (ft_strncmp(aux, (char *)g_sh.env->data, path_size) == 0)
+		if (ft_strncmp(aux, (char *)tmp->data, path_size) == 0)
 		{
-			ret = ft_substr((char *)g_sh.env->data, path_size,
-					ft_strlen((char *)g_sh.env->data) - path_size);
-			g_sh.env = head;
+			ret = ft_substr((char *)tmp->data, path_size,
+					ft_strlen((char *)tmp->data) - path_size);
 			free(aux);
 			return (ret);
 		}
-		g_sh.env = g_sh.env->next;
+		tmp = tmp->next;
 	}
 	free(aux);
-	g_sh.env = head;
 	return (NULL);
 }
