@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/27 14:36:23 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/27 16:35:59 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 				parse_cmd_line.c	parse_job.c			parse_cmd.c			\
 				parse_simple_cmd.c	parse_tok_lst.c
 
-SRC_PROMPT =	prompt.c			init_prompt.c
+SRC_PROMPT =	prompt.c
 
 SRC_UTILS =		init.c				error_utils.c		signals.c			\
 				custom_len.c		ft_getenv.c			env_utils.c			\

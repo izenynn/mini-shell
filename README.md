@@ -55,6 +55,7 @@ Execute the `./minishell` binary generated after running `make`
 ## Features
 
 - Recreates most of the bash shell.
+- support for config file `.minishrc` (like bash `.bashrc`).
 - Pipes `|` works like in bash.
 - Redirections `<`, `>`, `<<`, `>>` work like in bash.
 - `;`, `&&` and `||` work like in bash.

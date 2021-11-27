@@ -6,28 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 13:57:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 14:35:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 16:11:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/*static void	exec_line(char *line)
-{
-	t_lexer	lex;
-	t_ast	*ast;
-
-	if (lexer_build(line, ft_strlen(line), &lex) == 0)
-	{
-		lexer_del(&lex);
-		return ;
-	}
-	if (lex.n_toks == 0 || parse(&lex, &ast))
-		return ;
-	exec_ast(ast);
-	lexer_del(&lex);
-	ast_del(ast);
-}*/
 
 /* read config from .minishrc */
 void	read_config(void)
@@ -55,8 +38,6 @@ void	read_config(void)
 	while (line)
 	{
 		handle_line(line);
-		//free(line);
 		line = ft_get_next_line(fd);
 	}
-	//free(line);
 }

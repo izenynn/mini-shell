@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 14:19:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 16:23:11 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
  *
  * <command line>		:	<job> ';' <command line>
  * 						|	<job> ';'
- * 						|	<job> '&' <command line>
- * 						|	<job> '&'
  * 						|	<job>
  * 						;
  *
@@ -31,6 +29,10 @@
  *
  * <command>			:	<simple command> '<' <file>
  * 						|	<simple command> '>' <file>
+ * 						|	<file> '<' <simple command>
+ * 						|	<file> '>' <simple command>
+ * 						|	<file> '<' <simple command> '>' <file>
+ * 						|	<file> '>' <simple command> '<' <file>
  * 						|	<simple command>
  * 						;
  *
