@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/11/27 14:07:43 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/11/27 14:36:23 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,19 +60,23 @@ CFLAGS += -I ./$(INC_PATH)
 #                                   SOURCES                                    #
 # **************************************************************************** #
 
-SRC_DIR_BUILTIN = built-in
-SRC_DIR_EXEC = exec
-SRC_DIR_LEXER = lexer
-SRC_DIR_PARSER = parser
-SRC_DIR_PROMPT = prompt
-SRC_DIR_UTILS = utils
+SRC_DIR_MAIN	= main
+SRC_DIR_BUILTIN	= built-in
+SRC_DIR_EXEC	= exec
+SRC_DIR_LEXER	= lexer
+SRC_DIR_PARSER	= parser
+SRC_DIR_PROMPT	= prompt
+SRC_DIR_UTILS	= utils
 
-OBJ_DIRS_NAME =	$(SRC_DIR_BUILTIN)	$(SRC_DIR_EXEC)		$(SRC_DIR_LEXER)	\
-				$(SRC_DIR_PARSER)	$(SRC_DIR_PROMPT)	$(SRC_DIR_UTILS)
+OBJ_DIRS_NAME =	$(SRC_DIR_MAIN)		$(SRC_DIR_BUILTIN)	$(SRC_DIR_EXEC)		\
+				$(SRC_DIR_LEXER)	$(SRC_DIR_PARSER)	$(SRC_DIR_PROMPT)	\
+				$(SRC_DIR_UTILS)
 
 OBJ_DIRS = $(addprefix $(OBJ_PATH)/, $(OBJ_DIRS_NAME))
 
-SRC_MAIN =		main.c
+SRC_ROOT =		main.c
+
+SRC_MAIN = 		handle_line.c
 
 SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				exit.c				export.c			pwd.c				\
@@ -86,8 +90,8 @@ SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c		expand.c
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
-				parse_cmd_line_1.c	parse_cmd_line_2.c	parse_job.c			\
-				parse_cmd.c			parse_simple_cmd.c	parse_tok_lst.c
+				parse_cmd_line.c	parse_job.c			parse_cmd.c			\
+				parse_simple_cmd.c	parse_tok_lst.c
 
 SRC_PROMPT =	prompt.c			init_prompt.c
 
@@ -95,7 +99,8 @@ SRC_UTILS =		init.c				error_utils.c		signals.c			\
 				custom_len.c		ft_getenv.c			env_utils.c			\
 				init_utils.c		read_config.c
 
-SRC_NAME =	$(SRC_MAIN)														\
+SRC_NAME =	$(SRC_ROOT)														\
+			$(addprefix $(SRC_DIR_MAIN)/, $(SRC_MAIN))						\
 			$(addprefix $(SRC_DIR_BUILTIN)/, $(SRC_BUILTIN))				\
 			$(addprefix $(SRC_DIR_EXEC)/, $(SRC_EXEC))						\
 			$(addprefix $(SRC_DIR_LEXER)/, $(SRC_LEXER))					\

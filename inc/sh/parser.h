@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 17:41:54 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/27 14:19:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@
  * cmd_line()		=>	test all command line in order
  * cmd_line_1()		=>	<job> ';' <command line>
  * cmd_line_2()		=>	<job> ';'
- * cmd_line_3()		=>	<job> '&' <command line>
- * cmd_line_4()		=>	<job> '&'
- * cmd_line_5()		=>	<job>
+ * cmd_line_3()		=>	<job>
  *
  * job()			=>	test all job in order
  * job_1()			=>	<command> '|' <job>
@@ -82,15 +80,11 @@ int		parse(t_lexer *lex, t_ast **ast);
 /* parser_utils.c */
 int		is_term(int type, char **buff);
 
-/* parse_cmd_line_1.c */
+/* parse_cmd_line.c */
 t_ast	*cmd_line(void);
-
-/* parse_cmd_line_2.c */
 t_ast	*cmd_line_1(void);
 t_ast	*cmd_line_2(void);
 t_ast	*cmd_line_3(void);
-t_ast	*cmd_line_4(void);
-t_ast	*cmd_line_5(void);
 
 /* parse_job.c */
 t_ast	*job(void);
