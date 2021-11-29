@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 18:51:42 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:29:39 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ typedef enum e_asttype{
 	AST_RD_TRUNC =	(1 << 5),
 	AST_RD_APPEND =	(1 << 6),
 	AST_CMD =		(1 << 7),
-	AST_ARG =		(1 << 8),
-	AST_DATA =		(1 << 9)
+	AST_SIMPLECMD =	(1 << 8),
+	AST_ARG =		(1 << 9),
+	AST_DATA =		(1 << 10)
 }	t_asttype;
 
 typedef struct s_ast	t_ast;

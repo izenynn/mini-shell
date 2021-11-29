@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 18:46:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/28 18:50:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 	type = ast_gettype(ast);
 	if (type == AST_CMD)
 		handle_simple_cmd(ast, io);
-	else if (type == AST_REDIR_IN || type == AST_REDIR_OUT)
+	/*else if (type == AST_REDIR_IN || type == AST_REDIR_OUT)
 	{
 		if (type == AST_REDIR_IN)
 		{
@@ -47,7 +47,7 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 			io->files[FD_OUT] = ast->data;
 		}
 		handle_simple_cmd(ast->right, io);
-	}
+	}*/
 	return (0);
 }
 

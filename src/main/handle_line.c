@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 18:06:10 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:46:25 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,22 @@ static void print_ast(t_ast *root, int space)
 	char *type;
 	if (ast_gettype(root) & AST_PIPE)
 		type = ft_strdup("pipe");
-	else if (ast_gettype(root) & AST_BG)
-		type = ft_strdup("background");
 	else if (ast_gettype(root) & AST_SEQ)
 		type = ft_strdup("seq");
-	else if (ast_gettype(root) & AST_REDIR_IN)
-		type = ft_strdup("redir_in");
-	else if (ast_gettype(root) & AST_REDIR_OUT)
-		type = ft_strdup("redir_out");
+	else if (ast_gettype(root) & AST_REDIR)
+		type = ft_strdup("redir");
+	else if (ast_gettype(root) & AST_RD_TRUNC)
+		type = ft_strdup(">");
+	else if (ast_gettype(root) & AST_RD_APPEND)
+		type = ft_strdup(">>");
+	else if (ast_gettype(root) & AST_RD_HDOC)
+		type = ft_strdup("<<");
+	else if (ast_gettype(root) & AST_RD_INFILE)
+		type = ft_strdup("<");
 	else if (ast_gettype(root) & AST_CMD)
 		type = ft_strdup("cmd");
+	else if (ast_gettype(root) & AST_SIMPLECMD)
+		type = ft_strdup("simple");
 	else if (ast_gettype(root) & AST_ARG)
 		type = ft_strdup("arg");
 	else
@@ -64,7 +70,7 @@ static void print_ast(t_ast *root, int space)
 }
 
 /* print tokens */
-/*static void print_tokens(t_lexer *lex)
+static void print_tokens(t_lexer *lex)
 {
 	t_tok *tmp;
 
@@ -75,7 +81,7 @@ static void print_ast(t_ast *root, int space)
 		tmp = tmp->next;
 	}
 	printf("\n");
-}*/
+}
 
 /************************* TEST FUNC. *************************/
 
@@ -111,7 +117,7 @@ void	handle_line(char *line)
 		return ;
 	}
 	free(line);
-	//print_tokens(&lex);
+	print_tokens(&lex);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		lexer_del(&lex);
@@ -119,7 +125,7 @@ void	handle_line(char *line)
 		return ;
 	}
 	print_ast(ast, 0);
-	exec_ast(ast);
+	//exec_ast(ast);
 	lexer_del(&lex);
 	ast_del(ast);
 }

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 16:50:38 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 15:45:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,26 @@
  * 						|	<command>
  * 						;
  *
- * <command>			:	<simple command> <redir in> <file>
- * 						|	<simple command> <redir out> <file>
- * 						|	<file> <redir in> <simple command>
- * 						|	<file> <redir out> <simple command>
- * 						|	<file> <redir in> <simple command> <redir out> <file>
- * 						|	<file> <redir out> <simple command> <redir in> <file>
+ * <command>			:	<redir in> <simple command> <redir out>
+ * 						|	<redir out> <simple command> <redir in>
+ * 						|	<simple command> <redir>
+ * 						|	<redir> <simple command>
  * 						|	<simple command>
  * 						;
  *
- * <redir in>			:	'<'
- * 						|	'<<'
+ * <redir>				:	<redir in> <redir out>
+ * 						|	<redir out> <redir in>
+ * 						|	<redir in>
+ * 						|	<redir out>
  * 						;
  *
- * <redir out>			:	'>'
- * 						|	'>>'
+ * <redir in>			:	'<<' <file>
+ * 						|	'<' <file>
+ * 						;
+ *
+ * <redir out>			:	'>>' <file>
+ * 						|	'>' <file>
+ * 						;
  *
  * <simple command>		:	<name> <token list>
  * 						;
@@ -100,11 +105,32 @@ t_ast	*job(void);
 t_ast	*job_1(void);
 t_ast	*job_2(void);
 
-/* parse_cmd.c */
+/* parse_cmd_1.c */
 t_ast	*cmd(void);
 t_ast	*cmd_1(void);
 t_ast	*cmd_2(void);
+
+/* parse_cmd_2.c */
 t_ast	*cmd_3(void);
+t_ast	*cmd_4(void);
+t_ast	*cmd_5(void);
+
+/* parse_redir.c */
+t_ast	*redir(void);
+t_ast	*redir_1(void);
+t_ast	*redir_2(void);
+t_ast	*redir_3(void);
+t_ast	*redir_4(void);
+
+/* parse_redir_in.c */
+t_ast	*redir_in(void);
+t_ast	*redir_in_1(void);
+t_ast	*redir_in_2(void);
+
+/* parse_redir_out.c */
+t_ast	*redir_out(void);
+t_ast	*redir_out_1(void);
+t_ast	*redir_out_2(void);
 
 /* parse_simple_cmd.c */
 t_ast	*simple_cmd(void);

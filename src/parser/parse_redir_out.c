@@ -1,97 +1,83 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd.c                                        :+:      :+:    :+:   */
+/*   parse_redir_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
+/*   by: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 19:20:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/21 17:10:17 by dpoveda-         ###   ########.fr       */
+/*   created: 2021/11/29 13:27:59 by dpoveda-          #+#    #+#             */
+/*   updated: 2021/11/29 13:27:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* test all command in order */
-t_ast	*cmd(void)
+/* test all out redirections in order */
+t_ast	*redir_out(void)
 {
 	t_tok	*save;
 	t_ast	*new_node;
 
 	save = g_sh.tok;
+
 	g_sh.tok = save;
-	new_node = cmd_1();
+	new_node = redir_out_1();
 	if (new_node != NULL)
 		return (new_node);
+
 	g_sh.tok = save;
-	new_node = cmd_2();
+	new_node = redir_out_2();
 	if (new_node != NULL)
 		return (new_node);
-	g_sh.tok = save;
-	new_node = cmd_3();
-	if (new_node != NULL)
-		return (new_node);
+
 	return (NULL);
 }
 
-/* <simple command> '<' <file> */
-t_ast	*cmd_1(void)
+/* '>>' <file> */
+t_ast	*redir_out_1(void)
 {
 	char	*file;
-	t_ast	*simple_cmd_nd;
 	t_ast	*res;
 
-	simple_cmd_nd = simple_cmd();
-	if (simple_cmd_nd == NULL)
-		return (NULL);
-	if (!is_term(CHAR_LS, NULL))
-	{
-		ast_del(simple_cmd_nd);
-		return (NULL);
-	}
-	if (!is_term(TOK, &file))
-	{
-		free(file);
-		ast_del(simple_cmd_nd);
-		return (NULL);
-	}
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR_IN);
-	ast_setdata(res, file);
-	ast_attach(res, NULL, simple_cmd_nd);
-	return (res);
-}
-
-/* <simple command> '>' <file> */
-t_ast	*cmd_2(void)
-{
-	char	*file;
-	t_ast	*simple_cmd_nd;
-	t_ast	*res;
-
-	simple_cmd_nd = simple_cmd();
-	if (simple_cmd_nd == NULL)
-		return (NULL);
+	// '>'
 	if (!is_term(CHAR_GT, NULL))
-	{
-		ast_del(simple_cmd_nd);
 		return (NULL);
-	}
+	// other '>'
+	if (!is_term(CHAR_GT, NULL))
+		return (NULL);
+	// <file>
 	if (!is_term(TOK, &file))
 	{
 		free(file);
-		ast_del(simple_cmd_nd);
 		return (NULL);
 	}
+	// create node
 	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR_OUT);
+	ast_settype(res, AST_RD_APPEND);
 	ast_setdata(res, file);
-	ast_attach(res, NULL, simple_cmd_nd);
+	ast_attach(res, NULL, NULL);
 	return (res);
 }
 
-/* <simple command> */
-t_ast	*cmd_3(void)
+/* '>>' <file> */
+t_ast	*redir_out_2(void)
 {
-	return (simple_cmd());
+	char	*file;
+	t_ast	*res;
+
+	// '>'
+	if (!is_term(CHAR_GT, NULL))
+		return (NULL);
+	// <file>
+	if (!is_term(TOK, &file))
+	{
+		free(file);
+		return (NULL);
+	}
+	// create node
+	res = (t_ast *)malloc(sizeof(t_ast));
+	ast_settype(res, AST_RD_TRUNC);
+	ast_setdata(res, file);
+	ast_attach(res, NULL, NULL);
+	return (res);
 }

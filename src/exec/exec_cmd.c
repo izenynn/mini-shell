@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 18:42:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/28 14:13:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static void	exec_cmd(t_cmd *cmd)
 }
 
 /* redir */
-void	redir(t_cmd *cmd, t_bool is_builtin)
+void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 {
 	int	fd_io[2];
 
@@ -140,7 +140,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 		{
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
-				redir(cmd, TRUE);
+				redir_cmd(cmd, TRUE);
 				g_sh.status = bi->f(cmd->argv);
 				// restore fd
 				//close();
@@ -168,9 +168,10 @@ int	handle_exec_cmd(t_cmd *cmd)
 	}
 	else
 	{
+		// TODO this is ugle, two redirs when is a built-in? stupid
 		sig_child();
 		// redir
-		redir(cmd, FALSE);
+		redir_cmd(cmd, FALSE);
 		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
 		{
 			close(cmd->io->fd_pipe[READ_END]);
@@ -183,7 +184,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 		{
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
-				redir(cmd, TRUE);
+				redir_cmd(cmd, TRUE);
 				g_sh.status = bi->f(cmd->argv);
 				// restore fd
 				dup2(g_sh.fd_bak[0], STDIN_FILENO);
