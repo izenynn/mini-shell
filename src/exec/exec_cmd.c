@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 16:55:52 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:10:10 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_bool.h"
 #include "sh/utils.h"
 #include <sh.h>
 #include <stdio.h>
@@ -98,7 +99,7 @@ static void	exec_cmd(t_cmd *cmd)
 }
 
 /* handle here document read until delim */
-static void	handle_read_hd(char *delim, int fd[2])
+static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 {
 	char	*line;
 	char	*aux;
@@ -113,10 +114,10 @@ static void	handle_read_hd(char *delim, int fd[2])
 			close(WRITE_END);
 			free(line);
 			free(aux);
-			// TODO built-in do not exit :/
 			exit(EXIT_SUCCESS);
 		}
-		ft_putstr_fd(line, fd[WRITE_END]);
+		if (!is_builtin)
+			ft_putstr_fd(line, fd[WRITE_END]);
 		free(line);
 		line = ft_get_next_line(STDIN_FILENO);
 	}
@@ -126,7 +127,7 @@ static void	handle_read_hd(char *delim, int fd[2])
 }
 
 /* handle here document "<<" */
-void	handle_here_doc(char *delim)
+void	handle_here_doc(char *delim, t_bool is_builtin)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -139,13 +140,14 @@ void	handle_here_doc(char *delim)
 	if (pid > 0)
 	{
 		close(fd[WRITE_END]);
-		dup2(fd[READ_END], STDIN_FILENO);
+		if (!is_builtin)
+			dup2(fd[READ_END], STDIN_FILENO);
 		close(fd[READ_END]);
 		waitpid(pid, NULL, 0);
 	}
 	else
 	{
-		handle_read_hd(delim, fd);
+		handle_read_hd(delim, fd, is_builtin);
 	}
 }
 
@@ -157,7 +159,7 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	// redir in
-	if (redir_getin(cmd->io->redir) == RD_INFILE)
+	if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
 		if (fd_io[FD_IN] == -1)
@@ -167,7 +169,7 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 	else if (redir_getin(cmd->io->redir) == RD_HDOC)
 	{
 		//fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
-		handle_here_doc(cmd->io->files[FD_IN]);
+		handle_here_doc(cmd->io->files[FD_IN], is_builtin);
 		//dup2(fd_io[FD_IN], STDIN_FILENO);
 	}
 	// redir out
