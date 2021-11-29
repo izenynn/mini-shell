@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/28 18:50:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 16:46:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,49 @@ static int	handle_simple_cmd(t_ast *ast, t_io *io)
 }
 
 /* interpret cmd */
-// TODO we will remove this for the new redirs
 static int	handle_cmd(t_ast *ast, t_io *io)
 {
 	int	type;
+	t_ast	*redir_nd;
 
 	if (ast == NULL)
 		return (0);
 	type = ast_gettype(ast);
-	if (type == AST_CMD)
+	if (type == AST_SIMPLECMD)
 		handle_simple_cmd(ast, io);
-	/*else if (type == AST_REDIR_IN || type == AST_REDIR_OUT)
+	else if (type == AST_CMD)
 	{
-		if (type == AST_REDIR_IN)
+		redir_nd = ast->left;
+		// redir in
+		if (redir_nd->left != NULL)
 		{
-			io->redir |= RD_INFILE;
-			io->files[FD_IN] = ast->data;
+			if (ast_gettype(redir_nd->left) == AST_RD_INFILE)
+			{
+				io->redir |= RD_INFILE;
+				io->files[FD_IN] = redir_nd->left->data;
+			}
+			if (ast_gettype(redir_nd->left) == AST_RD_HDOC)
+			{
+				io->redir |= RD_HDOC;
+				io->files[FD_IN] = redir_nd->left->data;
+			}
 		}
-		if (type == AST_REDIR_OUT)
+		// redir out
+		if (redir_nd->right != NULL)
 		{
-			io->redir |= RD_TRUNC;
-			io->files[FD_OUT] = ast->data;
+			if (ast_gettype(redir_nd->right) == AST_RD_TRUNC)
+			{
+				io->redir |= RD_TRUNC;
+				io->files[FD_OUT] = redir_nd->right->data;
+			}
+			if (ast_gettype(redir_nd->right) == AST_RD_APPEND)
+			{
+				io->redir |= RD_APPEND;
+				io->files[FD_OUT] = redir_nd->right->data;
+			}
 		}
 		handle_simple_cmd(ast->right, io);
-	}*/
+	}
 	return (0);
 }
 

@@ -6,11 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/28 14:13:09 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 16:55:52 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/utils.h"
 #include <sh.h>
+#include <stdio.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
@@ -31,15 +33,15 @@ t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
 }
 
 /* get redir type of input */
-int	redir_getin(int redir)
+int	redir_getin(int type)
 {
-	return (redir & ((~RD_TRUNC) & (~RD_APPEND)));
+	return (type & ((~RD_TRUNC) & (~RD_APPEND)));
 }
 
 /* get redir type of output */
-int	redir_getout(int redir)
+int	redir_getout(int type)
 {
-	return (redir & ((~RD_INFILE) & (~RD_HEREDOC)));
+	return (type & ((~RD_INFILE) & (~RD_HDOC)));
 }
 
 /* search command in path */
@@ -95,6 +97,58 @@ static void	exec_cmd(t_cmd *cmd)
 	perror_exit(cmd_path);
 }
 
+/* handle here document read until delim */
+static void	handle_read_hd(char *delim, int fd[2])
+{
+	char	*line;
+	char	*aux;
+
+	aux = ft_strjoin(delim, "\n");
+	close(fd[READ_END]);
+	line = ft_get_next_line(STDIN_FILENO);
+	while (line)
+	{
+		if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
+		{
+			close(WRITE_END);
+			free(line);
+			free(aux);
+			// TODO built-in do not exit :/
+			exit(EXIT_SUCCESS);
+		}
+		ft_putstr_fd(line, fd[WRITE_END]);
+		free(line);
+		line = ft_get_next_line(STDIN_FILENO);
+	}
+	close(WRITE_END);
+	free(line);
+	free(aux);
+}
+
+/* handle here document "<<" */
+void	handle_here_doc(char *delim)
+{
+	int		fd[2];
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+		perror_exit("pipe");
+	pid = fork();
+	if (pid < 0)
+		perror_exit("fork");
+	if (pid > 0)
+	{
+		close(fd[WRITE_END]);
+		dup2(fd[READ_END], STDIN_FILENO);
+		close(fd[READ_END]);
+		waitpid(pid, NULL, 0);
+	}
+	else
+	{
+		handle_read_hd(delim, fd);
+	}
+}
+
 /* redir */
 void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 {
@@ -102,6 +156,7 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 
 	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	// redir in
 	if (redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
@@ -109,6 +164,13 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 			perror_exit("open");
 		dup2(fd_io[FD_IN], STDIN_FILENO);
 	}
+	else if (redir_getin(cmd->io->redir) == RD_HDOC)
+	{
+		//fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
+		handle_here_doc(cmd->io->files[FD_IN]);
+		//dup2(fd_io[FD_IN], STDIN_FILENO);
+	}
+	// redir out
 	if (redir_getout(cmd->io->redir) == RD_TRUNC)
 	{
 		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_TRUNC, 0664);
@@ -116,6 +178,14 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 			perror_exit("open");
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
+	else if (redir_getout(cmd->io->redir) == RD_APPEND)
+	{
+		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_APPEND, 0664);
+		if (fd_io[FD_OUT] == -1)
+			perror_exit("open");
+		dup2(fd_io[FD_OUT], STDOUT_FILENO);
+	}
+	// pipe
 	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
@@ -205,14 +275,14 @@ int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 	t_ast	*aux;
 	int		i;
 
-	if (cmd == NULL || ast_gettype(ast) != AST_CMD)
+	if (cmd == NULL || ast_gettype(ast) != AST_SIMPLECMD)
 	{
 		cmd->argc = 0;
 		return (-1);
 	}
 	aux = ast;
 	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
+	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_SIMPLECMD))
 	{
 		aux = aux->right;
 		i++;
@@ -222,7 +292,7 @@ int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 		perror_ret("malloc", 1);
 	aux = ast;
 	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
+	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_SIMPLECMD))
 	{
 		cmd->argv[i] = (char *)malloc(sizeof(char) * (ft_strlen(aux->data) + 1));
 		strcpy(cmd->argv[i], aux->data);
