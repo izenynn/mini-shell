@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 17:10:10 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/29 17:14:53 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,16 +127,16 @@ static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 }
 
 /* handle here document "<<" */
-void	handle_here_doc(char *delim, t_bool is_builtin)
+int	handle_here_doc(char *delim, t_bool is_builtin)
 {
 	int		fd[2];
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		perror_exit("pipe");
+		return (perror_ret("pipe", 1));
 	pid = fork();
 	if (pid < 0)
-		perror_exit("fork");
+		return (perror_ret("fork", 1));
 	if (pid > 0)
 	{
 		close(fd[WRITE_END]);
@@ -149,10 +149,11 @@ void	handle_here_doc(char *delim, t_bool is_builtin)
 	{
 		handle_read_hd(delim, fd, is_builtin);
 	}
+	return (0);
 }
 
 /* redir */
-void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
+int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 {
 	int	fd_io[2];
 
@@ -163,13 +164,14 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
 		if (fd_io[FD_IN] == -1)
-			perror_exit("open");
+			return (perror_ret("open", 1));
 		dup2(fd_io[FD_IN], STDIN_FILENO);
 	}
 	else if (redir_getin(cmd->io->redir) == RD_HDOC)
 	{
 		//fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
-		handle_here_doc(cmd->io->files[FD_IN], is_builtin);
+		if (handle_here_doc(cmd->io->files[FD_IN], is_builtin))
+			return (1);
 		//dup2(fd_io[FD_IN], STDIN_FILENO);
 	}
 	// redir out
@@ -177,14 +179,14 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 	{
 		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (fd_io[FD_OUT] == -1)
-			perror_exit("open");
+			return (perror_ret("open", 1));
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
 	else if (redir_getout(cmd->io->redir) == RD_APPEND)
 	{
 		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (fd_io[FD_OUT] == -1)
-			perror_exit("open");
+			return (perror_ret("open", 1));
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
 	// pipe
@@ -192,6 +194,7 @@ void	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
+	return (0);
 }
 
 /* execute command */
@@ -212,7 +215,8 @@ int	handle_exec_cmd(t_cmd *cmd)
 		{
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
-				redir_cmd(cmd, TRUE);
+				if (redir_cmd(cmd, TRUE))
+					return (1);
 				g_sh.status = bi->f(cmd->argv);
 				// restore fd
 				//close();
@@ -240,23 +244,15 @@ int	handle_exec_cmd(t_cmd *cmd)
 	}
 	else
 	{
-		// TODO this is ugle, two redirs when is a built-in? stupid
 		sig_child();
-		// redir
-		redir_cmd(cmd, FALSE);
-		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
-		{
-			close(cmd->io->fd_pipe[READ_END]);
-			close(cmd->io->fd_pipe[WRITE_END]);
-			close(cmd->io->fd_read);
-		}
 		// check for built-in
 		bi = g_sh.bi;
 		while (bi != NULL)
 		{
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
-				redir_cmd(cmd, TRUE);
+				if (redir_cmd(cmd, TRUE))
+					exit (EXIT_FAILURE);
 				g_sh.status = bi->f(cmd->argv);
 				// restore fd
 				dup2(g_sh.fd_bak[0], STDIN_FILENO);
@@ -266,6 +262,14 @@ int	handle_exec_cmd(t_cmd *cmd)
 			bi = bi->next;
 		}
 		// exec cmd
+		if (redir_cmd(cmd, FALSE))
+			exit (EXIT_FAILURE);
+		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
+		{
+			close(cmd->io->fd_pipe[READ_END]);
+			close(cmd->io->fd_pipe[WRITE_END]);
+			close(cmd->io->fd_read);
+		}
 		exec_cmd(cmd);
 	}
 	return (0);
