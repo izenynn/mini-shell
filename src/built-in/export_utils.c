@@ -23,7 +23,7 @@ int	error_handle(char *new_env)
 		|| (new_env[0] >= 'a' && new_env[0] <= 'z')
 		|| new_env[0] == '_')
 	{
-		while (new_env[++i])
+		while (new_env[++i] != '=')
 		{
 			if (ft_isalnum(new_env[i]) == 0
 				&& new_env[i] != '_' && new_env[i] != '=')
