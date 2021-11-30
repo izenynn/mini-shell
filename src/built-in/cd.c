@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/27 09:59:18 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 18:58:58 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	ft_changedir(char **dir)
 	{
 		if (!dir[1])
 		{
-			home_handler(head);
+			if (home_handler(head) == 1)
+				return (1);
 			return (0);
 		}
 		else if (goto_dir(dir[1]) == 1)
