@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:18 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:14:02 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:30:36 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	printer(void)
 		data = (char *)aux->data;
 		while (data[i] && data[i] != '=')
 			i++;
-		if (data[i] == '=')
+		if (data[i] == '=' && data[i + 1])
 		{
 			write(1, aux->data, ft_strlen((char *)aux->data));
 			write(1, "\n", 1);

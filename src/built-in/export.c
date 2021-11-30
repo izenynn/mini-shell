@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:20:01 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/27 11:43:13 by                  ###   ########.fr       */
+/*   Updated: 2021/11/30 19:27:35 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	ft_export(char **new_env)
 	int		i;
 	char	*tmp;
 	char	*aux;
+	char	*aux2;
 
 	i = 0;
 	if (!new_env[1])
@@ -121,6 +122,9 @@ int	ft_export(char **new_env)
 			aux = ft_getenv(tmp);
 			if (!aux)
 			{
+				aux2 = ft_strjoin(new_env[i], "=");
+				free(new_env[i]);
+				new_env[i] = aux2;
 				if (error_handle(new_env[i]) == 0)
 					ft_lstadd_back(&g_sh.env,
 						ft_lstnew((void *)ft_strdup(new_env[i])));
