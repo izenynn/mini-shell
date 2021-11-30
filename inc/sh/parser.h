@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:45:17 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 12:12:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,25 @@
  * job_2()			=>	<command>
  *
  * cmd()			=>	test all command in order
- * cmd_1()			=>	<simple command> '<' <file>
- * cmd_2()			=>	<simple command> '>' <file>
- * cmd_3()			=>	<simple command>
+ * cmd_1()			=>	<redir in> <simple command> <redir out>
+ * cmd_2()			=>	<redir out> <simple command> <redir in>
+ * cmd_3()			=>	<simple command> <redir>
+ * cmd_4()			=>	<redir> <simple command>
+ * cmd_5()			=>	<simple command>
+ *
+ * redir()			=>	test all redirections in order
+ * redir_1()		=>	<redir in> <redir out>
+ * redir_2()		=>	<redir in> <redir out>
+ * redir_3()		=>	<redir in>
+ * redir_4()		=>	<redir out>
+ *
+ * redir_in()		=>	test all in redirections in order
+ * redir_in_1()		=>	'<<' <file>
+ * redir_in_2()		=>	'<' <file>
+ *
+ * redir_out()		=>	test all out redirections in order
+ * redir_out_1()	=>	'>>' <file>
+ * redir_out_2()	=>	'>' <file>
  *
  * simple_cmd()		=>	test simple cmd
  * simple_cmd_1()	=>	<name> <token list>
