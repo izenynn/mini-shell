@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:10:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 18:59:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,11 @@ int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 
 	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	// pipe
+	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
+		dup2(cmd->io->fd_read, STDIN_FILENO);
+	if (cmd->io->is_pipe[FD_OUT] == TRUE)
+		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
 	// redir in
 	if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
 	{
@@ -190,11 +195,6 @@ int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 			return (perror_ret("open", 1));
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 	}
-	// pipe
-	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
-		dup2(cmd->io->fd_read, STDIN_FILENO);
-	if (cmd->io->is_pipe[FD_OUT] == TRUE)
-		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
 	return (0);
 }
 
