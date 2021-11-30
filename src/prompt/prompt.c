@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:37:13 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 14:01:21 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
 
 /* prompt message */

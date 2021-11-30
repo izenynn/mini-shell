@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 20:16:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:26:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 14:10:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,12 @@ void	handle_zombies(void)
 		pid = waitpid(-1, &status, 0);
 		if (pid <= 0)
 			break ;
-		if (WIFEXITED(status))
-			g_sh.status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_sh.status = handle_signal_exit(status);
+		if (pid == g_sh.last_pid)
+		{
+			if (WIFEXITED(status))
+				g_sh.status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_sh.status = handle_signal_exit(status);
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 14:32:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 14:05:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@
  * *tok		=> to iterate tokens (used for creating the ast)
  * *bi		=> built-in list
  * fd_bak	=> backup STDIN and STDOUT fd
+ * last_pid	=> last process in pipe pid
  */
 typedef struct s_sh {
 	int		status;
@@ -85,6 +86,7 @@ typedef struct s_sh {
 	t_tok	*tok;
 	t_blti	*bi;
 	int		fd_bak[2];
+	pid_t	last_pid;
 }	t_sh;
 
 extern t_sh	g_sh;

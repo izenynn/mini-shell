@@ -6,12 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:55:12 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 14:10:04 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
-#include "sh/signals.h"
 #include <sh.h>
 
 /* initialise io struct */
@@ -235,18 +233,12 @@ int	handle_exec_cmd(t_cmd *cmd)
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
-	/*if (pid > 0)
+	if (pid > 0)
 	{
-		waitpid(pid, &status, WNOHANG);
-		if (WIFEXITED(status))
-		{	
-			g_sh.status = WEXITSTATUS(status);
-		}
-		if (g_sh.status != EXIT_SUCCESS)
-			return (1);
+		if (!cmd->io->is_pipe[WRITE_END])
+			g_sh.last_pid = pid;
 	}
-	else*/
-	if (pid == 0)
+	else
 	{
 		sig_child();
 		// check for built-in
