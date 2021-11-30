@@ -6,11 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:41:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 13:55:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/ft_str.h"
+#include "sh/signals.h"
 #include <sh.h>
 
 /* initialise io struct */
@@ -100,24 +101,32 @@ static void	exec_cmd(t_cmd *cmd)
 static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 {
 	char	*line;
+	//char	*aux;
 
 	close(fd[READ_END]);
+	//aux = ft_strjoin(delim, "\n");
+	//line = ft_get_next_line(STDIN_FILENO);
 	line = readline("> ");
 	while (line)
 	{
+		//if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
 			close(WRITE_END);
 			free(line);
+			//free(aux);
 			exit(EXIT_SUCCESS);
 		}
 		if (!is_builtin)
 			ft_putendl_fd(line, fd[WRITE_END]);
+			//ft_putstr_fd(line, fd[WRITE_END]);
 		free(line);
+		//line = ft_get_next_line(STDIN_FILENO);
 		line = readline("> ");
 	}
 	close(WRITE_END);
 	free(line);
+	//free(aux);
 }
 
 /* handle here document "<<" */
