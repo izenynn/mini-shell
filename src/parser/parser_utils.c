@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 11:57:55 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 14:45:15 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:12:06 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	is_term(int type, char **buff)
 		{
 			*buff = (char *)malloc(
 					(ft_strlen(g_sh.tok->data) + 1) * sizeof(char));
+			if (*buff == NULL)
+				perror_ret("malloc", 0);
 			ft_strcpy(*buff, g_sh.tok->data);
 		}
 		g_sh.tok = g_sh.tok->next;
