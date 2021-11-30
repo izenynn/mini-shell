@@ -6,14 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 17:14:53 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 13:41:25 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_bool.h"
-#include "sh/utils.h"
+#include "libft/ft_str.h"
 #include <sh.h>
-#include <stdio.h>
 
 /* initialise io struct */
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
@@ -90,7 +88,7 @@ static void	exec_cmd(t_cmd *cmd)
 		{
 			ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 			ft_putstr_fd(": command not found\n", STDERR_FILENO);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 		cmd_path = get_path(cmd->argv[0], path);
 	}
@@ -102,28 +100,24 @@ static void	exec_cmd(t_cmd *cmd)
 static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 {
 	char	*line;
-	char	*aux;
 
-	aux = ft_strjoin(delim, "\n");
 	close(fd[READ_END]);
-	line = ft_get_next_line(STDIN_FILENO);
+	line = readline("> ");
 	while (line)
 	{
-		if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
+		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
 			close(WRITE_END);
 			free(line);
-			free(aux);
 			exit(EXIT_SUCCESS);
 		}
 		if (!is_builtin)
-			ft_putstr_fd(line, fd[WRITE_END]);
+			ft_putendl_fd(line, fd[WRITE_END]);
 		free(line);
-		line = ft_get_next_line(STDIN_FILENO);
+		line = readline("> ");
 	}
 	close(WRITE_END);
 	free(line);
-	free(aux);
 }
 
 /* handle here document "<<" */
@@ -232,7 +226,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	pid = fork();
 	if (pid == -1)
 		perror_ret("fork", 1);
-	if (pid > 0)
+	/*if (pid > 0)
 	{
 		waitpid(pid, &status, WNOHANG);
 		if (WIFEXITED(status))
@@ -242,7 +236,8 @@ int	handle_exec_cmd(t_cmd *cmd)
 		if (g_sh.status != EXIT_SUCCESS)
 			return (1);
 	}
-	else
+	else*/
+	if (pid == 0)
 	{
 		sig_child();
 		// check for built-in
@@ -253,11 +248,11 @@ int	handle_exec_cmd(t_cmd *cmd)
 			{
 				if (redir_cmd(cmd, TRUE))
 					exit (EXIT_FAILURE);
-				g_sh.status = bi->f(cmd->argv);
+				status = bi->f(cmd->argv);
 				// restore fd
 				dup2(g_sh.fd_bak[0], STDIN_FILENO);
 				dup2(g_sh.fd_bak[1], STDOUT_FILENO);
-				exit (EXIT_SUCCESS);
+				exit (status);
 			}
 			bi = bi->next;
 		}

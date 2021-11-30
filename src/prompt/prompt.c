@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 21:39:17 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 13:37:13 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_str.h"
 #include <sh.h>
 
 /* prompt message */
@@ -54,16 +55,8 @@ static char	*get_prompt(void)
 	char	*aux1;
 	char	*aux2;
 
-	aux1 = ft_strdup(" " FG_BLU);
-	aux2 = get_prompt_cwd();
-	msg = ft_strjoin(aux1, aux2);
-	free(aux1);
-	free(aux2);
-	aux1 = msg;
-	if (g_sh.status == EXIT_SUCCESS)
-		aux2 = ft_strdup(" " FG_MAG "❯" FG_DEF " ");
-	else
-		aux2 = ft_strdup(" " FG_RED "❯" FG_DEF " ");
+	aux1 = get_prompt_cwd();
+	aux2 = ft_strdup("$ ");
 	msg = ft_strjoin(aux1, aux2);
 	free(aux1);
 	free(aux2);
@@ -77,8 +70,8 @@ char	*read_prompt(void)
 	char	*prompt;
 
 	prompt = get_prompt();
-	//line = readline(prompt);
-	line = readline("> ");
+	line = readline(prompt);
+	//line = readline("> ");
 	free(prompt);
 	return (line);
 }
