@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 23:56:06 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:00:27 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:28:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	handle_sig_parent(int signal)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_sh.status = 1;
 	}
 }
 
