@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:17:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:21:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:11:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_ast	*redir_in_1(void)
 	if (!is_term(CHAR_LS, NULL))
 		return (NULL);
 	// <file>
+	file = NULL;
 	if (!is_term(TOK, &file))
 	{
 		free(file);
@@ -69,6 +70,7 @@ t_ast	*redir_in_2(void)
 	if (!is_term(CHAR_LS, NULL))
 		return (NULL);
 	// <file>
+	file = NULL;
 	if (!is_term(TOK, &file))
 	{
 		free(file);
