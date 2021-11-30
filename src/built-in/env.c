@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:18 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/26 21:22:45 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/11/30 19:14:02 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,12 @@ static void	printer(void)
 	aux = g_sh.env;
 	while (aux)
 	{
-		i = -1;
-		cnt = 0;
-		data = (char *)g_sh.env->data;
-		while (data[++i])
-		{
-			if (data[i] == '=' && cnt++)
-				break ;
-		}
-		if (cnt != 0)
+		i = 0;
+		cnt = 1;
+		data = (char *)aux->data;
+		while (data[i] && data[i] != '=')
+			i++;
+		if (data[i] == '=')
 		{
 			write(1, aux->data, ft_strlen((char *)aux->data));
 			write(1, "\n", 1);
