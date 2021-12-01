@@ -6,13 +6,25 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 20:41:52 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:45:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_str.h"
 #include <sh.h>
 
-int	expand_var(t_tok *tok, int start, int st)
+//		if (tok->data[start] == '=')
+//		{
+//			end = start;
+//			value = ft_strdup("\'$\'");
+//		}
+
+/*static int	expand_var()
+{
+	;
+}*/
+
+static int	handle_expand(t_tok *tok, int start, int st)
 {
 	int		end;
 	int		is_curly;
@@ -27,12 +39,32 @@ int	expand_var(t_tok *tok, int start, int st)
 		name = ft_strdup("?");
 		value = ft_itoa(g_sh.status);
 	}
+	if (tok->data[start] == '=')
+	{
+		name = ft_strdup("");
+		value = ft_strdup("\'$\'");
+		res = (char *)ft_calloc(sizeof(char),
+			ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
+		strncpy(res, tok->data, start - 1);
+		//printf("res: '%s'\n", res);
+		strcat(res, value);
+		//printf("res: '%s'\n", res);
+		strcat(res, tok->data + start + ft_strlen(name) + (is_curly * 2));
+		//printf("res: '%s'\n", res);
+		free(name);
+		free(value);
+		free(tok->data);
+		tok->data = res;
+		return (0);
+	}
 	else
 	{
 		if (tok->data[end] == '{' && ++end)
+		{
+			if (tok->data[end] == '}')
+				return (error_ret("error: bad substitution\n", 1));
 			is_curly = 1;
-		if (tok->data[end] == '=')
-			end++;
+		}
 		while (tok->data[end] != '\0')
 		{
 			if (is_curly && !ft_isalnum(tok->data[end]) && tok->data[end] != '_'
@@ -59,7 +91,7 @@ int	expand_var(t_tok *tok, int start, int st)
 		//if (is_curly)
 		//	end--;
 		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
-		if (start + is_curly == end)
+		/*if (start + is_curly == end)
 			value = ft_strdup("\'$\'");
 		else
 		{
@@ -67,7 +99,8 @@ int	expand_var(t_tok *tok, int start, int st)
 			 value = ft_getenv(name + 1);
 			else
 			 value = ft_getenv(name);
-		}
+		}*/
+		value = ft_getenv(name);
 	}
 	//printf("NAME: %s\n", name);
 	if (value == NULL)
@@ -103,7 +136,7 @@ int	expand(t_tok *tok)
 		{
 			if (tok->data[i] == CHAR_DL)
 			{
-				if (expand_var(tok, i + 1, st))
+				if (handle_expand(tok, i + 1, st))
 					return (1);
 				i = -1;
 				continue ;
@@ -122,7 +155,7 @@ int	expand(t_tok *tok)
 		{
 			if (tok->data[i] == CHAR_DL)
 			{
-				if (expand_var(tok, i + 1, st))
+				if (handle_expand(tok, i + 1, st))
 					return (1);
 				st = ST_GEN;
 				i = -1;
