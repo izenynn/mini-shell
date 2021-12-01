@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/01 16:48:08 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:52:39 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,6 @@ static int	handle_expand(t_tok *tok, int start, int st)
 	{
 		name = ft_strdup("");
 		value = ft_strdup("\'$\'");
-		/*res = (char *)ft_calloc(sizeof(char),
-			ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
-		strncpy(res, tok->data, start - 1);
-		//printf("res: '%s'\n", res);
-		strcat(res, value);
-		//printf("res: '%s'\n", res);
-		strcat(res, tok->data + start + ft_strlen(name) + (is_curly * 2));
-		//printf("res: '%s'\n", res);
-		free(name);
-		free(value);
-		free(tok->data);
-		tok->data = res;
-		return (0);*/
 	}
 	else
 	{
@@ -88,6 +75,8 @@ static int	handle_expand(t_tok *tok, int start, int st)
 			}
 			end++;
 		}
+		if (is_curly == 1 && tok->data[end] != '}')
+			return (error_ret("error: bad substitution\n", 1));
 		//if (is_curly)
 		//	end--;
 		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
