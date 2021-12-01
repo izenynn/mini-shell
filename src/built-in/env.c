@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:18 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:30:36 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:05:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	printer(void)
 {
 	int		i;
-	int		cnt;
 	char	*data;
 	t_list	*aux;
 
@@ -23,7 +22,6 @@ static void	printer(void)
 	while (aux)
 	{
 		i = 0;
-		cnt = 1;
 		data = (char *)aux->data;
 		while (data[i] && data[i] != '=')
 			i++;
