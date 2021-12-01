@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/01 16:45:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:48:08 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static int	handle_expand(t_tok *tok, int start, int st)
 		name = ft_strdup("?");
 		value = ft_itoa(g_sh.status);
 	}
-	if (tok->data[start] == '=')
+	else if (tok->data[start] == '=')
 	{
 		name = ft_strdup("");
 		value = ft_strdup("\'$\'");
-		res = (char *)ft_calloc(sizeof(char),
+		/*res = (char *)ft_calloc(sizeof(char),
 			ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
 		strncpy(res, tok->data, start - 1);
 		//printf("res: '%s'\n", res);
@@ -55,7 +55,7 @@ static int	handle_expand(t_tok *tok, int start, int st)
 		free(value);
 		free(tok->data);
 		tok->data = res;
-		return (0);
+		return (0);*/
 	}
 	else
 	{
