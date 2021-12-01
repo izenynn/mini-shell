@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 18:38:31 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/01 16:59:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static int	check_empty_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 	}
 	return (0);
 }
-
-/* process tok type token */
 
 /* process tokens */
 static int	process_tokens(t_lexer *lex)
@@ -107,6 +105,8 @@ int	lexer_build(const char *line, const size_t sz, t_lexer *lex)
 	ls.j = 0;
 	while (1)
 	{
+		if (ls.i > (int)sz)
+			break ;
 		ls.c = line[ls.i];
 		ls.type = get_ctype(ls.c);
 		if (process_char(&ls, line, sz))
