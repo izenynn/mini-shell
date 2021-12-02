@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/02 16:58:32 by                  ###   ########.fr       */
+/*   Updated: 2021/12/02 16:59:07 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_get_wdir(char **n)
 	pwd = (char *)malloc(sizeof(char) * PATH_MAX);
 	if (!pwd)
 		return (1);
+	(void)n;
 	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
 		free(pwd);
