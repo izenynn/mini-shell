@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/02 18:58:57 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/03 14:22:10 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,8 +91,8 @@ SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 				ast_insert.c		parse_cmd_line.c	parse_job.c			\
-				parse_cmd.c			parse_simple_cmd.c	parse_tok_lst.c		\
-				parse_redir.c		parse_redir_in.c	parse_redir_out.c
+				parse_cmd.c			parse_tok_lst.c		parse_redir.c		\
+				parse_redir_in.c	parse_redir_out.c
 
 SRC_PROMPT =	prompt.c
 

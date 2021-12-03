@@ -6,41 +6,24 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 18:59:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:02:48 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/ast.h"
 #include <sh.h>
 
-/* initialise io struct */
-t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
-{
-	t_io	*io;
-
-	io = (t_io *)malloc(sizeof(t_io));
-	io->is_pipe[READ_END] = p_read;
-	io->is_pipe[WRITE_END] = p_write;
-	if (p_read || p_write)
-	{
-		io->fd_pipe[READ_END] = fd_pipe[READ_END];
-		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
-		io->fd_read = fd_read;
-	}
-	io->redir = 0;
-	return (io);
-}
-
 /* get redir type of input */
-int	redir_getin(int type)
+/*int	redir_getin(int type)
 {
 	return (type & ((~RD_TRUNC) & (~RD_APPEND)));
-}
+}*/
 
 /* get redir type of output */
-int	redir_getout(int type)
+/*int	redir_getout(int type)
 {
 	return (type & ((~RD_INFILE) & (~RD_HDOC)));
-}
+}*/
 
 /* search command in path */
 static char	*get_path(char *cmd, const char *path)
@@ -128,7 +111,7 @@ static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 }
 
 /* handle here document "<<" */
-int	handle_here_doc(char *delim, t_bool is_builtin)
+int	handle_here_doc(char *delim, t_bool is_builtin, int out_fd)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -142,7 +125,7 @@ int	handle_here_doc(char *delim, t_bool is_builtin)
 	{
 		close(fd[WRITE_END]);
 		if (!is_builtin)
-			dup2(fd[READ_END], STDIN_FILENO);
+			dup2(fd[READ_END], out_fd);
 		close(fd[READ_END]);
 		waitpid(pid, NULL, 0);
 	}
@@ -156,17 +139,66 @@ int	handle_here_doc(char *delim, t_bool is_builtin)
 /* redir */
 int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 {
-	int	fd_io[2];
+	int		fd_io[2];
+	int		type;
+	t_ast	*redir;
 
 	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	fd_io[0] = -1;
+	fd_io[1] = -1;
 	// pipe
 	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
 	// redir in
-	if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
+	redir = cmd->io->redir;
+	while (redir != NULL)
+	{
+		type = ast_gettype(redir);
+		if (type & AST_RD_TRUNC)
+		{
+			if (fd_io[FD_OUT] >= 0)
+				close(fd_io[FD_OUT]);
+
+			fd_io[FD_OUT] = open(redir->data, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			if (fd_io[FD_OUT] == -1)
+				return (perror_ret(redir->data, 1));
+		}
+		else if (type & AST_RD_APPEND)
+		{
+			if (fd_io[FD_OUT] >= 0)
+				close(fd_io[FD_OUT]);
+
+			fd_io[FD_OUT] = open(redir->data, O_WRONLY | O_CREAT | O_APPEND, 0664);
+			if (fd_io[FD_OUT] == -1)
+				return (perror_ret(redir->data, 1));
+		}
+		else if (type & AST_RD_INFILE)
+		{
+			if (fd_io[FD_IN] >= 0)
+				close(fd_io[FD_IN]);
+
+			fd_io[FD_IN] = open(redir->data, O_RDONLY);
+			if (fd_io[FD_IN] == -1)
+				return (perror_ret(redir->data, 1));
+			//dup2(fd_io[FD_IN], STDIN_FILENO);
+		}
+		else if (type & AST_RD_HDOC)
+		{
+			if (fd_io[FD_IN] >= 0)
+				close(fd_io[FD_OUT]);
+			if (handle_here_doc(redir->data, is_builtin, fd_io[FD_IN]))
+				return (1);
+		}
+		redir = redir->left;
+	}
+	if (fd_io[FD_IN] >= 0 && !is_builtin)
+		dup2(fd_io[FD_IN], STDIN_FILENO);
+	if (fd_io[FD_OUT] >= 0)
+		dup2(fd_io[FD_OUT], STDOUT_FILENO);
+	/*if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
 		if (fd_io[FD_IN] == -1)
@@ -194,7 +226,7 @@ int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 		if (fd_io[FD_OUT] == -1)
 			return (perror_ret("open", 1));
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
-	}
+	}*/
 	return (0);
 }
 
@@ -208,7 +240,7 @@ int	handle_exec_cmd(t_cmd *cmd)
 	if (cmd->argc < 0)
 		return (1);
 
-	// check for built in
+	// check for built in if no pipes
 	if (!cmd->io->is_pipe[READ_END] && !cmd->io->is_pipe[WRITE_END])
 	{
 		bi = g_sh.bi;
@@ -277,14 +309,14 @@ int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 	t_ast	*aux;
 	int		i;
 
-	if (cmd == NULL || ast_gettype(ast) != AST_SIMPLECMD)
+	if (cmd == NULL || ast_gettype(ast) != AST_CMD)
 	{
 		cmd->argc = 0;
 		return (-1);
 	}
 	aux = ast;
 	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_SIMPLECMD))
+	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
 	{
 		aux = aux->right;
 		i++;
@@ -294,7 +326,7 @@ int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 		perror_ret("malloc", 1);
 	aux = ast;
 	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_SIMPLECMD))
+	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
 	{
 		cmd->argv[i] = (char *)malloc(sizeof(char) * (ft_strlen(aux->data) + 1));
 		strcpy(cmd->argv[i], aux->data);

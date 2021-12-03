@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/02 19:10:08 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:58:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/ast.h"
 #include <sh.h>
 
 /************************* TEST FUNC. *************************/
@@ -18,8 +19,11 @@
 #define COUNT 10
 
 /* print binary tree in 2d */
-static void print_ast(t_ast *root, int space)
+/*static void print_ast(t_ast *root, int space)
 {
+	int		nd;
+	char	*type;
+
 	if (root == NULL)
 		return;
 
@@ -34,26 +38,26 @@ static void print_ast(t_ast *root, int space)
 	for (int i = COUNT; i < space; i++)
 		printf(" ");
 	// get ast node type
-	char *type;
-	if (ast_gettype(root) & AST_PIPE)
+	nd = ast_gettype(root);
+	if (nd & AST_PIPE)
 		type = ft_strdup("pipe");
-	else if (ast_gettype(root) & AST_SEQ)
+	else if (nd & AST_SEQ)
 		type = ft_strdup("seq");
-	else if (ast_gettype(root) & AST_REDIR)
+	else if (nd & AST_REDIR)
 		type = ft_strdup("redir");
-	else if (ast_gettype(root) & AST_RD_TRUNC)
+	else if (nd & AST_RD_TRUNC)
 		type = ft_strdup(">");
-	else if (ast_gettype(root) & AST_RD_APPEND)
+	else if (nd & AST_RD_APPEND)
 		type = ft_strdup(">>");
-	else if (ast_gettype(root) & AST_RD_HDOC)
+	else if (nd & AST_RD_HDOC)
 		type = ft_strdup("<<");
-	else if (ast_gettype(root) & AST_RD_INFILE)
+	else if (nd & AST_RD_INFILE)
 		type = ft_strdup("<");
-	else if (ast_gettype(root) & AST_CMD)
+	else if (nd & AST_CMD)
 		type = ft_strdup("cmd");
-	else if (ast_gettype(root) & AST_SIMPLECMD)
+	else if (nd & AST_SIMPLECMD)
 		type = ft_strdup("simple");
-	else if (ast_gettype(root) & AST_ARG)
+	else if (nd & AST_ARG)
 		type = ft_strdup("arg");
 	else
 		type = ft_strdup("error: unknow type");
@@ -67,7 +71,7 @@ static void print_ast(t_ast *root, int space)
 
 	// process left child
 	print_ast(root->left, space);
-}
+}*/
 
 /* print tokens */
 /*static void print_tokens(t_lexer *lex)
@@ -124,8 +128,8 @@ void	handle_line(char *line)
 		ast_del(ast);
 		return ;
 	}
-	print_ast(ast, 0);
-	//exec_ast(ast);
+	//print_ast(ast, 0); printf("------------------------------------\n");
+	exec_ast(ast);
 	lexer_del(&lex);
 	ast_del(ast);
 }

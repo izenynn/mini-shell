@@ -6,14 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:11:10 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 14:50:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* interpret simple cmd */
-static int	handle_simple_cmd(t_ast *ast, t_io *io)
+static int	handle_cmd_exec(t_ast *ast, t_io *io)
 {
 	t_cmd	cmd;
 
@@ -27,15 +27,13 @@ static int	handle_simple_cmd(t_ast *ast, t_io *io)
 static int	handle_cmd(t_ast *ast, t_io *io)
 {
 	int	type;
-	t_ast	*redir_nd;
 
 	if (ast == NULL)
 		return (0);
 	type = ast_gettype(ast);
-	if (type == AST_SIMPLECMD)
-		handle_simple_cmd(ast, io);
-	else if (type == AST_CMD)
+	if (type == AST_CMD)
 	{
+		/*
 		redir_nd = ast->left;
 		// redir in
 		if (redir_nd->left != NULL)
@@ -64,10 +62,29 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 				io->redir |= RD_APPEND;
 				io->files[FD_OUT] = redir_nd->right->data;
 			}
-		}
-		handle_simple_cmd(ast->right, io);
+		}*/
+		io->redir = ast->left;
+		handle_cmd_exec(ast, io);
 	}
 	return (0);
+}
+
+/* initialise io struct */
+t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
+{
+	t_io	*io;
+
+	io = (t_io *)malloc(sizeof(t_io));
+	io->is_pipe[READ_END] = p_read;
+	io->is_pipe[WRITE_END] = p_write;
+	if (p_read || p_write)
+	{
+		io->fd_pipe[READ_END] = fd_pipe[READ_END];
+		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
+		io->fd_read = fd_read;
+	}
+	io->redir = 0;
+	return (io);
 }
 
 /* interpret pipe */

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 16:20:52 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 13:43:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 /*** DATA ***/
 
 /* binary flags for redir type */
-enum e_redir {
+/*enum e_redir {
 	RD_TRUNC =		(1 << 0),
 	RD_APPEND =		(1 << 1),
 	RD_INFILE =		(1 << 2),
 	RD_HDOC =		(1 << 3)
-};
+};*/
 
 /*
  * struct s_io:
@@ -48,8 +48,7 @@ typedef struct s_io {
 	t_bool	is_pipe[2];
 	int		fd_pipe[2];
 	int		fd_read;
-	int		redir;
-	char	*files[2];
+	t_ast	*redir;
 }	t_io;
 
 typedef struct s_cmd {
