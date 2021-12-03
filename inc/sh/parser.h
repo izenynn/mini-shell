@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 13:20:37 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:48:57 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 /*
  * Grammar
  *
- * <command line>		:	<job> ';' <command line>
- * 						|	<job> ';'
+ * <command line>		:	<job> ';'... <command line>
+ * 						|	<job> ';'...
  * 						|	<job>
  * 						;
  *

@@ -6,11 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:02:48 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:29:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/ast.h"
+#include "sh/utils.h"
 #include <sh.h>
 
 /* get redir type of input */
@@ -240,6 +240,25 @@ int	handle_exec_cmd(t_cmd *cmd)
 	if (cmd->argc < 0)
 		return (1);
 
+	// if no command
+	if (cmd->argv[0] == NULL)
+	{
+		pid = fork();
+		if (pid == -1)
+			perror_ret("fork", 1);
+		if (pid > 0)
+		{
+			if (!cmd->io->is_pipe[WRITE_END])
+				g_sh.last_pid = pid;
+			return (0);
+		}
+		else
+		{
+			if (redir_cmd(cmd, TRUE))
+				exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
+		}
+	}
 	// check for built in if no pipes
 	if (!cmd->io->is_pipe[READ_END] && !cmd->io->is_pipe[WRITE_END])
 	{
@@ -280,18 +299,18 @@ int	handle_exec_cmd(t_cmd *cmd)
 			if (!ft_strncmp(cmd->argv[0], bi->name, ft_strlen(bi->name) + 1))
 			{
 				if (redir_cmd(cmd, TRUE))
-					exit (EXIT_FAILURE);
+					exit(EXIT_FAILURE);
 				status = bi->f(cmd->argv);
 				// restore fd
 				dup2(g_sh.fd_bak[0], STDIN_FILENO);
 				dup2(g_sh.fd_bak[1], STDOUT_FILENO);
-				exit (status);
+				exit(status);
 			}
 			bi = bi->next;
 		}
 		// exec cmd
 		if (redir_cmd(cmd, FALSE))
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
 		{
 			close(cmd->io->fd_pipe[READ_END]);
@@ -309,10 +328,20 @@ int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
 	t_ast	*aux;
 	int		i;
 
-	if (cmd == NULL || ast_gettype(ast) != AST_CMD)
+	if (ast == NULL || ast_gettype(ast) != AST_CMD)
 	{
 		cmd->argc = 0;
 		return (-1);
+	}
+	if (ast->data == NULL)
+	{
+		cmd->argc = 0;
+		cmd->argv = (char **)malloc(sizeof(char *));
+		if (cmd->argv == NULL)
+			perror_ret("malloc", 1);
+		cmd->argv[0] = NULL;
+		cmd->io = io;
+		return (0);
 	}
 	aux = ast;
 	i = 0;

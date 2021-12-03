@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:53:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 13:17:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:55:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,11 @@ t_ast	*cmd_1(void)
 	g_sh.cmd_ast = res;
 	// get token list
 	tok_lst();
+	// in nothing between nodes
+	if (res != NULL && res->data == NULL && res->left == NULL && res->right == NULL)
+	{
+		free(res);
+		return (NULL);
+	}
 	return (res);
 }

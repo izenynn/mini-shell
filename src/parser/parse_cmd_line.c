@@ -1,15 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cmd_line_1.c                                 :+:      :+:    :+:   */
+/*   parse_cmd_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:27:32 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 14:19:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:51:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/lexer.h"
+#include "sh/parser.h"
 #include <sh.h>
 
 /* test all command line in order */
@@ -49,6 +51,8 @@ t_ast	*cmd_line_1(void)
 		ast_del(job_nd);
 		return (NULL);
 	}
+	while (g_sh.tok != NULL && g_sh.tok->type == CHAR_SC)
+		g_sh.tok = g_sh.tok->next;
 	cmd_line_nd = cmd_line();
 	if (cmd_line_nd == NULL)
 	{
@@ -75,6 +79,8 @@ t_ast	*cmd_line_2(void)
 		ast_del(job_nd);
 		return (NULL);
 	}
+	while (g_sh.tok != NULL && g_sh.tok->type == CHAR_SC)
+		g_sh.tok = g_sh.tok->next;
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_settype(res, AST_SEQ);
 	ast_attach(res, job_nd, NULL);
