@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:05:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/01 18:21:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@
  * status	=> last exit status
  * *env		=> enviroment vars
  * *tok		=> to iterate tokens (used for creating the ast)
+ * *cmd_ast	=> save current command ast node to attach args and redirs
  * *bi		=> built-in list
  * fd_bak	=> backup STDIN and STDOUT fd
  * last_pid	=> last process in pipe pid
@@ -84,6 +85,7 @@ typedef struct s_sh {
 	int		status;
 	t_list	*env;
 	t_tok	*tok;
+	t_ast	*cmd_ast;
 	t_blti	*bi;
 	int		fd_bak[2];
 	pid_t	last_pid;

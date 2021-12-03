@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 14:10:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:18:31 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:47:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,105 +30,37 @@ t_ast	*redir(void)
 	if (new_node != NULL)
 		return (new_node);
 
-	g_sh.tok = save;
-	new_node = redir_3();
-	if (new_node != NULL)
-		return (new_node);
-
-	g_sh.tok = save;
-	new_node = redir_4();
-	if (new_node != NULL)
-		return (new_node);
-
 	return (NULL);
 }
 
-/* <redir in> <redir out> */
+/* <redir in> */
 t_ast	*redir_1(void)
 {
-	t_ast	*redir_in_nd;
-	t_ast	*redir_out_nd;
 	t_ast	*res;
 
 	// <redir in>
-	redir_in_nd = redir_in();
-	if (redir_in_nd == NULL)
-		return (NULL);
-
-	// <redir out>
-	redir_out_nd = redir_out();
-	if (redir_out_nd == NULL)
-	{
-		ast_del(redir_in_nd);
-		return (NULL);
-	}
-
-	// create node
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR);
-	ast_attach(res, redir_in_nd, redir_out_nd);
-	return (res);
-}
-
-/* <redir out> <redir in> */
-t_ast	*redir_2(void)
-{
-	t_ast	*redir_in_nd;
-	t_ast	*redir_out_nd;
-	t_ast	*res;
-
-	// <redir out>
-	redir_out_nd = redir_out();
-	if (redir_out_nd == NULL)
-		return (NULL);
-
-	// <redir in>
-	redir_in_nd = redir_in();
-	if (redir_in_nd == NULL)
-	{
-		ast_del(redir_out_nd);
-		return (NULL);
-	}
-
-	// create node
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR);
-	ast_attach(res, redir_in_nd, redir_out_nd);
-	return (res);
-}
-
-/* <redir in> */
-t_ast	*redir_3(void)
-{
-	t_ast	*redir_in_nd;
-	t_ast	*res;
-
-	// <redir in>
-	redir_in_nd = redir_in();
-	if (redir_in_nd == NULL)
+	res = redir_in();
+	if (res == NULL)
 		return (NULL);
 
 	// create node
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR);
-	ast_attach(res, redir_in_nd, NULL);
+	//res = (t_ast *)malloc(sizeof(t_ast));
+	ast_attach(res, NULL, NULL);
 	return (res);
 }
 
 /* <redir out> */
-t_ast	*redir_4(void)
+t_ast	*redir_2(void)
 {
-	t_ast	*redir_out_nd;
 	t_ast	*res;
 
 	// <redir out>
-	redir_out_nd = redir_out();
-	if (redir_out_nd == NULL)
+	res = redir_out();
+	if (res == NULL)
 		return (NULL);
 
 	// create node
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_REDIR);
-	ast_attach(res, NULL, redir_out_nd);
+	//res = (t_ast *)malloc(sizeof(t_ast));
+	ast_attach(res, NULL, NULL);
 	return (res);
 }

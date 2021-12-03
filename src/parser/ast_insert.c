@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
+/*   ast_insert.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/20 10:18:29 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:29:59 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/12/02 11:21:20 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/12/02 19:14:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* test simple cmd */
-t_ast	*simple_cmd(void)
+/* insert and ast node */
+void	ast_insert(t_ast *root, t_ast *node, t_bool on_right)
 {
-	return (simple_cmd_1());
-}
+	t_ast	*aux;
 
-/* <name> <token list> */
-t_ast	*simple_cmd_1(void)
-{
-	char	*name;
-	t_ast	*tok_lst_nd;
-	t_ast	*res;
-
-	if (!is_term(TOK, &name))
-		return (NULL);
-	tok_lst_nd = tok_lst();
-	res = (t_ast *)malloc(sizeof(t_ast));
-	ast_settype(res, AST_SIMPLECMD);
-	ast_setdata(res, name);
-	ast_attach(res, NULL, tok_lst_nd);
-	return (res);
+	dprintf(2, "root %p\n", (void *)root);
+	if (root == NULL || node == NULL)
+		return ;
+	if (on_right)
+	{
+		aux = root->right;
+		root->right = node;
+		node->right = aux;
+		node->left = NULL;
+	}
+	else
+	{
+		aux = root->left;
+		root->left = node;
+		node->left = aux;
+		node->right = NULL;
+	}
 }

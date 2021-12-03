@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 12:12:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:56:42 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,7 @@
  * 						|	<command>
  * 						;
  *
- * <command>			:	<redir in> <simple command> <redir out>
- * 						|	<redir out> <simple command> <redir in>
- * 						|	<simple command> <redir>
- * 						|	<redir> <simple command>
- * 						|	<simple command>
- * 						;
- *
- * <redir>				:	<redir in> <redir out>
- * 						|	<redir out> <redir in>
- * 						|	<redir in>
- * 						|	<redir out>
- * 						;
- *
- * <redir in>			:	'<<' <file>
- * 						|	'<' <file>
- * 						;
- *
- * <redir out>			:	'>>' <file>
- * 						|	'>' <file>
- * 						;
- *
- * <simple command>		:	<name> <token list>
+ * <command>			:	<name> <token list>
  * 						;
  *
  * <token list>			:	<token> <token list>
@@ -94,6 +73,9 @@
  *
  * tok_lst()		=>	test token list
  * tok_lst_1()		=>	<token> <token list>
+ * tok_lst_2()		=>	<token> <token list>
+ * tok_lst_3()		=>	<token> <token list>
+ * tok_lst_4()		=>	(null)
  *
  */
 
@@ -135,8 +117,6 @@ t_ast	*cmd_5(void);
 t_ast	*redir(void);
 t_ast	*redir_1(void);
 t_ast	*redir_2(void);
-t_ast	*redir_3(void);
-t_ast	*redir_4(void);
 
 /* parse_redir_in.c */
 t_ast	*redir_in(void);
@@ -156,5 +136,6 @@ t_ast	*simple_cmd_1(void);
 t_ast	*tok_lst(void);
 t_ast	*tok_lst_1(void);
 t_ast	*tok_lst_2(void);
+t_ast	*tok_lst_3(void);
 
 #endif

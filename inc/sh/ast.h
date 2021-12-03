@@ -6,12 +6,16 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/29 15:29:39 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/02 18:52:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
+
+/*** DEFINES ***/
+
+#include <libft/ft_bool.h>
 
 /*** DATA ***/
 
@@ -46,5 +50,8 @@ void	ast_del(t_ast *ast);
 void	ast_attach(t_ast *root, t_ast *left, t_ast *right);
 void	ast_settype(t_ast *ast, t_asttype type);
 void	ast_setdata(t_ast *ast, char *data);
+
+/* ast_insert.c */
+void	ast_insert(t_ast *root, t_ast *node, t_bool on_right);
 
 #endif
