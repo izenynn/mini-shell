@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:21:20 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/02 19:14:17 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 13:07:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ast_insert(t_ast *root, t_ast *node, t_bool on_right)
 {
 	t_ast	*aux;
 
-	dprintf(2, "root %p\n", (void *)root);
 	if (root == NULL || node == NULL)
 		return ;
 	if (on_right)

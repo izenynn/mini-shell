@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 17:53:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/02 19:47:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 13:17:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ t_ast	*cmd(void)
 /* <name> <token list> */
 t_ast	*cmd_1(void)
 {
-	char	*name;
+	//char	*name;
 	t_ast	*res;
 
-	if (!is_term(TOK, &name))
-		return (NULL);
+	//if (!is_term(TOK, &name))
+	//	return (NULL);
 	// create node
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_attach(res, NULL, NULL);
 	ast_settype(res, AST_CMD);
-	ast_setdata(res, name);
+	//ast_setdata(res, name);
+	res->data = NULL;
 	// set cmd_ast global
 	g_sh.cmd_ast = res;
 	// get token list

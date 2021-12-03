@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:56:42 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 13:20:37 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,19 @@
  * 						;
  *
  * <token list>			:	<token> <token list>
+ * 						|	<redir> <token list>
+ * 						;
+ *
+ * <redir>				:	<redir in>
+ * 						|	<redir out>
+ * 						;
+ *
+ * <redir in>			:	'<<' <file>
+ * 						|	'<' <file>
+ * 						;
+ *
+ * <redir in>			:	'<<' <file>
+ * 						|	'<' <file>
  * 						;
  *
  */
@@ -103,15 +116,9 @@ t_ast	*job(void);
 t_ast	*job_1(void);
 t_ast	*job_2(void);
 
-/* parse_cmd_1.c */
+/* parse_cmd.c */
 t_ast	*cmd(void);
 t_ast	*cmd_1(void);
-t_ast	*cmd_2(void);
-
-/* parse_cmd_2.c */
-t_ast	*cmd_3(void);
-t_ast	*cmd_4(void);
-t_ast	*cmd_5(void);
 
 /* parse_redir.c */
 t_ast	*redir(void);
@@ -128,14 +135,11 @@ t_ast	*redir_out(void);
 t_ast	*redir_out_1(void);
 t_ast	*redir_out_2(void);
 
-/* parse_simple_cmd.c */
-t_ast	*simple_cmd(void);
-t_ast	*simple_cmd_1(void);
-
 /* parse_tok_lst.c */
 t_ast	*tok_lst(void);
 t_ast	*tok_lst_1(void);
 t_ast	*tok_lst_2(void);
 t_ast	*tok_lst_3(void);
+t_ast	*tok_lst_4(void);
 
 #endif

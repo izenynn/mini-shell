@@ -6,7 +6,7 @@
 /*   by: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   created: 2021/11/29 13:27:59 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:10:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 13:13:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_ast	*redir_out_1(void)
 	return (res);
 }
 
-/* '>>' <file> */
+/* '>' <file> */
 t_ast	*redir_out_2(void)
 {
 	char	*file;
