@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 10:34:22 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 13:27:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 15:10:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/ast.h"
 #include <sh.h>
 
 /* test token list */
@@ -41,7 +40,7 @@ t_ast	*tok_lst(void)
 
 	// null
 	g_sh.tok = save;
-	new_node = tok_lst_3();
+	new_node = tok_lst_4();
 	if (new_node != NULL)
 		return (new_node);
 
