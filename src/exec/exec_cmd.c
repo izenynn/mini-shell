@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:29:44 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:52:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	exec_cmd(t_cmd *cmd)
 }
 
 /* handle here document read until delim */
-static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
+static void	handle_read_hd(char *delim, int fd[2], t_bool is_parent)
 {
 	char	*line;
 	//char	*aux;
@@ -93,25 +93,27 @@ static void	handle_read_hd(char *delim, int fd[2], t_bool is_builtin)
 		//if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
 		{
-			close(WRITE_END);
+			close(fd[WRITE_END]);
+			//close(WRITE_END);
 			free(line);
 			//free(aux);
 			exit(EXIT_SUCCESS);
 		}
-		if (!is_builtin)
+		if (!is_parent)
 			ft_putendl_fd(line, fd[WRITE_END]);
 			//ft_putstr_fd(line, fd[WRITE_END]);
 		free(line);
 		//line = ft_get_next_line(STDIN_FILENO);
 		line = readline("> ");
 	}
-	close(WRITE_END);
+	close(fd[WRITE_END]);
+	//close(WRITE_END);
 	free(line);
 	//free(aux);
 }
 
 /* handle here document "<<" */
-int	handle_here_doc(char *delim, t_bool is_builtin, int out_fd)
+int	handle_here_doc(char *delim, t_bool is_parent, int out_fd)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -124,22 +126,23 @@ int	handle_here_doc(char *delim, t_bool is_builtin, int out_fd)
 	if (pid > 0)
 	{
 		close(fd[WRITE_END]);
-		if (!is_builtin)
+		if (!is_parent)
 			dup2(fd[READ_END], out_fd);
 		close(fd[READ_END]);
 		waitpid(pid, NULL, 0);
 	}
 	else
 	{
-		handle_read_hd(delim, fd, is_builtin);
+		handle_read_hd(delim, fd, is_parent);
 	}
 	return (0);
 }
 
 /* redir */
-int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
+int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 {
 	int		fd_io[2];
+	int		pipe_fd[2];
 	int		type;
 	t_ast	*redir;
 
@@ -148,10 +151,16 @@ int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 	fd_io[0] = -1;
 	fd_io[1] = -1;
 	// pipe
-	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_builtin)
+	if (cmd->io->is_pipe[FD_IN] == TRUE && !is_parent)
 		dup2(cmd->io->fd_read, STDIN_FILENO);
 	if (cmd->io->is_pipe[FD_OUT] == TRUE)
 		dup2(cmd->io->fd_pipe[WRITE_END], STDOUT_FILENO);
+	if (!is_parent && (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT]))
+	{
+		close(cmd->io->fd_pipe[READ_END]);
+		close(cmd->io->fd_pipe[WRITE_END]);
+		close(cmd->io->fd_read);
+	}
 	// redir in
 	redir = cmd->io->redir;
 	while (redir != NULL)
@@ -188,16 +197,26 @@ int	redir_cmd(t_cmd *cmd, t_bool is_builtin)
 		else if (type & AST_RD_HDOC)
 		{
 			if (fd_io[FD_IN] >= 0)
-				close(fd_io[FD_OUT]);
-			if (handle_here_doc(redir->data, is_builtin, fd_io[FD_IN]))
+				close(fd_io[FD_IN]);
+			if (pipe(pipe_fd) == -1)
+				return (perror_ret("pipe", 1));
+			close(pipe_fd[WRITE_END]);
+			if (handle_here_doc(redir->data, is_parent, pipe_fd[READ_END]))
 				return (1);
+			fd_io[FD_IN] = pipe_fd[READ_END];
 		}
 		redir = redir->left;
 	}
-	if (fd_io[FD_IN] >= 0 && !is_builtin)
+	if (fd_io[FD_IN] >= 0 && !is_parent)
+	{
 		dup2(fd_io[FD_IN], STDIN_FILENO);
+		close(fd_io[FD_IN]);
+	}
 	if (fd_io[FD_OUT] >= 0)
+	{
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
+		close(fd_io[FD_OUT]);
+	}
 	/*if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
 	{
 		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
@@ -311,12 +330,6 @@ int	handle_exec_cmd(t_cmd *cmd)
 		// exec cmd
 		if (redir_cmd(cmd, FALSE))
 			exit(EXIT_FAILURE);
-		if (cmd->io->is_pipe[FD_IN] || cmd->io->is_pipe[FD_OUT])
-		{
-			close(cmd->io->fd_pipe[READ_END]);
-			close(cmd->io->fd_pipe[WRITE_END]);
-			close(cmd->io->fd_read);
-		}
 		exec_cmd(cmd);
 	}
 	return (0);

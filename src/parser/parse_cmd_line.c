@@ -6,12 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:27:32 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:51:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/03 16:19:11 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/lexer.h"
-#include "sh/parser.h"
 #include <sh.h>
 
 /* test all command line in order */

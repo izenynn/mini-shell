@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 13:57:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/27 17:50:49 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/04 02:02:01 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ void	read_config(void)
 	int		fd;
 
 	fd = open_rc();
+	if (fd == -1)
+		return ;
 	line = ft_get_next_line(fd);
-	while (line)
+	while (line != NULL)
 	{
 		handle_line(line);
 		line = ft_get_next_line(fd);
 	}
+	close(fd);
 }
