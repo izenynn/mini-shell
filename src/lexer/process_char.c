@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:39:32 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:28:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 /* on general state */
 int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 {
-	if (ls->type == CHAR_QOUTE || ls->type == CHAR_DQOUTE || ls->type == CHAR_OCL)
+	if (ls->type == CHAR_QOUTE || ls->type == CHAR_DQOUTE
+		|| ls->type == CHAR_OCL)
 		on_gen_st_quotes(ls);
 	else if (ls->type == CHAR_ESCSEQ)
 	{
@@ -96,8 +97,8 @@ int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 		if (on_gen_st_ws(ls, sz))
 			return (1);
 	}
-	else if (ls->type == CHAR_SC || ls->type == CHAR_GT
-		|| ls->type == CHAR_LS || ls->type == CHAR_AMP || ls->type == CHAR_PIPE)
+	else if (ls->type == CHAR_SC || ls->type == CHAR_GT || ls->type == CHAR_LS
+		|| ls->type == CHAR_AMP || ls->type == CHAR_PIPE)
 	{
 		if (on_gen_st_sp(ls, sz))
 			return (1);

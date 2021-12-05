@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/02 18:52:27 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:23:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*** DEFINES ***/
 
-#include <libft/ft_bool.h>
+# include <libft/ft_bool.h>
 
 /*** DATA ***/
 

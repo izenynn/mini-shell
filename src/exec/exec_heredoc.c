@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 01:09:29 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 13:31:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 13:43:14 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	hd_pipe(t_ast *ast)
 	{
 		if (hd_cmd(job->left))
 			return (1);
+		job = job->right;
 	}
 	if (hd_cmd(job))
 		return (1);

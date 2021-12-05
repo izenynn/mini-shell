@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 13:22:07 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:23:32 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	cmd_del(t_cmd *cmd);
 void	handle_zombies(void);
 
 /* exec_heredoc.c */
-int	exec_heredoc(t_ast *ast);
+int		exec_heredoc(t_ast *ast);
 
 /* heredoc.c */
 int		handle_heredoc(t_ast *node);

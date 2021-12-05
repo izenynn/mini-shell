@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/01 16:59:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:29:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	check_empty_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 	if (ft_strlen((*cur)->data) <= 0)
 	{
 		if (prev == NULL)
- 			lex->tok_lst = (*cur)->next;
+			lex->tok_lst = (*cur)->next;
 		else
 			prev->next = (*cur)->next;
 		free((*cur)->data);

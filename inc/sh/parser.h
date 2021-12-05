@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:48:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:21:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@
  * 						|	<command>
  * 						;
  *
- * <command>			:	<name> <token list>
+ * <command>			:	<token list>
  * 						;
  *
- * <token list>			:	<token> <token list>
+ * <token list>			:	<name> <token list>
+ * 						|	<token> <token list>
  * 						|	<redir> <token list>
+ * 						|	(null)
  * 						;
  *
  * <redir>				:	<redir in>
@@ -52,8 +54,8 @@
  * Create an ast recursively:
  *
  * cmd_line()		=>	test all command line in order
- * cmd_line_1()		=>	<job> ';' <command line>
- * cmd_line_2()		=>	<job> ';'
+ * cmd_line_1()		=>	<job> ';'... <command line>
+ * cmd_line_2()		=>	<job> ';'...
  * cmd_line_3()		=>	<job>
  *
  * job()			=>	test all job in order
@@ -61,17 +63,17 @@
  * job_2()			=>	<command>
  *
  * cmd()			=>	test all command in order
- * cmd_1()			=>	<redir in> <simple command> <redir out>
- * cmd_2()			=>	<redir out> <simple command> <redir in>
- * cmd_3()			=>	<simple command> <redir>
- * cmd_4()			=>	<redir> <simple command>
- * cmd_5()			=>	<simple command>
+ * cmd_1()			=>	<token list>
+ *
+ * tok_lst()		=>	test token list
+ * tok_lst_1()		=>	<name> <token list>
+ * tok_lst_2()		=>	<token> <token list>
+ * tok_lst_3()		=>	<redir> <token list>
+ * tok_lst_4()		=>	(null)
  *
  * redir()			=>	test all redirections in order
- * redir_1()		=>	<redir in> <redir out>
- * redir_2()		=>	<redir in> <redir out>
- * redir_3()		=>	<redir in>
- * redir_4()		=>	<redir out>
+ * redir_1()		=>	<redir in>
+ * redir_2()		=>	<redir in>
  *
  * redir_in()		=>	test all in redirections in order
  * redir_in_1()		=>	'<<' <file>
@@ -80,15 +82,6 @@
  * redir_out()		=>	test all out redirections in order
  * redir_out_1()	=>	'>>' <file>
  * redir_out_2()	=>	'>' <file>
- *
- * simple_cmd()		=>	test simple cmd
- * simple_cmd_1()	=>	<name> <token list>
- *
- * tok_lst()		=>	test token list
- * tok_lst_1()		=>	<token> <token list>
- * tok_lst_2()		=>	<token> <token list>
- * tok_lst_3()		=>	<token> <token list>
- * tok_lst_4()		=>	(null)
  *
  */
 

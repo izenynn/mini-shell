@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:17:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/04 02:02:11 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:25:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,14 @@ t_ast	*redir_in(void)
 	t_ast	*new_node;
 
 	save = g_sh.tok;
-
 	g_sh.tok = save;
 	new_node = redir_in_1();
 	if (new_node != NULL)
 		return (new_node);
-
 	g_sh.tok = save;
 	new_node = redir_in_2();
 	if (new_node != NULL)
 		return (new_node);
-
 	return (NULL);
 }
 
@@ -39,20 +36,16 @@ t_ast	*redir_in_1(void)
 	char	*file;
 	t_ast	*res;
 
-	// '<'
 	if (!is_term(CHAR_LS, NULL))
 		return (NULL);
-	// other '<'
 	if (!is_term(CHAR_LS, NULL))
 		return (NULL);
-	// <file>
 	file = NULL;
 	if (!is_term(TOK, &file))
 	{
 		free(file);
 		return (NULL);
 	}
-	// create node
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_settype(res, AST_RD_HDOC);
 	ast_setdata(res, file);
@@ -66,17 +59,14 @@ t_ast	*redir_in_2(void)
 	char	*file;
 	t_ast	*res;
 
-	// '<'
 	if (!is_term(CHAR_LS, NULL))
 		return (NULL);
-	// <file>
 	file = NULL;
 	if (!is_term(TOK, &file))
 	{
 		free(file);
 		return (NULL);
 	}
-	// create node
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_settype(res, AST_RD_INFILE);
 	ast_setdata(res, file);
