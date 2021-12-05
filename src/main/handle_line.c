@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:56:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/04 02:32:05 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/ast.h"
 #include <sh.h>
 
 /************************* TEST FUNC. *************************/
@@ -89,6 +88,13 @@
 
 /************************* TEST FUNC. *************************/
 
+/* free all before exit */
+static void	free_all(t_lexer *lex, t_ast *ast)
+{
+	lexer_del(lex);
+	ast_del(ast);
+}
+
 /* check is line is a commet */
 static int	is_comment(char *line)
 {
@@ -129,7 +135,7 @@ void	handle_line(char *line)
 		return ;
 	}
 	//print_ast(ast, 0); printf("------------------------------------\n");
+	// TODO handle here doc (in order somehow)
 	exec_ast(ast);
-	lexer_del(&lex);
-	ast_del(ast);
+	free_all(&lex, ast);
 }

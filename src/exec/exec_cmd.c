@@ -6,11 +6,10 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 16:52:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 01:12:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh/utils.h"
 #include <sh.h>
 
 /* get redir type of input */
@@ -78,66 +77,6 @@ static void	exec_cmd(t_cmd *cmd)
 	perror_exit(cmd_path);
 }
 
-/* handle here document read until delim */
-static void	handle_read_hd(char *delim, int fd[2], t_bool is_parent)
-{
-	char	*line;
-	//char	*aux;
-
-	close(fd[READ_END]);
-	//aux = ft_strjoin(delim, "\n");
-	//line = ft_get_next_line(STDIN_FILENO);
-	line = readline("> ");
-	while (line)
-	{
-		//if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
-		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
-		{
-			close(fd[WRITE_END]);
-			//close(WRITE_END);
-			free(line);
-			//free(aux);
-			exit(EXIT_SUCCESS);
-		}
-		if (!is_parent)
-			ft_putendl_fd(line, fd[WRITE_END]);
-			//ft_putstr_fd(line, fd[WRITE_END]);
-		free(line);
-		//line = ft_get_next_line(STDIN_FILENO);
-		line = readline("> ");
-	}
-	close(fd[WRITE_END]);
-	//close(WRITE_END);
-	free(line);
-	//free(aux);
-}
-
-/* handle here document "<<" */
-int	handle_here_doc(char *delim, t_bool is_parent, int out_fd)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	if (pipe(fd) == -1)
-		return (perror_ret("pipe", 1));
-	pid = fork();
-	if (pid < 0)
-		return (perror_ret("fork", 1));
-	if (pid > 0)
-	{
-		close(fd[WRITE_END]);
-		if (!is_parent)
-			dup2(fd[READ_END], out_fd);
-		close(fd[READ_END]);
-		waitpid(pid, NULL, 0);
-	}
-	else
-	{
-		handle_read_hd(delim, fd, is_parent);
-	}
-	return (0);
-}
-
 /* redir */
 int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 {
@@ -201,7 +140,7 @@ int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 			if (pipe(pipe_fd) == -1)
 				return (perror_ret("pipe", 1));
 			close(pipe_fd[WRITE_END]);
-			if (handle_here_doc(redir->data, is_parent, pipe_fd[READ_END]))
+			if (handle_heredoc(redir->data, is_parent, pipe_fd[READ_END]))
 				return (1);
 			fd_io[FD_IN] = pipe_fd[READ_END];
 		}

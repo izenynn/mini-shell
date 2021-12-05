@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 13:43:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 01:11:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ void	cmd_del(t_cmd *cmd);
 
 /* exec_utils */
 void	handle_zombies(void);
+
+/* heredoc.c */
+int	handle_heredoc(char *delim, t_bool is_parent, int out_fd);
 
 /* utils.c */
 char	*dir_join(char const *dir1, char const *dir2);
