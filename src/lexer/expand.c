@@ -6,23 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/01 18:40:19 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 14:39:22 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/ft_str.h"
 #include <sh.h>
-
-//		if (tok->data[start] == '=')
-//		{
-//			end = start;
-//			value = ft_strdup("\'$\'");
-//		}
-
-/*static int	expand_var()
-{
-	;
-}*/
 
 static int	handle_expand(t_tok *tok, int start, int st)
 {
@@ -56,20 +44,14 @@ static int	handle_expand(t_tok *tok, int start, int st)
 		{
 			if (is_curly && !ft_isalnum(tok->data[end]) && tok->data[end] != '_'
 				&& tok->data[end] != '}')
-					return (error_ret("error: bad substitution\n", 1));
+				return (error_ret("error: bad substitution\n", 1));
 			if (st == ST_GEN)
 			{
-				/*if (tok->data[end] == CHAR_QOUTE || tok->data[end] == CHAR_DQOUTE
-					|| tok->data[end] == CHAR_DL || tok->data[end] == CHAR_QUEST
-					|| tok->data[end] == CHAR_WS)*/
 				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
 					break ;
 			}
 			else if (st == ST_IN_DQUOTE)
 			{
-				/*if (tok->data[end] == CHAR_DQOUTE || tok->data[end] == CHAR_QOUTE
-					|| tok->data[end] == CHAR_DL || tok->data[end] == CHAR_QUEST
-					|| tok->data[end] == CHAR_WS)*/
 				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
 					break ;
 			}
@@ -77,34 +59,20 @@ static int	handle_expand(t_tok *tok, int start, int st)
 		}
 		if (is_curly == 1 && tok->data[end] != '}')
 			return (error_ret("error: bad substitution\n", 1));
-		//if (is_curly)
-		//	end--;
 		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
 		if (start + is_curly == end)
 			value = ft_strdup("\'$\'");
-		/*else
-		{
-			if (tok->data[start] == '=' || (is_curly && tok->data[start + 1] == '='))
-			 value = ft_getenv(name + 1);
-			else
-			 value = ft_getenv(name);
-		}*/
 		value = ft_getenv(name);
 	}
-	//printf("NAME: %s\n", name);
 	if (value == NULL)
 		value = ft_strdup("");
-	//printf("VALUE: '%s'\n", value);
 	res = (char *)ft_calloc(sizeof(char),
-		ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
+			ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
 	if (res == NULL)
 		perror_ret("malloc", 1);
 	strncpy(res, tok->data, start - 1);
-	//printf("res: '%s'\n", res);
 	strcat(res, value);
-	//printf("res: '%s'\n", res);
 	strcat(res, tok->data + start + ft_strlen(name) + (is_curly * 2));
-	//printf("res: '%s'\n", res);
 	free(name);
 	free(value);
 	free(tok->data);
