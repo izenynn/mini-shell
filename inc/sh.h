@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/01 18:21:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 13:09:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 /* sys libraries */
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <limits.h>
 
 /* signals */
@@ -59,6 +60,9 @@
 # include <fcntl.h>
 
 /*** DEFINES ***/
+
+/* temp files */
+# define TMPDIR "/tmp"
 
 /* bool */
 # define TRUE 1

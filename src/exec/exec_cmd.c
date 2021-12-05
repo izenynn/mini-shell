@@ -6,10 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 01:12:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 13:24:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh/utils.h"
 #include <sh.h>
 
 /* get redir type of input */
@@ -81,7 +82,6 @@ static void	exec_cmd(t_cmd *cmd)
 int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 {
 	int		fd_io[2];
-	int		pipe_fd[2];
 	int		type;
 	t_ast	*redir;
 
@@ -137,12 +137,18 @@ int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 		{
 			if (fd_io[FD_IN] >= 0)
 				close(fd_io[FD_IN]);
-			if (pipe(pipe_fd) == -1)
+
+			/*if (pipe(pipe_fd) == -1)
 				return (perror_ret("pipe", 1));
 			close(pipe_fd[WRITE_END]);
 			if (handle_heredoc(redir->data, is_parent, pipe_fd[READ_END]))
 				return (1);
-			fd_io[FD_IN] = pipe_fd[READ_END];
+			fd_io[FD_IN] = pipe_fd[READ_END];*/
+			fd_io[FD_IN] = open(redir->data, O_RDONLY);
+			if (fd_io[FD_IN] == -1)
+				return (perror_ret(redir->data, 1));
+			if (unlink(redir->data) == -1)
+				perror_ret("unlink", 1);
 		}
 		redir = redir->left;
 	}

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/04 02:32:05 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/05 13:32:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	handle_line(char *line)
 		return ;
 	}
 	//print_ast(ast, 0); printf("------------------------------------\n");
-	// TODO handle here doc (in order somehow)
-	exec_ast(ast);
+	if (exec_heredoc(ast) == 0)
+		exec_ast(ast);
 	free_all(&lex, ast);
 }
