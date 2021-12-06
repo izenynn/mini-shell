@@ -6,31 +6,78 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 00:42:24 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 13:34:06 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/06 14:12:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* create temp file for heredoc */
-static char	*new_file()
+/* get new temp file name */
+static char	*get_fname(char *dir)
 {
-	char		*file;
-	char		*aux1;
-	char		*aux2;
-	int			i;
+	char	*name;
+	char	*aux;
+	int		i;
 
 	i = 0;
-	while (++i)
+	while (++i < 100)
 	{
-		aux2 = ft_itoa(i);
-		aux1 = ft_strjoin(TMPDIR "/ms_hd_", aux2);
-		free(aux2);
-		file = ft_strjoin(aux1, ".tmp");
-		free(aux1);
-		if (access(file, F_OK) == -1)
+		// "/ms_1"
+		aux = ft_itoa(i);
+		name = ft_strjoin("/.ms_", aux);
+		free(aux);
+
+		// "/ms_1.tmp"
+		aux = name;
+		name = ft_strjoin(aux, ".tmp");
+		free(aux);
+
+		// "/tmp/ms_1"
+		aux = name;
+		name = ft_strjoin(dir, aux);
+		free(aux);
+
+		// check access
+		if (access(name, F_OK) == -1)
+			return (name);
+		free(name);
+	}
+	return (NULL);
+}
+
+/* create temp file for heredoc */
+static char	*new_tmp()
+{
+	char		*file;
+	char		*aux;
+
+	file = NULL;
+	if (access(TMPDIR, R_OK | W_OK) == 0)
+	{
+		//file = get_fname(TMPDIR);
+		if (file != NULL)
 			return (file);
-		free(file);
+	}
+
+	aux = ft_getenv("HOME");
+	if (aux != NULL)
+	{
+		//if (access(aux, R_OK | W_OK) == 0)
+		//	file = get_fname(aux);
+		free(aux);
+		if (file != NULL)
+			return(file);
+	}
+
+	aux = (char *)malloc((PATH_MAX + 1) * sizeof(char));
+	getcwd(aux, PATH_MAX);
+	if (aux != NULL)
+	{
+		if (access(aux, R_OK | W_OK) == 0)
+			file = get_fname(aux);
+		free(aux);
+		if (file != NULL)
+			return(file);
 	}
 	return (NULL);
 }
@@ -90,7 +137,7 @@ int	handle_heredoc(t_ast *node)
 	char	*file;
 	int		fd;
 
-	file = new_file();
+	file = new_tmp();
 	if (file == NULL)
 	{
 		ft_putstr_fd("error: cannot create file for heredoc\n", STDERR_FILENO);
