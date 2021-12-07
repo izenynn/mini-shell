@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 23:56:06 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:28:54 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:21:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ static void	handle_sig_parent(int signal)
 		rl_redisplay();
 		g_sh.status = 1;
 	}
+}
+
+/* initialise signals for heredoc read */
+void	sig_heredoc(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 /* initialise signals for child */

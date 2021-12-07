@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 00:42:24 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/06 14:12:00 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:31:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*new_tmp()
 	file = NULL;
 	if (access(TMPDIR, R_OK | W_OK) == 0)
 	{
-		//file = get_fname(TMPDIR);
+		file = get_fname(TMPDIR);
 		if (file != NULL)
 			return (file);
 	}
@@ -62,8 +62,8 @@ static char	*new_tmp()
 	aux = ft_getenv("HOME");
 	if (aux != NULL)
 	{
-		//if (access(aux, R_OK | W_OK) == 0)
-		//	file = get_fname(aux);
+		if (access(aux, R_OK | W_OK) == 0)
+			file = get_fname(aux);
 		free(aux);
 		if (file != NULL)
 			return(file);
@@ -120,14 +120,27 @@ static void read_input(char *delim, int fd)
 static int	handle_read(char *delim, int fd)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid < 0)
 		return (perror_ret("fork", 1));
 	if (pid > 0)
-		waitpid(pid, NULL, 0);
+	{
+		sig_ignore();
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) + 128 == 130)
+		{
+			write(STDOUT_FILENO, "\n", 1);
+			return (1);
+		}
+		sig_parent();
+	}
 	else
+	{
+		sig_heredoc();
 		read_input(delim, fd);
+	}
 	return (0);
 }
 
@@ -147,12 +160,14 @@ int	handle_heredoc(t_ast *node)
 	if (fd == -1)
 	{
 		free(file);
-		perror_ret(file, 1);
+		return (perror_ret(file, 1));
 	}
 	if (handle_read(node->data, fd))
+	{
+		free(file);
 		return (1);
+	}
 	close(fd);
-	// change node
 	free(node->data);
 	node->data = file;
 	return (0);
