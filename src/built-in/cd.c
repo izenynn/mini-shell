@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:17:25 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 20:27:08 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,21 @@ int	ft_changedir(char **dir)
 		if (!dir[1])
 		{
 			if (home_handler(head) == 1)
+			{
+				g_sh.env = head;
 				return (1);
+			}
 			return (0);
 		}
 		else if (goto_dir(dir[1]) == 1)
+		{
+			g_sh.env = head;
 			return (1);
+		}
 		else
 		{
 			locate_env(head);
+			g_sh.env = head;
 			return (0);
 		}
 	}
