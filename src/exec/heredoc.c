@@ -6,11 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 00:42:24 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:31:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/08 20:11:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+#include <unistd.h>
 
 /* get new temp file name */
 static char	*get_fname(char *dir)
@@ -91,7 +92,7 @@ static void read_input(char *delim, int fd)
 	//aux = ft_strjoin(delim, "\n");
 	//line = ft_get_next_line(STDIN_FILENO);
 	line = readline("> ");
-	while (line)
+	while (line != NULL)
 	{
 		//if (!ft_strncmp(line, aux, ft_strlen(aux) + 1))
 		if (!ft_strncmp(line, delim, ft_strlen(delim) + 1))
@@ -110,10 +111,12 @@ static void read_input(char *delim, int fd)
 		//line = ft_get_next_line(STDIN_FILENO);
 		line = readline("> ");
 	}
+	write(STDERR_FILENO, "warning: here-document delimited by end-of-file\n", 48);
 	close(fd);
 	//close(WRITE_END);
 	free(line);
 	//free(aux);
+	exit (EXIT_SUCCESS);
 }
 
 /* read input in a child */
