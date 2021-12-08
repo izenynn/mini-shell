@@ -42,7 +42,7 @@ void	set_values(const char *aux)
 		g_sh.env->data = (void *)ft_strdup(aux);
 	}
 	else
-		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)aux));
+		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
 }
 
 int	set_oldpwd(t_list *head)

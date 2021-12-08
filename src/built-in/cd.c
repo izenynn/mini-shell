@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/08 17:43:15 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 20:07:29 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ static int	goto_dir(const char *dir)
 	aux = ft_substr(dir, 1, ft_strlen(dir) - 1);
 	home = ft_getenv("HOME");
 	if (!home)
+	{
+		free(aux);
 		return (1);
+	}
 	aux = ft_realloc(aux, ft_strlen(dir) + ft_strlen(home) + 1);
 	tmp = ft_strjoin(home, aux);
 	if (chdir(tmp) == -1)
@@ -101,7 +104,11 @@ int	goto_oldpwd(t_list *head)
 		return (1);
 	}
 	if (chdir(opwd) == -1)
+	{
+		free(opwd);
 		return (1);
+	}
+	free(opwd);
 	set_oldpwd(head);
 	update_env();
 	return (0);

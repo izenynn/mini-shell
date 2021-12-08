@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:21:17 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/24 19:21:19 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/08 20:05:19 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,25 @@ static void	update_shlvl(void)
 			break ;
 		g_sh.env = g_sh.env->next;
 	}
+	if (!g_sh.env)
+	{
+		g_sh.env = head;
+		return ;
+	}
 	tmp = ft_substr((char *)g_sh.env->data, 6,
 			ft_strlen((char *)g_sh.env->data) - 6);
 	aux = ft_atoi(tmp);
+	if (aux < 0)
+	{
+		aux = 1;
+		free(tmp);
+		tmp = ft_itoa(aux);
+		tmp2 = ft_strjoin("SHLVL=", tmp);
+		free(g_sh.env->data);
+		g_sh.env->data = ft_strdup(tmp2);
+		g_sh.env = head;
+		return ;
+	}
 	aux++;
 	free(tmp);
 	tmp = ft_itoa(aux);
