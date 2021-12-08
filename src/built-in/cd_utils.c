@@ -52,6 +52,11 @@ int	set_oldpwd(t_list *head)
 
 	pwd = ft_getenv("PWD");
 	try_to_goto_olpwd();
+	if (!g_sh.env)
+	{
+		g_sh.env = head;
+		return (1);
+	}
 	if (!pwd)
 	{
 		pwd = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
