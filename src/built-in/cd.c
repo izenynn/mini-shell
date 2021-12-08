@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:07:29 by                  ###   ########.fr       */
+/*   Updated: 2021/12/08 20:17:25 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	goto_home(void)
 
 	home = ft_getenv("HOME");
 	head = g_sh.env;
-	if (chdir(home) == -1)
+	if (!home || chdir(home) == -1)
 	{
 		print_error(home);
 		free(home);
