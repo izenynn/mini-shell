@@ -6,30 +6,18 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 09:32:44 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 14:01:21 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/08 20:10:04 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* prompt message */
-static char	*get_prompt_cwd(void)
+/* change home for '~' */
+static char	*handle_home(char *dir)
 {
-	char	*dir;
-	char	*home;
 	char	*res;
+	char	*home;
 
-	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
-	if (getcwd(dir, PATH_MAX) == NULL)
-	{
-		free(dir);
-		dir = NULL;
-	}
-	if (dir == NULL)
-		dir = ft_getenv("PWD");
-	if (dir == NULL)
-		return (ft_strdup("error"));
-	dir[ft_strlen(dir)] = '\0';
 	home = ft_getenv("HOME");
 	if (home != NULL && !ft_strncmp(home, dir, ft_strlen(dir) + 1))
 	{
@@ -44,6 +32,27 @@ static char	*get_prompt_cwd(void)
 	else
 		res = dir;
 	free(home);
+	return (res);
+}
+
+/* prompt message */
+static char	*get_prompt_cwd(void)
+{
+	char	*res;
+	char	*dir;
+
+	dir = (char *)malloc((PATH_MAX + 1) * sizeof(char));
+	if (getcwd(dir, PATH_MAX) == NULL)
+	{
+		free(dir);
+		dir = NULL;
+	}
+	if (dir == NULL)
+		dir = ft_getenv("PWD");
+	if (dir == NULL)
+		return (ft_strdup("error"));
+	dir[ft_strlen(dir)] = '\0';
+	res = handle_home(dir);
 	return (res);
 }
 
@@ -70,7 +79,6 @@ char	*read_prompt(void)
 
 	prompt = get_prompt();
 	line = readline(prompt);
-	//line = readline("> ");
 	free(prompt);
 	return (line);
 }
