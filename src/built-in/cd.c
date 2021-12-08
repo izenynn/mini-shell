@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/30 18:58:58 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/08 17:43:15 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,30 @@ static int	goto_dir(const char *dir)
 	return (0);
 }
 
+int	goto_oldpwd(t_list *head)
+{
+	char	*opwd;
+
+	opwd = ft_getenv("OLDPWD");
+	if (!opwd)
+	{
+		write(STDERR_FILENO, "cd: OLDPWD not set\n", 19);
+		return (1);
+	}
+	if (chdir(opwd) == -1)
+		return (1);
+	set_oldpwd(head);
+	update_env();
+	return (0);
+}
+
 int	ft_changedir(char **dir)
 {
 	t_list	*head;
 
 	head = g_sh.env;
+	if (dir[1] && ft_strncmp(dir[1], "-", 1) == 0)
+		return (goto_oldpwd(head));
 	set_oldpwd(head);
 	if (!dir[1] || dir[1][0] == '~')
 	{
