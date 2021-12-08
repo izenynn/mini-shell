@@ -54,6 +54,7 @@ int	set_oldpwd(t_list *head)
 	try_to_goto_olpwd();
 	if (!g_sh.env)
 	{
+		free(pwd);
 		g_sh.env = head;
 		return (1);
 	}
