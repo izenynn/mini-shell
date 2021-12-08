@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/08 18:19:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:45:33 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	handle_expand(t_tok *tok, int start, int st)
 	else if (tok->data[start] == '=')
 	{
 		name = ft_strdup("");
-		value = ft_strdup("\'$\'");
+		value = ft_strdup("$");
 	}
 	else
 	{
@@ -61,7 +61,7 @@ static int	handle_expand(t_tok *tok, int start, int st)
 			return (error_ret("error: bad substitution\n", 1));
 		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
 		if (start + is_curly == end)
-			value = ft_strdup("\'$\'");
+			value = ft_strdup("$");
 		else
 			value = ft_getenv(name);
 	}
@@ -85,10 +85,12 @@ int	expand(t_tok *tok)
 {
 	int		st;
 	int		i;
+	int		len;
 
 	st = ST_GEN;
+	len = ft_strlen(tok->data);
 	i = -1;
-	while (tok->data[++i] != '\0')
+	while (i < len && tok->data[++i] != '\0')
 	{
 		if (st == ST_GEN)
 		{
@@ -96,7 +98,8 @@ int	expand(t_tok *tok)
 			{
 				if (handle_expand(tok, i + 1, st))
 					return (1);
-				i = -1;
+				//i = -1;
+				len = ft_strlen(tok->data);
 				continue ;
 			}
 			else if (tok->data[i] == CHAR_QOUTE)
@@ -116,7 +119,8 @@ int	expand(t_tok *tok)
 				if (handle_expand(tok, i + 1, st))
 					return (1);
 				st = ST_GEN;
-				i = -1;
+				//i = -1;
+				len = ft_strlen(tok->data);
 				continue ;
 			}
 			if (tok->data[i] == CHAR_DQOUTE)
