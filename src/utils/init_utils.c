@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:21:17 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/24 19:21:19 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/08 19:35:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ void	fill_env(char **env)
 	free(pwd);
 	free(sh_lvl);
 }
-

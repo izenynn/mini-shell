@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:02:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/08 19:35:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <sh.h>
@@ -46,7 +46,6 @@ static t_blti	*init_blti(void)
 	add_blti(&bi, "export", ft_export);
 	add_blti(&bi, "unset", ft_unset);
 	add_blti(&bi, "env", ft_env);
-	//add_blti(&bi, "alias", ft_alias);
 	add_blti(&bi, "exit", ft_exit);
 	return (bi);
 }
