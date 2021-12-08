@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:39:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/08 18:19:04 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	handle_expand(t_tok *tok, int start, int st)
 		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
 		if (start + is_curly == end)
 			value = ft_strdup("\'$\'");
-		value = ft_getenv(name);
+		else
+			value = ft_getenv(name);
 	}
 	if (value == NULL)
 		value = ft_strdup("");
