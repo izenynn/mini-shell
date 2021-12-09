@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/09 12:59:15 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/09 14:33:57 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ SRC_PROMPT =	prompt.c
 
 SRC_UTILS =		init.c				error_utils.c		signals.c			\
 				custom_len.c		ft_getenv.c			env_utils.c			\
-				init_utils.c		read_config.c
+				init_utils.c		read_config.c		new_tmp.c
 
 SRC_NAME =	$(SRC_ROOT)														\
 			$(addprefix $(SRC_DIR_MAIN)/, $(SRC_MAIN))						\

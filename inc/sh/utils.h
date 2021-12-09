@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 16:47:11 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 14:32:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ void	init_signals(void);
 
 /* env_utils.c */
 char	**get_env_char(void);
+
+/* new_tmp.c */
+char	*new_tmp(void);
 
 #endif
