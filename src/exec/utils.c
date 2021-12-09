@@ -6,11 +6,29 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 18:48:15 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/22 18:48:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 15:54:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+/* initialise io struct */
+t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read)
+{
+	t_io	*io;
+
+	io = (t_io *)malloc(sizeof(t_io));
+	io->is_pipe[READ_END] = p_read;
+	io->is_pipe[WRITE_END] = p_write;
+	if (p_read || p_write)
+	{
+		io->fd_pipe[READ_END] = fd_pipe[READ_END];
+		io->fd_pipe[WRITE_END] = fd_pipe[WRITE_END];
+		io->fd_read = fd_read;
+	}
+	io->redir = 0;
+	return (io);
+}
 
 /* join two strings with a '/' between them */
 char	*dir_join(char const *dir1, char const *dir2)

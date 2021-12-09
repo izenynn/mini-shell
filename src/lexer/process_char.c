@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:28:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:40:03 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 		ls->tok->data[ls->j++] = ls->c;
 		ls->tok->type = TOK;
 	}
-	else if (ls->type == CHAR_WS)
+	else if (ls->type == CHAR_WS || ls->type == CHAR_TAB)
 	{
 		if (on_gen_st_ws(ls, sz))
 			return (1);

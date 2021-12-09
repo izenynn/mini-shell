@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:03:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 12:27:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:38:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	lexer_del(t_lexer *lex)
 /* support for get type func */
 static int	get_ctype_2(char c)
 {
-	if (c == CHAR_OCL)
+	if (c == '{')
 		return (CHAR_OCL);
-	else if (c == CHAR_CCL)
+	else if (c == '}')
 		return (CHAR_CCL);
 	return (CHAR_GEN);
 }
