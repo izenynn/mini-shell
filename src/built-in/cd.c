@@ -6,13 +6,13 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:27:08 by                  ###   ########.fr       */
+/*   Updated: 2021/12/09 14:16:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-void	update_env(void)
+void	update_env(t_list *env)
 {
 	char	*n_path;
 
@@ -26,22 +26,24 @@ void	update_env(void)
 		if (!n_path)
 			return ;
 	}
-	free(g_sh.env->data);
-	g_sh.env->data = ft_strjoin("PWD=", n_path);
+	free(env->data);
+	env->data = ft_strjoin("PWD=", n_path);
 	free(n_path);
 }
 
 int	locate_env(t_list *head)
 {
-	while (g_sh.env)
+	t_list	*aux;
+
+	aux = head;
+	while (aux != NULL)
 	{
-		if (ft_strncmp("PWD=", (char *)g_sh.env->data, 4) == 0)
+		if (ft_strncmp("PWD=", (char *)aux->data, 4) == 0)
 		{
-			update_env();
-			g_sh.env = head;
+			update_env(aux);
 			return (0);
 		}
-		g_sh.env = g_sh.env->next;
+		aux = aux->next;
 	}
 	return (1);
 }
@@ -93,7 +95,7 @@ static int	goto_dir(const char *dir)
 	return (0);
 }
 
-int	goto_oldpwd(t_list *head)
+int	goto_oldpwd(t_list *env)
 {
 	char	*opwd;
 
@@ -109,45 +111,35 @@ int	goto_oldpwd(t_list *head)
 		return (1);
 	}
 	free(opwd);
-	set_oldpwd(head);
-	update_env();
+	set_oldpwd(env);
+	update_env(env);
 	return (0);
 }
 
 int	ft_changedir(char **dir)
 {
-	t_list	*head;
-
-	head = g_sh.env;
 	if (dir[1] && ft_strncmp(dir[1], "-", 1) == 0)
-		return (goto_oldpwd(head));
-	set_oldpwd(head);
+		return (goto_oldpwd(g_sh.env));
+	set_oldpwd(g_sh.env);
 	if (!dir[1] || dir[1][0] == '~')
 	{
 		if (!dir[1])
 		{
-			if (home_handler(head) == 1)
-			{
-				g_sh.env = head;
+			if (home_handler() == 1)
 				return (1);
-			}
 			return (0);
 		}
 		else if (goto_dir(dir[1]) == 1)
-		{
-			g_sh.env = head;
 			return (1);
-		}
 		else
 		{
-			locate_env(head);
-			g_sh.env = head;
+			locate_env(g_sh.env);
 			return (0);
 		}
 	}
 	else if (chdir(dir[1]) == -1)
 		return (print_error(dir[1]));
 	else
-		set_env(head);
+		set_env(g_sh.env);
 	return (0);
 }

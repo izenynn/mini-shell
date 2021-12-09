@@ -24,52 +24,53 @@ void	update_var(char *var_name, char *var)
 	free(content);
 }
 
-void	try_to_goto_olpwd(void)
+void	try_to_goto_olpwd(t_list *head)
 {
-	while (g_sh.env && g_sh.env->data)
+	t_list	*aux;
+
+	aux = head;
+	while (aux && aux->data)
 	{
-		if (ft_strncmp("OLDPWD=", (char *)g_sh.env->data, 7) == 0)
+		if (ft_strncmp("OLDPWD=", (char *)aux->data, 7) == 0)
 			break ;
-		g_sh.env = g_sh.env->next;
+		aux = aux->next;
 	}
 }
 
-void	set_values(const char *aux)
+void	set_values(t_list *env, const char *aux)
 {
-	if (g_sh.env)
+	if (env != NULL)
 	{
-		free(g_sh.env->data);
-		g_sh.env->data = (void *)ft_strdup(aux);
+		free(env->data);
+		env->data = (void *)ft_strdup(aux);
 	}
 	else
 		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
 }
 
-int	set_oldpwd(t_list *head)
+int	set_oldpwd(t_list *env)
 {
 	char	*pwd;
 	char	*aux;
 
 	pwd = ft_getenv("PWD");
-	try_to_goto_olpwd();
-	if (!g_sh.env)
+	try_to_goto_olpwd(g_sh.env);
+	if (env == NULL)
 	{
 		free(pwd);
-		g_sh.env = head;
 		return (1);
 	}
-	if (!pwd)
+	if (pwd == NULL)
 	{
 		pwd = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
-		if (!getcwd(pwd, PATH_MAX))
+		if (getcwd(pwd, PATH_MAX) == NULL)
 		{
 			free(pwd);
 			return (1);
 		}
 	}
 	aux = ft_strjoin("OLDPWD=", pwd);
-	set_values(aux);
-	g_sh.env = head;
+	set_values(env, aux);
 	free(pwd);
 	free(aux);
 	return (0);

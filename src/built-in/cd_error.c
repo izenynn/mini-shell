@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:48 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/30 19:02:54 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/09 14:11:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,23 @@ int	print_error(const char *dir)
 {
 	if (dir)
 	{
-		write(STDERR_FILENO, "cd: ",
-			  ft_strlen("cd: "));
+		write(STDERR_FILENO, "cd: ", 4);
 		write(STDERR_FILENO, dir, ft_strlen(dir));
 		write(STDERR_FILENO, ": no such file or directory:\n", 29);
 	}
 	else
-		write(STDERR_FILENO, "cd: HOME not set\n", 18);
+		write(STDERR_FILENO, "cd: HOME not set\n", 17);
 	return (1);
 }
 
-int	home_handler(t_list *head)
+int	home_handler(void)
 {
-	if (goto_home() == 1 || locate_env(head))
+	if (goto_home() == 1 || locate_env(g_sh.env))
 		return (1);
 	return (0);
 }
 
-void	set_env(t_list *head)
+void	set_env(t_list *env)
 {
-	locate_env(head);
-	g_sh.env = head;
+	locate_env(env);
 }
