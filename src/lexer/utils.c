@@ -6,11 +6,25 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:03:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/26 17:48:48 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 12:27:04 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+/* init lexer support struct */
+int	init_ls(t_lexsup *ls, t_lexer *lex, const size_t sz)
+{
+	lex->tok_lst = (t_tok *)malloc(sizeof(t_tok));
+	if (!lex->tok_lst)
+		return (perror_ret("fatal error", 1));
+	ls->tok = lex->tok_lst;
+	tok_init(ls->tok, sz);
+	ls->st = ST_GEN;
+	ls->i = 0;
+	ls->j = 0;
+	return (0);
+}
 
 /* destroy lexer */
 void	lexer_del(t_lexer *lex)

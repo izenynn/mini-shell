@@ -5,127 +5,111 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/08 18:45:33 by dpoveda-         ###   ########.fr       */
+/*   Created: 2021/12/09 12:59:37 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/12/09 13:46:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-static int	handle_expand(t_tok *tok, int start, int st)
+/* handle_expand.c */
+static void	special_cases(char c, char **name, char **value)
 {
-	int		end;
-	int		is_curly;
-	char	*name;
-	char	*value;
-	char	*res;
+	if (c == '?')
+	{
+		*name = ft_strdup("?");
+		*value = ft_itoa(g_sh.status);
+	}
+	else if (c == '=')
+	{
+		*name = ft_strdup("");
+		*value = ft_strdup("$");
+	}
+}
 
-	is_curly = 0;
-	end = start;
-	if (tok->data[start] == '?')
+/* is curly */
+static int	is_curly(t_expsup *es, t_tok *tok)
+{
+	int	curly;
+
+	curly = 0;
+	if (tok->data[es->end] == '{')
 	{
-		name = ft_strdup("?");
-		value = ft_itoa(g_sh.status);
-	}
-	else if (tok->data[start] == '=')
-	{
-		name = ft_strdup("");
-		value = ft_strdup("$");
-	}
-	else
-	{
-		if (tok->data[end] == '{' && ++end)
-		{
-			if (tok->data[end] == '}')
-				return (error_ret("error: bad substitution\n", 1));
-			is_curly = 1;
-		}
-		while (tok->data[end] != '\0')
-		{
-			if (is_curly && !ft_isalnum(tok->data[end]) && tok->data[end] != '_'
-				&& tok->data[end] != '}')
-				return (error_ret("error: bad substitution\n", 1));
-			if (st == ST_GEN)
-			{
-				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
-					break ;
-			}
-			else if (st == ST_IN_DQUOTE)
-			{
-				if (!ft_isalnum(tok->data[end]) && tok->data[end] != '_')
-					break ;
-			}
-			end++;
-		}
-		if (is_curly == 1 && tok->data[end] != '}')
+		es->end++;
+		if (tok->data[es->end] == '}')
 			return (error_ret("error: bad substitution\n", 1));
-		name = ft_substr(tok->data, start + is_curly, end - start - is_curly);
-		if (start + is_curly == end)
-			value = ft_strdup("$");
-		else
-			value = ft_getenv(name);
+		curly = 1;
 	}
-	if (value == NULL)
-		value = ft_strdup("");
-	res = (char *)ft_calloc(sizeof(char),
-			ft_strlen(tok->data) - ft_strlen(name) + ft_strlen(value) - is_curly * 2);
-	if (res == NULL)
-		perror_ret("malloc", 1);
-	strncpy(res, tok->data, start - 1);
-	strcat(res, value);
-	strcat(res, tok->data + start + ft_strlen(name) + (is_curly * 2));
-	free(name);
-	free(value);
-	free(tok->data);
-	tok->data = res;
+	return (curly);
+}
+
+/* get variable name */
+static int	get_name(t_expsup *es, t_tok *tok, int *st)
+{
+	es->curly = is_curly(es, tok);
+	while (tok->data[es->end] != '\0')
+	{
+		if (es->curly && !ft_isalnum(tok->data[es->end])
+			&& tok->data[es->end] != '_' && tok->data[es->end] != '}')
+			return (error_ret("error: bad substitution\n", 1));
+		if (*st == ST_GEN)
+		{
+			if (!ft_isalnum(tok->data[es->end]) && tok->data[es->end] != '_')
+				break ;
+		}
+		else if (*st == ST_IN_DQUOTE)
+		{
+			if (!ft_isalnum(tok->data[es->end]) && tok->data[es->end] != '_')
+				break ;
+		}
+		es->end++;
+	}
 	return (0);
 }
 
-int	expand(t_tok *tok)
+/* change token data */
+static void	change_data(t_expsup *es, t_tok *tok)
 {
-	int		st;
-	int		i;
-	int		len;
+	char	*res;
+	size_t	size;
 
-	st = ST_GEN;
-	len = ft_strlen(tok->data);
-	i = -1;
-	while (i < len && tok->data[++i] != '\0')
+	if (es->value == NULL)
+		es->value = ft_strdup("");
+	size = ft_strlen(tok->data) - ft_strlen(es->name) + ft_strlen(es->value);
+	size -= (es->curly * 2);
+	res = (char *)ft_calloc(sizeof(char), size);
+	if (res == NULL)
+		perror_ret("malloc", 1);
+	strncpy(res, tok->data, es->start - 1);
+	strcat(res, es->value);
+	strcat(res, tok->data + es->start + ft_strlen(es->name) + (es->curly * 2));
+	free(es->name);
+	free(es->value);
+	free(tok->data);
+	tok->data = res;
+}
+
+int	expand(t_tok *tok, int start, int st)
+{
+	t_expsup	es;
+
+	es.curly = 0;
+	es.start = start;
+	es.end = start;
+	if (tok->data[start] == '?' || tok->data[start] == '=')
+		special_cases(tok->data[start], &es.name, &es.value);
+	else
 	{
-		if (st == ST_GEN)
-		{
-			if (tok->data[i] == CHAR_DL)
-			{
-				if (handle_expand(tok, i + 1, st))
-					return (1);
-				//i = -1;
-				len = ft_strlen(tok->data);
-				continue ;
-			}
-			else if (tok->data[i] == CHAR_QOUTE)
-				st = ST_IN_QUOTE;
-			else if (tok->data[i] == CHAR_DQOUTE)
-				st = ST_IN_DQUOTE;
-		}
-		else if (st == ST_IN_QUOTE)
-		{
-			if (tok->data[i] == CHAR_QOUTE)
-				st = ST_GEN;
-		}
-		else if (st == ST_IN_DQUOTE)
-		{
-			if (tok->data[i] == CHAR_DL)
-			{
-				if (handle_expand(tok, i + 1, st))
-					return (1);
-				st = ST_GEN;
-				//i = -1;
-				len = ft_strlen(tok->data);
-				continue ;
-			}
-			if (tok->data[i] == CHAR_DQOUTE)
-				st = ST_GEN;
-		}
+		get_name(&es, tok, &st);
+		if (es.curly == 1 && tok->data[es.end] != '}')
+			return (error_ret("error: bad substitution\n", 1));
+		es.name = ft_substr(tok->data, es.start + es.curly,
+				es.end - es.start - es.curly);
+		if (es.start + es.curly == es.end)
+			es.value = ft_strdup("$");
+		else
+			es.value = ft_getenv(es.name);
 	}
+	change_data(&es, tok);
 	return (0);
 }

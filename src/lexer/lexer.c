@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:29:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 12:58:08 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,21 @@ static int	check_empty_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 	return (0);
 }
 
-/* process tokens */
-static int	process_tokens(t_lexer *lex)
+/* parse tokens */
+static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
 {
-	t_tok	*tok;
-	t_tok	*prev;
 	char	*trimed;
 	int		cnt;
 
-	prev = NULL;
-	tok = lex->tok_lst;
 	cnt = 0;
 	while (tok)
 	{
 		if (tok->type == TOK)
 		{
-			if (expand(tok))
+			if (handle_expand(tok))
 				return (0);
 			if (check_empty_tok(lex, &tok, prev))
 				continue ;
-			// TODO wildcards
 			trimed = (char *)malloc(ft_strlen(tok->data) + 1);
 			if (trimed == NULL)
 				return (perror_ret("fatal error", 0));
@@ -63,6 +58,19 @@ static int	process_tokens(t_lexer *lex)
 		prev = tok;
 		tok = tok->next;
 	}
+	return (cnt);
+}
+
+/* process tokens */
+static int	process_tokens(t_lexer *lex)
+{
+	t_tok	*tok;
+	t_tok	*prev;
+	int		cnt;
+
+	prev = NULL;
+	tok = lex->tok_lst;
+	cnt = parse_tokens(tok, prev, lex);
 	return (cnt);
 }
 
@@ -95,14 +103,8 @@ int	lexer_build(const char *line, const size_t sz, t_lexer *lex)
 	lex->n_toks = 0;
 	if (sz == 0)
 		return (0);
-	lex->tok_lst = (t_tok *)malloc(sizeof(t_tok));
-	if (!lex->tok_lst)
-		return (perror_ret("fatal error", 0));
-	ls.tok = lex->tok_lst;
-	tok_init(ls.tok, sz);
-	ls.st = ST_GEN;
-	ls.i = 0;
-	ls.j = 0;
+	if (init_ls(&ls, lex, sz) == 1)
+		return (0);
 	while (1)
 	{
 		if (ls.i > (int)sz)
