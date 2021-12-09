@@ -2,24 +2,23 @@
 
 void	update_var(char *var_name, char *var)
 {
-	t_list	*head;
+	t_list	*aux;
 	char	*content;
 	char	*tmp;
 
-	head = g_sh.env;
+	aux = g_sh.env;
 	tmp = ft_strjoin(var_name, "=");
 	free(var_name);
 	content = ft_substr(var, get_var_len(var) + 1,
 			ft_strlen(var) - ft_strlen(tmp));
-	while (g_sh.env)
+	while (aux != NULL)
 	{
-		if (ft_strncmp(tmp, (char *)g_sh.env->data, ft_strlen(tmp)) == 0)
+		if (ft_strncmp(tmp, (char *)aux->data, ft_strlen(tmp)) == 0)
 			break ;
-		g_sh.env = g_sh.env->next;
+		aux = aux->next;
 	}
-	free(g_sh.env->data);
-	g_sh.env->data = ft_strjoin(tmp, content);
-	g_sh.env = head;
+	free(aux->data);
+	aux->data = ft_strjoin(tmp, content);
 	free(tmp);
 	free(content);
 }
