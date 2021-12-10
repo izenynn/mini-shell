@@ -6,21 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 15:57:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:57:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/*static int	handle_cmd_exec(t_ast *ast, t_io *io)
-{
-	t_cmd	cmd;
-
-	cmd_init(&cmd, ast, io);
-	handle_exec_cmd(&cmd);
-	cmd_del(&cmd);
-	return (0);
-}*/
 
 /* interpret cmd */
 static int	handle_cmd(t_ast *ast, t_io *io)
@@ -34,9 +24,6 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 	if (type == AST_CMD)
 	{
 		io->redir = ast->left;
-		//
-		//handle_cmd_exec(ast, io);
-		//
 		cmd_init(&cmd, ast, io);
 		handle_exec_cmd(&cmd);
 		cmd_del(&cmd);
@@ -48,37 +35,29 @@ static int	handle_cmd(t_ast *ast, t_io *io)
 static int	handle_pipe(t_ast *ast)
 {
 	int		fd[2];
-	int		p_read;
-	int		p_write;
-	t_ast	*job;
+	int		p[2];
 
 	if (pipe(fd) == -1)
 		perror_ret("pipe", 1);
-	p_write = fd[WRITE_END];
-	p_read = fd[READ_END];
-
-	handle_cmd(ast->left, init_io(FALSE, TRUE, fd, p_read));
-
-	job = ast->right;
-	while (job != NULL && ast_gettype(job) == AST_PIPE)
+	p[WRITE_END] = fd[WRITE_END];
+	p[READ_END] = fd[READ_END];
+	handle_cmd(ast->left, init_io(FALSE, TRUE, fd, p[READ_END]));
+	ast = ast->right;
+	while (ast != NULL && ast_gettype(ast) == AST_PIPE)
 	{
-		close(p_write);
+		close(p[WRITE_END]);
 		if (pipe(fd) == -1)
 			perror_ret("pipe", 1);
-		p_write = fd[WRITE_END];
-
-		handle_cmd(job->left, init_io(TRUE, TRUE, fd, p_read));
-
-		close(p_read);
-		p_read = fd[READ_END];
-		job = job->right;
+		p[WRITE_END] = fd[WRITE_END];
+		handle_cmd(ast->left, init_io(TRUE, TRUE, fd, p[READ_END]));
+		close(p[READ_END]);
+		p[READ_END] = fd[READ_END];
+		ast = ast->right;
 	}
-	p_read = fd[READ_END];
-
-	handle_cmd(job, init_io(TRUE, FALSE, fd, p_read));
-
-	close (p_write);
-	close(p_read);
+	p[READ_END] = fd[READ_END];
+	handle_cmd(ast, init_io(TRUE, FALSE, fd, p[READ_END]));
+	close (p[WRITE_END]);
+	close(p[READ_END]);
 	return (0);
 }
 

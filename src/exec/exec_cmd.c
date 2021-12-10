@@ -6,23 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/07 13:59:13 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/09 20:14:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/* get redir type of input */
-/*int	redir_getin(int type)
-{
-	return (type & ((~RD_TRUNC) & (~RD_APPEND)));
-}*/
-
-/* get redir type of output */
-/*int	redir_getout(int type)
-{
-	return (type & ((~RD_INFILE) & (~RD_HDOC)));
-}*/
 
 /* search command in path */
 static char	*get_path(char *cmd, const char *path)
@@ -84,8 +72,6 @@ int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 	int		type;
 	t_ast	*redir;
 
-	//dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	//dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 	fd_io[0] = -1;
 	fd_io[1] = -1;
 	// pipe
@@ -130,19 +116,11 @@ int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 			fd_io[FD_IN] = open(redir->data, O_RDONLY);
 			if (fd_io[FD_IN] == -1)
 				return (perror_ret(redir->data, 1));
-			//dup2(fd_io[FD_IN], STDIN_FILENO);
 		}
 		else if (type & AST_RD_HDOC)
 		{
 			if (fd_io[FD_IN] >= 0)
 				close(fd_io[FD_IN]);
-
-			/*if (pipe(pipe_fd) == -1)
-				return (perror_ret("pipe", 1));
-			close(pipe_fd[WRITE_END]);
-			if (handle_heredoc(redir->data, is_parent, pipe_fd[READ_END]))
-				return (1);
-			fd_io[FD_IN] = pipe_fd[READ_END];*/
 			fd_io[FD_IN] = open(redir->data, O_RDONLY);
 			if (fd_io[FD_IN] == -1)
 				return (perror_ret(redir->data, 1));
@@ -161,35 +139,6 @@ int	redir_cmd(t_cmd *cmd, t_bool is_parent)
 		dup2(fd_io[FD_OUT], STDOUT_FILENO);
 		close(fd_io[FD_OUT]);
 	}
-	/*if (!is_builtin && redir_getin(cmd->io->redir) == RD_INFILE)
-	{
-		fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
-		if (fd_io[FD_IN] == -1)
-			return (perror_ret("open", 1));
-		dup2(fd_io[FD_IN], STDIN_FILENO);
-	}
-	else if (redir_getin(cmd->io->redir) == RD_HDOC)
-	{
-		//fd_io[FD_IN] = open(cmd->io->files[FD_IN], O_RDONLY);
-		if (handle_here_doc(cmd->io->files[FD_IN], is_builtin))
-			return (1);
-		//dup2(fd_io[FD_IN], STDIN_FILENO);
-	}
-	// redir out
-	if (redir_getout(cmd->io->redir) == RD_TRUNC)
-	{
-		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (fd_io[FD_OUT] == -1)
-			return (perror_ret("open", 1));
-		dup2(fd_io[FD_OUT], STDOUT_FILENO);
-	}
-	else if (redir_getout(cmd->io->redir) == RD_APPEND)
-	{
-		fd_io[FD_OUT] = open(cmd->io->files[FD_OUT], O_WRONLY | O_CREAT | O_APPEND, 0664);
-		if (fd_io[FD_OUT] == -1)
-			return (perror_ret("open", 1));
-		dup2(fd_io[FD_OUT], STDOUT_FILENO);
-	}*/
 	return (0);
 }
 
@@ -277,63 +226,4 @@ int	handle_exec_cmd(t_cmd *cmd)
 		exec_cmd(cmd);
 	}
 	return (0);
-}
-
-/* initialise cmd struct */
-int	cmd_init(t_cmd *cmd, t_ast *ast, t_io *io)
-{
-	t_ast	*aux;
-	int		i;
-
-	if (ast == NULL || ast_gettype(ast) != AST_CMD)
-	{
-		cmd->argc = 0;
-		return (-1);
-	}
-	if (ast->data == NULL)
-	{
-		cmd->argc = 0;
-		cmd->argv = (char **)malloc(sizeof(char *));
-		if (cmd->argv == NULL)
-			perror_ret("malloc", 1);
-		cmd->argv[0] = NULL;
-		cmd->io = io;
-		return (0);
-	}
-	aux = ast;
-	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
-	{
-		aux = aux->right;
-		i++;
-	}
-	cmd->argv = (char **)malloc(sizeof(char *) * (i + 1));
-	if (cmd->argv == NULL)
-		perror_ret("malloc", 1);
-	aux = ast;
-	i = 0;
-	while (aux && (ast_gettype(aux) == AST_ARG || ast_gettype(aux) == AST_CMD))
-	{
-		cmd->argv[i] = (char *)malloc(sizeof(char) * (ft_strlen(aux->data) + 1));
-		strcpy(cmd->argv[i], aux->data);
-		aux = aux->right;
-		i++;
-	}
-	cmd->argv[i] = NULL;
-	cmd->argc = i;
-	cmd->io = io;
-	return (0);
-}
-
-/* free cmd struct */
-void	cmd_del(t_cmd *cmd)
-{
-	int	i;
-
-	i = -1;
-	while (++i < cmd->argc)
-		free(cmd->argv[i]);
-	free(cmd->argv);
-	free(cmd->io);
-	cmd->argc = 0;
 }
