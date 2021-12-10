@@ -13,8 +13,9 @@
 #include <sh.h>
 
 /* move list to desired positon */
-static int	find_pos(const char *unset)
+static int	find_pos(const char *unset, t_list *aux)
 {
+    int     count;
 	char	*tmp;
 
 	if (unset == NULL)
@@ -22,53 +23,63 @@ static int	find_pos(const char *unset)
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
 	if (!tmp)
 		return (1);
-	strcpy(tmp, unset);
+    count = 0;
+	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
 	tmp[ft_strlen(unset)] = '=';
 	tmp[ft_strlen(unset) + 1] = '\0';
-	while (g_sh.env && g_sh.env->next)
+	while (aux && aux->next)
 	{
-		if (ft_strncmp((char *)g_sh.env->next->data, tmp,
+		if (ft_strncmp((char *)aux->data, tmp,
 				   ft_strlen(tmp)) == 0)
 		{
 			free(tmp);
-			return (0);
+			return (count);
 		}
-		g_sh.env = g_sh.env->next;
+		aux = aux->next;
+        count++;
 	}
 	free(tmp);
-	return (1);
+	return (-1);
 }
 
 /* */
-static void	delete_and_join(t_list *head)
+static void	delete_and_join(t_list *head, int count)
 {
+    t_list  *tmp;
 	t_list	*aux;
 
-	aux = NULL;
-	if (g_sh.env->next && g_sh.env->next->next)
-		aux = g_sh.env->next->next;
-	ft_lstdelone(g_sh.env->next, free);
-	g_sh.env->next = aux;
-	g_sh.env = head;
+    tmp = g_sh.env;
+    aux = NULL;
+    if (count == 0)
+    {
+        aux = tmp->next;
+        ft_lstdelone(tmp, free);
+        g_sh.env = aux;
+        return ;
+    }
+	if (tmp->next && tmp->next->next)
+		aux = tmp->next->next;
+	ft_lstdelone(tmp->next, free);
+	tmp->next = aux;
+	aux = head;
 }
 
 /* */
 int	ft_unset(char **unset)
 {
-	t_list	*head;
+	t_list	*aux;
 	int		i;
+    int     count;
 
-	head = g_sh.env;
+	aux = g_sh.env;
 	i = 0;
 	if (unset[1])
 	{
 		while (unset[++i])
 		{
-			find_pos(unset[i]);
-			if (!g_sh.env)
-				g_sh.env = head;
-			else
-				delete_and_join(head);
+			count = find_pos(unset[i], aux);
+			if (g_sh.env)
+				delete_and_join(aux, count);
 		}
 	}
 	else
@@ -76,6 +87,5 @@ int	ft_unset(char **unset)
 		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
 		return (1);
 	}
-	g_sh.env = head;
 	return (0);
 }
