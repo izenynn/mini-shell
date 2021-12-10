@@ -12,80 +12,72 @@
 
 #include <sh.h>
 
-/* move list to desired positon */
-static int	find_pos(const char *unset, t_list *aux)
-{
-    int     count;
-	char	*tmp;
+#include <sh.h>
 
-	if (unset == NULL)
-		return (1);
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
-	if (!tmp)
-		return (1);
-    count = 0;
-	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
-	tmp[ft_strlen(unset)] = '=';
-	tmp[ft_strlen(unset) + 1] = '\0';
-	while (aux && aux->next)
-	{
-		if (ft_strncmp((char *)aux->data, tmp,
-				   ft_strlen(tmp)) == 0)
-		{
-			free(tmp);
-			return (count);
-		}
-		aux = aux->next;
-        count++;
-	}
-	free(tmp);
-	return (-1);
+/* move list to desired positon */
+static int	find_pos(const char *unset)
+{
+    char	*tmp;
+
+    if (unset == NULL)
+        return (1);
+    tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
+    if (!tmp)
+        return (1);
+    strcpy(tmp, unset);
+    tmp[ft_strlen(unset)] = '=';
+    tmp[ft_strlen(unset) + 1] = '\0';
+    while (g_sh.env && g_sh.env->next)
+    {
+        if (ft_strncmp((char *)g_sh.env->next->data, tmp,
+                       ft_strlen(tmp)) == 0)
+        {
+            free(tmp);
+            return (0);
+        }
+        g_sh.env = g_sh.env->next;
+    }
+    free(tmp);
+    return (1);
 }
 
 /* */
-static void	delete_and_join(t_list *head, int count)
+static void	delete_and_join(t_list *head)
 {
-    t_list  *tmp;
-	t_list	*aux;
+    t_list	*aux;
 
-    tmp = g_sh.env;
     aux = NULL;
-    if (count == 0)
-    {
-        aux = tmp->next;
-        ft_lstdelone(tmp, free);
-        g_sh.env = aux;
-        return ;
-    }
-	if (tmp->next && tmp->next->next)
-		aux = tmp->next->next;
-	ft_lstdelone(tmp->next, free);
-	tmp->next = aux;
-	aux = head;
+    if (g_sh.env->next && g_sh.env->next->next)
+        aux = g_sh.env->next->next;
+    ft_lstdelone(g_sh.env->next, free);
+    g_sh.env->next = aux;
+    g_sh.env = head;
 }
 
 /* */
 int	ft_unset(char **unset)
 {
-	t_list	*aux;
-	int		i;
-    int     count;
+    t_list	*head;
+    int		i;
 
-	aux = g_sh.env;
-	i = 0;
-	if (unset[1])
-	{
-		while (unset[++i])
-		{
-			count = find_pos(unset[i], aux);
-			if (g_sh.env)
-				delete_and_join(aux, count);
-		}
-	}
-	else
-	{
-		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
-		return (1);
-	}
-	return (0);
+    head = g_sh.env;
+    i = 0;
+    if (unset[1])
+    {
+        while (unset[++i])
+        {
+            find_pos(unset[i]);
+            if (!g_sh.env)
+                g_sh.env = head;
+            else
+                delete_and_join(head);
+        }
+    }
+    else
+    {
+        write(STDERR_FILENO, "unset: not enough arguments\n", 28);
+        return (1);
+    }
+    g_sh.env = head;
+    return (0);
 }
