@@ -43,6 +43,7 @@ static int	safe_shlvl(t_list *gaux, char **tmp, int *aux)
 static void	increment_shlvl(t_list *gaux, char *tmp, int aux)
 {
 	char	*tmp2;
+
 	aux++;
 	free(tmp);
 	tmp = ft_itoa(aux);
