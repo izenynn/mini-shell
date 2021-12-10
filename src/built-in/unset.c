@@ -30,7 +30,7 @@ static t_list	*find_pos(const char *unset, t_list *aux)
 	if (!tmp)
 		return (NULL);
 	copy_and_concat(unset, tmp);
-	if (ft_strncmp(aux->data, tmp, ft_strlen(tmp)) == 0)
+	if (aux && ft_strncmp(aux->data, tmp, ft_strlen(tmp)) == 0)
 		return (aux);
 	while (aux && aux->next)
 	{
@@ -59,12 +59,15 @@ static void	delete_and_join(t_list *tmp, t_list *head, int cnt)
 		g_sh.env = aux;
 		return ;
 	}
-	if (tmp->next && tmp->next->next)
+	if (tmp && tmp->next && tmp->next->next)
 		aux = tmp->next->next;
-	ft_lstdelone(tmp->next, free);
-	tmp->next = aux;
-	tmp = head;
-	g_sh.env = tmp;
+	if (tmp)
+	{
+		ft_lstdelone(tmp->next, free);
+		tmp->next = aux;
+		tmp = head;
+		g_sh.env = tmp;
+	}
 }
 
 /* */
