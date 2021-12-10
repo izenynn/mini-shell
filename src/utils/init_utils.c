@@ -23,61 +23,58 @@ static char	*set_envs(char *pwd, const char *sh_lvl, char *aux)
 	return (aux);
 }
 
-static int	safe_shlvl(t_list *head, char *tmp2, char **tmp, int *aux)
+static int	safe_shlvl(t_list *gaux, char **tmp, int *aux)
 {
+	char	*tmp2;
+
 	if ((*aux) < 0)
 	{
 		(*aux) = 1;
 		free((*tmp));
 		(*tmp) = ft_itoa((*aux));
 		tmp2 = ft_strjoin("SHLVL=", (*tmp));
-		free(g_sh.env->data);
-		g_sh.env->data = ft_strdup(tmp2);
-		g_sh.env = head;
+		free(gaux->data);
+		gaux->data = ft_strdup(tmp2);
 		return (1);
 	}
 	return (0);
 }
 
-static void	increment_shlvl(t_list *head, char *tmp, char *tmp2, int aux)
+static void	increment_shlvl(t_list *gaux, char *tmp, int aux)
 {
+	char	*tmp2;
 	aux++;
 	free(tmp);
 	tmp = ft_itoa(aux);
 	tmp2 = ft_strjoin("SHLVL=", tmp);
-	free(g_sh.env->data);
-	g_sh.env->data = ft_strdup(tmp2);
+	free(gaux->data);
+	gaux->data = ft_strdup(tmp2);
 	free(tmp2);
 	free(tmp);
-	g_sh.env = head;
 }
 
 static void	update_shlvl(void)
 {
-	t_list	*head;
+	t_list	*gaux;
 	char	*tmp;
-	char	*tmp2;
 	int		aux;
 
-	head = g_sh.env;
-	while (g_sh.env)
+	gaux = g_sh.env;
+	while (gaux)
 	{
-		if (ft_strncmp("SHLVL=", (char *)g_sh.env->data, 6) == 0)
+		if (ft_strncmp("SHLVL=", (char *)gaux->data, 6) == 0)
 			break ;
-		g_sh.env = g_sh.env->next;
+		gaux = gaux->next;
 	}
-	if (!g_sh.env)
-	{
-		g_sh.env = head;
+	if (!gaux)
 		return ;
-	}
-	tmp = ft_substr((char *)g_sh.env->data, 6,
-			ft_strlen((char *)g_sh.env->data) - 6);
+	tmp = ft_substr((char *)gaux->data, 6,
+			ft_strlen((char *)gaux->data) - 6);
 	aux = ft_atoi(tmp);
-	if (safe_shlvl(head, tmp2, &tmp, &aux) == 1)
+	if (safe_shlvl(gaux, &tmp, &aux) == 1)
 		return ;
 	else
-		increment_shlvl(head, tmp, tmp2, aux);
+		increment_shlvl(gaux, tmp, aux);
 }
 
 /* initialise enviroment */
