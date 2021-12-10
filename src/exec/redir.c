@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 11:49:51 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:09:55 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/10 14:55:39 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static int	redir_io(t_cmd *cmd, t_bool is_parent)
 	while (redir != NULL)
 	{
 		type = ast_gettype(redir);
-		redir_node(redir, fd_io, type);
+		if (redir_node(redir, fd_io, type) == 1)
+			return (1);
 		redir = redir->left;
 	}
 	if (fd_io[FD_IN] >= 0 && !is_parent)
