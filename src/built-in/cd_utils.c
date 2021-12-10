@@ -1,5 +1,22 @@
 #include <sh.h>
 
+int	locate_env(t_list *head)
+{
+	t_list	*aux;
+
+	aux = head;
+	while (aux != NULL)
+	{
+		if (ft_strncmp("PWD=", (char *)aux->data, 4) == 0)
+		{
+			update_env(aux);
+			return (0);
+		}
+		aux = aux->next;
+	}
+	return (1);
+}
+
 void	update_var(char *var_name, char *var)
 {
 	t_list	*aux;

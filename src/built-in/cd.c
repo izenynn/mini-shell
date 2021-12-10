@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/09 14:16:00 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:44:51 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,6 @@ void	update_env(t_list *env)
 	free(env->data);
 	env->data = ft_strjoin("PWD=", n_path);
 	free(n_path);
-}
-
-int	locate_env(t_list *head)
-{
-	t_list	*aux;
-
-	aux = head;
-	while (aux != NULL)
-	{
-		if (ft_strncmp("PWD=", (char *)aux->data, 4) == 0)
-		{
-			update_env(aux);
-			return (0);
-		}
-		aux = aux->next;
-	}
-	return (1);
 }
 
 int	goto_home(void)
@@ -95,7 +78,7 @@ static int	goto_dir(const char *dir)
 	return (0);
 }
 
-int	goto_oldpwd(t_list *env)
+static int	goto_oldpwd(t_list *env)
 {
 	char	*opwd;
 
