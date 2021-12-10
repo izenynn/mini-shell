@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/09 19:28:04 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/10 12:54:14 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,8 @@ SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				cd_utils.c
 
 SRC_EXEC =		exec_ast.c			exec_cmd.c			utils.c				\
-				exec_heredoc.c		heredoc.c			handle_zombies.c
+				exec_heredoc.c		heredoc.c			handle_zombies.c	\
+				redir.c				redir_types.c		path.c
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c		handle_expand.c		expand.c

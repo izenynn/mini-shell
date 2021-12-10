@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:23:32 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/10 12:43:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,23 @@ int		handle_exec_cmd(t_cmd *cmd);
 int		cmd_init(t_cmd *cmd, t_ast *ast, t_io *io);
 void	cmd_del(t_cmd *cmd);
 
+/* path.c */
+void	find_and_exec_cmd(t_cmd *cmd);
+
 /* exec_utils */
 void	handle_zombies(void);
 
 /* exec_heredoc.c */
 int		exec_heredoc(t_ast *ast);
+
+/* redir.c */
+int		redir_cmd(t_cmd *cmd, t_bool is_parent);
+
+/* redir_types.c */
+int		redir_trunc(t_ast *redir, int fd_io[2]);
+int		redir_append(t_ast *redir, int fd_io[2]);
+int		redir_infile(t_ast *redir, int fd_io[2]);
+int		redir_heredoc(t_ast *redir, int fd_io[2]);
 
 /* heredoc.c */
 int		handle_heredoc(t_ast *node);
