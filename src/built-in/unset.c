@@ -6,67 +6,69 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/10 13:20:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/10 13:32:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* move list to desired positon */
-static t_list	*find_pos(const char *unset)
+static int	find_pos(const char *unset)
 {
 	char	*tmp;
-	t_list	*aux;
 
 	if (unset == NULL)
-		return (NULL);
+		return (1);
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
 	if (!tmp)
-		return (NULL);
+		return (1);
 	strcpy(tmp, unset);
 	tmp[ft_strlen(unset)] = '=';
 	tmp[ft_strlen(unset) + 1] = '\0';
-	aux = g_sh.env;
-	while (aux && aux->next)
+	while (g_sh.env && g_sh.env->next)
 	{
-		if (ft_strncmp((char *)aux->next->data, tmp, ft_strlen(tmp)) == 0)
+		if (ft_strncmp((char *)g_sh.env->next->data, tmp,
+				   ft_strlen(tmp)) == 0)
 		{
 			free(tmp);
-			return (aux);
+			return (0);
 		}
-		aux = aux->next;
+		g_sh.env = g_sh.env->next;
 	}
 	free(tmp);
-	return (NULL);
+	return (1);
 }
 
 /* */
-static void	delete_and_join(t_list *aux)
+static void	delete_and_join(t_list *head)
 {
-	t_list	*tmp;
+	t_list	*aux;
 
-	tmp = NULL;
-	if (aux->next && aux->next->next)
-		tmp = aux->next->next;
-	ft_lstdelone(aux->next, free);
-	aux->next = tmp;
+	aux = NULL;
+	if (g_sh.env->next && g_sh.env->next->next)
+		aux = g_sh.env->next->next;
+	ft_lstdelone(g_sh.env->next, free);
+	g_sh.env->next = aux;
+	g_sh.env = head;
 }
 
 /* */
 int	ft_unset(char **unset)
 {
-	t_list	*aux;
+	t_list	*head;
 	int		i;
 
-	aux = g_sh.env;
+	head = g_sh.env;
 	i = 0;
 	if (unset[1])
 	{
 		while (unset[++i])
 		{
-			aux = find_pos(unset[i]);
-			if (aux != NULL)
-				delete_and_join(aux);
+			find_pos(unset[i]);
+			if (!g_sh.env)
+				g_sh.env = head;
+			else
+				delete_and_join(head);
 		}
 	}
 	else
@@ -74,5 +76,6 @@ int	ft_unset(char **unset)
 		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
 		return (1);
 	}
+	g_sh.env = head;
 	return (0);
 }
