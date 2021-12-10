@@ -12,6 +12,8 @@
 
 #include <sh.h>
 
+#include <sh.h>
+
 static void	copy_and_concat(const char *unset, char *tmp)
 {
 	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
@@ -30,17 +32,19 @@ static t_list	*find_pos(const char *unset, t_list *aux)
 	if (!tmp)
 		return (NULL);
 	copy_and_concat(unset, tmp);
-	if (aux && ft_strncmp(aux->data, tmp, ft_strlen(tmp)) == 0)
+	if (ft_strncmp(aux->data, tmp, ft_strlen(tmp)) == 0)
+	{
+		free(tmp);
 		return (aux);
+	}
 	while (aux && aux->next)
 	{
-		if (ft_strncmp(aux->next->data, tmp,
-				ft_strlen(tmp)) == 0)
+		aux = aux->next;
+		if (ft_strncmp(aux->data, tmp, ft_strlen(tmp)) == 0)
 		{
 			free(tmp);
 			return (aux);
 		}
-		aux = aux->next;
 	}
 	free(tmp);
 	return (NULL);
@@ -59,15 +63,19 @@ static void	delete_and_join(t_list *tmp, t_list *head, int cnt)
 		g_sh.env = aux;
 		return ;
 	}
-	if (tmp && tmp->next && tmp->next->next)
-		aux = tmp->next->next;
-	if (tmp)
+	if (cnt == 2)
 	{
-		ft_lstdelone(tmp->next, free);
-		tmp->next = aux;
 		tmp = head;
-		g_sh.env = tmp;
+		ft_lstdelone(tmp->next, free);
+		tmp->next = NULL;
+		return ;
 	}
+	if (tmp->next && tmp->next->next)
+		aux = tmp->next->next;
+	ft_lstdelone(tmp->next, free);
+	tmp->next = aux;
+	tmp = head;
+	g_sh.env = tmp;
 }
 
 /* */
@@ -89,6 +97,8 @@ int	ft_unset(char **unset)
 			aux = find_pos(unset[i], aux);
 			if (aux && ft_lstsize(aux) == size)
 				delete_and_join(aux, head, 0);
+			else if (!aux->next)
+				delete_and_join(aux, head, 2);
 			else
 				delete_and_join(aux, head, 1);
 		}
