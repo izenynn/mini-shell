@@ -17,6 +17,7 @@
 /* move list to desired positon */
 static int	find_pos(const char *unset)
 {
+    int		cnt;	
     char	*tmp;
 
     if (unset == NULL)
@@ -24,16 +25,20 @@ static int	find_pos(const char *unset)
     tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
     if (!tmp)
         return (1);
-    strcpy(tmp, unset);
+    cnt = 0;
+    ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
     tmp[ft_strlen(unset)] = '=';
     tmp[ft_strlen(unset) + 1] = '\0';
+    if (ft_strncmp((char *)g_sh.env->data, tmp, ft_strlen(tmp)) == 0)
+	    return (0);
     while (g_sh.env && g_sh.env->next)
     {
+	cnt++;
         if (ft_strncmp((char *)g_sh.env->next->data, tmp,
                        ft_strlen(tmp)) == 0)
         {
             free(tmp);
-            return (0);
+            return (cnt);
         }
         g_sh.env = g_sh.env->next;
     }
@@ -42,11 +47,18 @@ static int	find_pos(const char *unset)
 }
 
 /* */
-static void	delete_and_join(t_list *head)
+static void	delete_and_join(t_list *head, int cnt)
 {
     t_list	*aux;
 
     aux = NULL;
+    if (cnt == 0)
+    {
+   	aux = g_sh.env->next;
+       	ft_lstdelone(g_sh.env, free);
+	g_sh.env = aux;
+	return ;	
+    }
     if (g_sh.env->next && g_sh.env->next->next)
         aux = g_sh.env->next->next;
     ft_lstdelone(g_sh.env->next, free);
@@ -59,6 +71,7 @@ int	ft_unset(char **unset)
 {
     t_list	*head;
     int		i;
+    int 	cnt;
 
     head = g_sh.env;
     i = 0;
@@ -66,11 +79,11 @@ int	ft_unset(char **unset)
     {
         while (unset[++i])
         {
-            find_pos(unset[i]);
+            cnt = find_pos(unset[i]);
             if (!g_sh.env)
                 g_sh.env = head;
             else
-                delete_and_join(head);
+                delete_and_join(head, cnt);
         }
     }
     else
