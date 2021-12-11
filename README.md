@@ -22,7 +22,7 @@ git clone --recurse-submodules https://github.com/0xk0sta/minishell.git
 
 ### Linux dependencies
 
-If you are using linux, first you will need to install a few dependencies
+Install readline library:
 
 - On Debian based platforms, like Ubuntu:
 
@@ -37,6 +37,14 @@ yum install readline-devel
 ```
 
 - For other platform please search for the package name on google, thx :)
+
+### MAC dependencies
+
+- Install readline library:
+
+```sh
+brew install readline
+```
 
 ### Compile and execute
 
