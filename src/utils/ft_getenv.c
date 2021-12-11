@@ -19,9 +19,10 @@ char	*ft_getenv(const char *path)
 	char	*ret;
 	t_list	*tmp;
 
-	tmp = g_sh.env;
+	tmp = *g_sh.env;
 	aux = ft_strjoin(path, "=");
 	path_size = ft_strlen(aux);
+	printf("getenv %p\n", (void *)tmp);
 	while (tmp)
 	{
 		if (ft_strncmp(aux, (char *)tmp->data, path_size) == 0)

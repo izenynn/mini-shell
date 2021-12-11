@@ -35,7 +35,7 @@ void	update_var(char *var_name, char *var)
 	char	*content;
 	char	*tmp;
 
-	aux = g_sh.env;
+	aux = *g_sh.env;
 	tmp = ft_strjoin(var_name, "=");
 	free(var_name);
 	content = ft_substr(var, get_var_len(var) + 1,
@@ -73,7 +73,7 @@ void	set_values(t_list *env, const char *aux)
 		env->data = (void *)ft_strdup(aux);
 	}
 	else
-		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
+		ft_lstadd_back(g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
 }
 
 int	set_oldpwd(t_list *env)
@@ -82,7 +82,7 @@ int	set_oldpwd(t_list *env)
 	char	*aux;
 
 	pwd = ft_getenv("PWD");
-	try_to_goto_olpwd(g_sh.env);
+	try_to_goto_olpwd(*g_sh.env);
 	if (env == NULL)
 	{
 		free(pwd);

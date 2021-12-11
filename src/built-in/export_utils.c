@@ -43,7 +43,7 @@ void	export_var(char **new_env, char *tmp, char *aux, char *aux2)
 void	add_env(char *const *new_env, int i)
 {
 	if (error_handle(new_env[i]) == 0)
-		ft_lstadd_back(&g_sh.env,
+		ft_lstadd_back(g_sh.env,
 			ft_lstnew((void *)ft_strdup(new_env[i])));
 }
 
