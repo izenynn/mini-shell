@@ -74,13 +74,12 @@ int	ft_unset(char **unset)
 
 	aux = *g_sh.env;
 	i = 0;
-	cnt = 0;
 	if (unset[1])
 	{
 		while (unset[++i])
 		{
+			cnt = 0;
 			aux = find_pos(unset[i], &cnt);
-			printf("%d\n", cnt);
 			if (aux != NULL)
 				delete_and_join(aux, cnt);
 		}
