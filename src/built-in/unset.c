@@ -70,19 +70,19 @@ int	ft_unset(char **unset)
 {
 	t_list	*aux;
 	int		i;
-	int 	paco;
+	int 	cnt;
 
 	aux = *g_sh.env;
 	i = 0;
-	paco = 0;
+	cnt = 0;
 	if (unset[1])
 	{
 		while (unset[++i])
 		{
-			aux = find_pos(unset[i], &paco);
-			printf("%d\n", paco);
+			aux = find_pos(unset[i], &cnt);
+			printf("%d\n", cnt);
 			if (aux != NULL)
-				delete_and_join(aux, paco);
+				delete_and_join(aux, cnt);
 		}
 	}
 	else
