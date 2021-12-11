@@ -23,7 +23,7 @@ static t_list	*find_pos(const char *unset, int *count)
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
 	if (!tmp)
 		return (NULL);
-	strcpy(tmp, unset);
+	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
 	tmp[ft_strlen(unset)] = '=';
 	tmp[ft_strlen(unset) + 1] = '\0';
 	aux = *g_sh.env;
