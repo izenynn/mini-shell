@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:21:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/11 13:08:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@
 /*
  * Grammar
  *
- * <command line>		:	<job> ';'... <command line>
- * 						|	<job> ';'...
+ * <command line>		:	<and or> ';'... <command line>
+ * 						|	<and or> ';'...
+ * 						|	<and or>
+ * 						;
+ *
+ * <and or>				:
+ * 						|	<job> && <and or>
+ * 						|	<job> || <and or>
  * 						|	<job>
  * 						;
  *
@@ -103,6 +109,12 @@ t_ast	*cmd_line(void);
 t_ast	*cmd_line_1(void);
 t_ast	*cmd_line_2(void);
 t_ast	*cmd_line_3(void);
+
+/* parse_and_or.c */
+t_ast	*and_or(void);
+t_ast	*and_or_1(void);
+t_ast	*and_or_2(void);
+t_ast	*and_or_3(void);
 
 /* parse_job.c */
 t_ast	*job(void);
