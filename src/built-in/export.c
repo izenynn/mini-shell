@@ -19,8 +19,10 @@ static char	**lst_to_ptr(void)
 	t_list	*aux;
 
 	i = 0;
-	env = malloc(sizeof(char *) * (ft_lstsize(g_sh.env) + 1));
-	aux = g_sh.env;
+	env = malloc(sizeof(char *) * (ft_lstsize(*g_sh.env) + 1));
+	if (!env)
+		return (NULL);
+	aux = *g_sh.env;
 	while (aux)
 	{
 		env[i++] = ft_strdup(aux->data);

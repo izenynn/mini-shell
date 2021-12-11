@@ -86,7 +86,7 @@
  */
 typedef struct s_sh {
 	int		status;
-	t_list	*env;
+	t_list	**env;
 	t_tok	*tok;
 	t_ast	*cmd_ast;
 	t_blti	*bi;

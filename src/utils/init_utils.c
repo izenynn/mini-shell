@@ -17,9 +17,9 @@ static char	*set_envs(char *pwd, const char *sh_lvl, char *aux)
 	if (getcwd(pwd, PATH_MAX))
 	{
 		aux = ft_strjoin("PWD=", pwd);
-		ft_lstadd_back(&g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
+		ft_lstadd_back(g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
 	}
-	ft_lstadd_back(&g_sh.env, ft_lstnew(ft_strdup((void *)sh_lvl)));
+	ft_lstadd_back(g_sh.env, ft_lstnew(ft_strdup((void *)sh_lvl)));
 	return (aux);
 }
 
@@ -60,7 +60,7 @@ static void	update_shlvl(void)
 	char	*tmp;
 	int		aux;
 
-	gaux = g_sh.env;
+	gaux = *g_sh.env;
 	while (gaux)
 	{
 		if (ft_strncmp("SHLVL=", (char *)gaux->data, 6) == 0)
@@ -87,6 +87,9 @@ void	fill_env(char **env)
 	char	*aux;
 
 	i = -1;
+	g_sh.env = (t_list **) ft_calloc(1, (sizeof(t_list *)));
+	if (!g_sh.env)
+		return ;
 	pwd = malloc(sizeof(char) * PATH_MAX);
 	if (!pwd)
 		return ;
@@ -95,7 +98,7 @@ void	fill_env(char **env)
 	if (env[0])
 	{
 		while (env[++i])
-			ft_lstadd_back(&g_sh.env, ft_lstnew((void *) ft_strdup(env[i])));
+			ft_lstadd_back(g_sh.env, ft_lstnew((void *) ft_strdup(env[i])));
 		update_shlvl();
 	}
 	else

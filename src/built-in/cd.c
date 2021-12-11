@@ -37,7 +37,7 @@ int	goto_home(void)
 	t_list	*head;
 
 	home = ft_getenv("HOME");
-	head = g_sh.env;
+	head = *g_sh.env;
 	if (!home || chdir(home) == -1)
 	{
 		print_error(home);
@@ -102,8 +102,8 @@ static int	goto_oldpwd(t_list *env)
 int	ft_changedir(char **dir)
 {
 	if (dir[1] && ft_strncmp(dir[1], "-", 1) == 0)
-		return (goto_oldpwd(g_sh.env));
-	set_oldpwd(g_sh.env);
+		return (goto_oldpwd(*g_sh.env));
+	set_oldpwd(*g_sh.env);
 	if (!dir[1] || dir[1][0] == '~')
 	{
 		if (!dir[1])
@@ -116,13 +116,13 @@ int	ft_changedir(char **dir)
 			return (1);
 		else
 		{
-			locate_env(g_sh.env);
+			locate_env(*g_sh.env);
 			return (0);
 		}
 	}
 	else if (chdir(dir[1]) == -1)
 		return (print_error(dir[1]));
 	else
-		set_env(g_sh.env);
+		set_env(*g_sh.env);
 	return (0);
 }

@@ -27,7 +27,7 @@ int	print_error(const char *dir)
 
 int	home_handler(void)
 {
-	if (goto_home() == 1 || locate_env(g_sh.env))
+	if (goto_home() == 1 || locate_env(*g_sh.env))
 		return (1);
 	return (0);
 }

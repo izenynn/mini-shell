@@ -18,7 +18,7 @@ static void	printer(void)
 	char	*data;
 	t_list	*aux;
 
-	aux = g_sh.env;
+	aux = *g_sh.env;
 	while (aux)
 	{
 		i = 0;
