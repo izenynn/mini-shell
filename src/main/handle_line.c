@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:10:04 by                  ###   ########.fr       */
+/*   Updated: 2021/12/11 12:29:25 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define COUNT 10
 
 /* print binary tree in 2d */
-/*static void print_ast(t_ast *root, int space)
+static void print_ast(t_ast *root, int space)
 {
 	int		nd;
 	char	*type;
@@ -39,9 +39,13 @@
 	// get ast node type
 	nd = ast_gettype(root);
 	if (nd & AST_PIPE)
-		type = ft_strdup("pipe");
+		type = ft_strdup("|");
 	else if (nd & AST_SEQ)
-		type = ft_strdup("seq");
+		type = ft_strdup(";");
+	else if (nd & AST_AND)
+		type = ft_strdup("&&");
+	else if (nd & AST_OR)
+		type = ft_strdup("||");
 	else if (nd & AST_REDIR)
 		type = ft_strdup("redir");
 	else if (nd & AST_RD_TRUNC)
@@ -54,8 +58,6 @@
 		type = ft_strdup("<");
 	else if (nd & AST_CMD)
 		type = ft_strdup("cmd");
-	else if (nd & AST_SIMPLECMD)
-		type = ft_strdup("simple");
 	else if (nd & AST_ARG)
 		type = ft_strdup("arg");
 	else
@@ -70,7 +72,7 @@
 
 	// process left child
 	print_ast(root->left, space);
-}*/
+}
 
 /* print tokens */
 /*static void print_tokens(t_lexer *lex)
@@ -134,7 +136,7 @@ void	handle_line(char *line)
 		ast_del(ast);
 		return ;
 	}
-	//print_ast(ast, 0); printf("------------------------------------\n");
+	print_ast(ast, 0); printf("------------------------------------\n");
 	if (exec_heredoc(ast) == 0)
 		exec_ast(ast);
 	free_all(&lex, ast);
