@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 19:57:09 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/12 12:00:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,31 @@ static int	handle_job(t_ast *ast)
 	return (0);
 }
 
+/* interpret "and or" */
+static int	handle_and_or(t_ast *ast)
+{
+	int	type;
+
+	if (ast == NULL)
+		return (0);
+	type = ast_gettype(ast);
+	if (type == AST_AND)
+	{
+		handle_and_or(ast->left);
+		if (g_sh.status == 0)
+			handle_and_or(ast->right);
+	}
+	else if (type == AST_OR)
+	{
+		handle_and_or(ast->left);
+		if (g_sh.status != 0)
+			handle_and_or(ast->right);
+	}
+	else
+		handle_job(ast);
+	return (0);
+}
+
 /* interpret command line */
 static int	handle_cmd_line(t_ast *ast)
 {
@@ -81,11 +106,11 @@ static int	handle_cmd_line(t_ast *ast)
 		return (0);
 	if (ast_gettype(ast) == AST_SEQ)
 	{
-		handle_job(ast->left);
+		handle_and_or(ast->left);
 		handle_cmd_line(ast->right);
 	}
 	else
-		handle_job(ast);
+		handle_and_or(ast);
 	return (0);
 }
 

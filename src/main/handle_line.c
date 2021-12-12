@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/11 21:22:56 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/12 12:01:26 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define COUNT 10
 
 /* print binary tree in 2d */
-static void print_ast(t_ast *root, int space)
+/*static void print_ast(t_ast *root, int space)
 {
 	int		nd;
 	char	*type;
@@ -72,7 +72,7 @@ static void print_ast(t_ast *root, int space)
 
 	// process left child
 	print_ast(root->left, space);
-}
+}*/
 
 /* print tokens */
 /*static void print_tokens(t_lexer *lex)
@@ -136,8 +136,9 @@ void	handle_line(char *line)
 		ast_del(ast);
 		return ;
 	}
-	print_ast(ast, 0); printf("------------------------------------\n");
-	/*if (exec_heredoc(ast) == 0)
-		exec_ast(ast);*/
+	//print_ast(ast, 0); printf("------------------------------------\n");
+	//exec_heredoc(ast);
+	if (exec_heredoc(ast) == 0)
+		exec_ast(ast);
 	free_all(&lex, ast);
 }
