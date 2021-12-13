@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/11 22:08:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:39:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_sh {
 	int		status;
 	t_list	*env;
 	t_tok	*tok;
-	t_ast	**cmdline_ast;
+	t_ast	**ao_ast;
 	t_ast	*cmd_ast;
 	t_blti	*bi;
 	int		fd_bak[2];
