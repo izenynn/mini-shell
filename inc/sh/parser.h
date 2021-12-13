@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/13 13:55:15 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:20:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@
 /*
  * Grammar
  *
- * <command line>		:	<and or> ';'... <command line>
- * 						|	<and or> ';'...
+ * <command line>		:	<and or> ';' <command line>
+ * 						|	<and or> ';'
  * 						|	<and or>
  * 						;
  *
- * <and or>				:
- * 						|	'(' <command line> ')' && <and or>
+ * <and or>				:	'(' <command line> ')' && <and or>
  * 						|	'(' <command line> ')' || <and or>
  * 						|	'(' <command line> ')'
  * 						|	<job> && <and or>
@@ -65,8 +64,8 @@
  * Create an ast recursively:
  *
  * cmd_line()		=>	test all command line in order
- * cmd_line_1()		=>	<job> ';'... <command line>
- * cmd_line_2()		=>	<job> ';'...
+ * cmd_line_1()		=>	<job> ';' <command line>
+ * cmd_line_2()		=>	<job> ';'
  * cmd_line_3()		=>	<job>
  *
  * job()			=>	test all job in order

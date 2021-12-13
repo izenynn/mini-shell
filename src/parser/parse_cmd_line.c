@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:27:32 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/13 23:12:03 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:18:22 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_ast	*cmd_line(void)
 	return (NULL);
 }
 
-/* <and or> ';'... <command line> */
+/* <and or> ';' <command line> */
 t_ast	*cmd_line_1(void)
 {
 	t_ast	*and_or_nd;
@@ -57,8 +57,6 @@ t_ast	*cmd_line_1(void)
 		ast_del(and_or_nd);
 		return (NULL);
 	}
-	while (g_sh.tok != NULL && g_sh.tok->type == CHAR_SC)
-		g_sh.tok = g_sh.tok->next;
 	// <command line>
 	cmd_line_nd = cmd_line();
 	if (cmd_line_nd == NULL)
@@ -73,7 +71,7 @@ t_ast	*cmd_line_1(void)
 	return (res);
 }
 
-/* <and or> ';'... */
+/* <and or> ';' */
 t_ast	*cmd_line_2(void)
 {
 	t_ast	*and_or_nd;
@@ -92,8 +90,6 @@ t_ast	*cmd_line_2(void)
 		ast_del(and_or_nd);
 		return (NULL);
 	}
-	while (g_sh.tok != NULL && g_sh.tok->type == CHAR_SC)
-		g_sh.tok = g_sh.tok->next;
 	// <command line>
 	cmd_line_nd = cmd_line();
 	if (cmd_line_nd == NULL)
