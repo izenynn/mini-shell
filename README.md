@@ -68,9 +68,9 @@ Execute the `./minishell` binary generated after running `make`
 - Pipes `|` works like in bash.
 - Redirections `<`, `>`, `<<`, `>>` work like in bash.
 - `;`, `&&` and `||` work like in bash.
-- Parentesis: `(` and `)` works with `&&` and `||` for priorities.
+- Parenthesis: `(` and `)` works with `&&`, `||` and `;` for priorities.
 - `$?` works like in bash.
-- wildcard `*` work for the current directory.
+- wildcards `*` and `?` works for the current directory.
 - Handle signals: `Ctrl-C`, `Ctrl-D` and `Ctrl-\` like in bash.
 - Enviroments variables.
 - Arrow keys.
@@ -92,5 +92,6 @@ Execute the `./minishell` binary generated after running `make`
 TODO add screenshots :D
 
 ##
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
