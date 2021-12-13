@@ -40,6 +40,8 @@ enum e_tok_type {
 	CHAR_DL		= '$',
 	CHAR_NULL	= '\0',
 	CHAR_QUEST	= '?',
+	CHAR_OPR	= '(',
+	CHAR_CPR	= ')',
 	CHAR_OCL	= '{',
 	CHAR_CCL	= '}',
 	TOK			= -1

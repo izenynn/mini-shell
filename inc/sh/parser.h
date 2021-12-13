@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/11 13:08:00 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/13 13:55:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSER_H
 
 /*** INFO ***/
+
+// TODO check if "$> (echo 1) | cat" and "$> (echo 1 | cat)" works fine
 
 /*
  * Grammar
@@ -24,6 +26,9 @@
  * 						;
  *
  * <and or>				:
+ * 						|	'(' <command line> ')' && <and or>
+ * 						|	'(' <command line> ')' || <and or>
+ * 						|	'(' <command line> ')'
  * 						|	<job> && <and or>
  * 						|	<job> || <and or>
  * 						|	<job>
@@ -115,6 +120,9 @@ t_ast	*and_or(void);
 t_ast	*and_or_1(void);
 t_ast	*and_or_2(void);
 t_ast	*and_or_3(void);
+t_ast	*and_or_4(void);
+t_ast	*and_or_5(void);
+t_ast	*and_or_6(void);
 
 /* parse_job.c */
 t_ast	*job(void);

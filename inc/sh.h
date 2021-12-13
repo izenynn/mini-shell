@@ -64,8 +64,12 @@
 # define TMPDIR "/tmp"
 
 /* bool */
-# define TRUE 1
-# define FALSE 0
+# ifndef TRUE
+#  define TRUE 1
+# endif
+# ifndef FALSE
+#  define FALSE 0
+# endif
 
 /* path */
 # ifndef PATH_MAX
@@ -79,7 +83,7 @@
  * status		=> last exit status
  * *env			=> enviroment vars
  * *tok			=> to iterate tokens (used for creating the ast)
- * *cmdline_ast	=> save current "and or" ast node to attach nodes
+ * **so_ast		=> save current "and or" ast node to attach nodes
  * *cmd_ast		=> save current command ast node to attach args and redirs
  * *bi			=> built-in list
  * fd_bak		=> backup STDIN and STDOUT fd

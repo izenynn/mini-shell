@@ -14,12 +14,12 @@
 
 /************************* TEST FUNC. *************************/
 
-/* spaces between levels */
-#define COUNT 10
-
 /* print binary tree in 2d */
-/*static void print_ast(t_ast *root, int space)
+static void print_ast(t_ast *root, int space)
 {
+	/* spaces between levels */
+	#define COUNT 10
+
 	int		nd;
 	char	*type;
 
@@ -72,7 +72,7 @@
 
 	// process left child
 	print_ast(root->left, space);
-}*/
+}
 
 /* print tokens */
 /*static void print_tokens(t_lexer *lex)
@@ -136,9 +136,9 @@ void	handle_line(char *line)
 		ast_del(ast);
 		return ;
 	}
-	//print_ast(ast, 0); printf("------------------------------------\n");
+	print_ast(ast, 0); printf("------------------------------------\n");
 	//exec_heredoc(ast);
-	if (exec_heredoc(ast) == 0)
-		exec_ast(ast);
+	//if (exec_heredoc(ast) == 0)
+	//	exec_ast(ast);
 	free_all(&lex, ast);
 }
