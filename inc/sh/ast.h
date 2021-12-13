@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:04:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/11 20:45:25 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/13 23:47:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	ast_setdata(t_ast *ast, char *data);
 
 /* ast_utils_2.c */
 void	ast_insert(t_ast *root, t_ast *node, t_bool on_right);
-void	ast_insert_and_or(t_ast **root, t_ast *new_root);
+void	ast_insert_and_or(t_ast **root, t_ast *new_root, t_bool last);
 
 #endif

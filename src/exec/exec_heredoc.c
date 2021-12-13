@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 01:09:29 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/12 11:59:38 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:03:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	hd_and_or(t_ast *ast)
 	if (ast == NULL)
 		return (0);
 	type = ast_gettype(ast);
-	if (type == AST_AND || type == AST_OR)
+	if (type == AST_AND || type == AST_OR || type == AST_SEQ)
 	{
 		if (hd_and_or(ast->left))
 			return (1);

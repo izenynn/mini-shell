@@ -6,11 +6,13 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/12 12:00:41 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:02:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+static int	handle_cmd_line(t_ast *ast);
 
 /* interpret cmd */
 static int	handle_cmd(t_ast *ast, t_io *io)
@@ -93,6 +95,11 @@ static int	handle_and_or(t_ast *ast)
 		handle_and_or(ast->left);
 		if (g_sh.status != 0)
 			handle_and_or(ast->right);
+	}
+	else if (type == AST_SEQ)
+	{
+		handle_and_or(ast->left);
+		handle_and_or(ast->right);
 	}
 	else
 		handle_job(ast);

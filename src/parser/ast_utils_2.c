@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 11:21:20 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/11 21:13:01 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/13 23:48:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	ast_insert(t_ast *root, t_ast *node, t_bool on_right)
 }
 
 /* insert "and or" node on top */
-void	ast_insert_and_or(t_ast **root, t_ast *new_root)
+void	ast_insert_and_or(t_ast **root, t_ast *new_root, t_bool last)
 {
-	int		type;
+	//int		type;
 
 	if (root == NULL || new_root == NULL)
 		return ;
@@ -48,8 +48,9 @@ void	ast_insert_and_or(t_ast **root, t_ast *new_root)
 	}
 	else
 	{
-		type = ast_gettype(new_root);
-		if (type == AST_AND || type == AST_OR)
+		//type = ast_gettype(new_root);
+		//if (type == AST_AND || type == AST_OR || type == AST_SEQ)
+		if (!last)
 		{
 			(*root)->right = new_root->left;
 			new_root->left = (*root);
