@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/14 18:15:37 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/14 19:27:48 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,15 +158,15 @@ $(NAME): $(OBJ) $(LFT_NAME)
 
 # SANITIZE ADDRESS
 ifeq ($(UNAME_S),Linux)
-sanitize: CFLAGS += -pedantic -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=bounds -fsanitize=null -g3
+sanitize: CFLAGS += -pedantic -g3 -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=bounds -fsanitize=null
 endif
 ifeq ($(UNAME_S),Darwin)
-sanitize: CFLAGS += -pedantic -fsanitize=address -g3
+sanitize: CFLAGS += -pedantic -g3 -fsanitize=address
 endif
 sanitize: $(NAME)
 
 # SANITIZE THREAD
-thread: CFLAGS += -fsanitize=thread -g3
+thread: CFLAGS += -g3 -fsanitize=thread
 thread: $(NAME)
 
 # LIBFT

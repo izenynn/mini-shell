@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 10:30:17 by                  ###   ########.fr       */
+/*   Updated: 2021/12/14 19:25:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <dirent.h>
 
 /* signals */
 # include <signal.h>

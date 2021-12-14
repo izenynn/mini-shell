@@ -1,5 +1,5 @@
-//#include <sh.h>
-#include <sys/types.h>
+#include <sh.h>
+/*#include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <limits.h>
@@ -7,7 +7,7 @@
 #include "../../libft/inc/libft/ft_mem.h"
 #include "../../inc/sh/lexer.h"
 #include "../../libft/inc/libft/ft_str.h"
-#include "../../libft/inc/libft/ft_lst.h"
+#include "../../libft/inc/libft/ft_lst.h"*/
 
 t_tok	*del_hidden_files(t_tok *head)
 {
@@ -57,7 +57,7 @@ t_tok	*del_first_nodes(t_tok *list)
 }
 
 /* Read current dir and fill list with it */
-t_tok	*fill_list(void)
+t_tok	*init_tokens(void)
 {
 	t_tok			*dir;
 	t_tok			*head;
@@ -90,30 +90,32 @@ t_tok	*fill_list(void)
 	return (head);
 }
 
-int	handle_wildcard(t_tok *wc_tok, t_tok *prev, t_lexer *lex)
+int	handle_wildcards(t_tok **wc_tok, t_tok *prev, t_lexer *lex)
 {
 	t_tok	*aux;
 	t_tok	*dir;
 	char	*wc;
 
 	// TODO detectar que sea un token de typo data
-	wc = wc_tok->data;
-	dir = fill_list();
+	wc = (*wc_tok)->data;
+	dir = init_tokens();
 	if (!dir)
 		return (1);
 	dir = del_first_nodes(dir);
 	if (ft_strncmp(wc, ".", 1))
 		dir = del_hidden_files(dir);
 	aux = dir;
-	while (aux)
+	while (aux->next)
 		aux = aux->next;
+	//return (0);
 	//TODO Si no hay match return 0 (retornar el token recibido);
-	aux->next = wc_tok->next;
-	if (lex->tok_lst == wc_tok)
-		lex->tok_lst = wc_tok;
+	aux->next = (*wc_tok)->next;
+	if (lex->tok_lst == *wc_tok)
+		lex->tok_lst = *wc_tok;
 	else
 		prev->next = dir;
-	free(wc_tok->data);
-	free(wc_tok);
+	free((*wc_tok)->data);
+	free(*wc_tok);
+	*wc_tok = dir;
 	return (0);
 }
