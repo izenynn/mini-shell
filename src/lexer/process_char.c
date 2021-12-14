@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 19:40:03 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 18:31:26 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	on_gen_st_ws(t_lexsup *ls, const size_t sz)
 			perror_ret("malloc", 1);
 		ls->tok = ls->tok->next;
 		if (tok_init(ls->tok, sz - ls->i))
-			perror_ret("malloc", 1);
+			return (1);
 		ls->j = 0;
 	}
 	return (0);
@@ -63,7 +63,7 @@ static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 			perror_ret("malloc", 1);
 		ls->tok = ls->tok->next;
 		if (tok_init(ls->tok, sz - ls->i))
-			perror_ret("malloc", 1);
+			return (1);
 		ls->j = 0;
 	}
 	ls->tok->data[0] = ls->type;
@@ -72,7 +72,7 @@ static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 	ls->tok->next = (t_tok *)malloc(sizeof(t_tok));
 	ls->tok = ls->tok->next;
 	if (tok_init(ls->tok, sz - ls->i))
-		perror_ret("malloc", 1);
+		return (1);
 	return (0);
 }
 
