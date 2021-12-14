@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:48 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/09 14:11:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:02:44 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	print_error(const char *dir)
 
 int	home_handler(void)
 {
-	if (goto_home() == 1 || locate_env(*g_sh.env))
+	if (goto_home() == 1)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:21:17 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:10:15 by                  ###   ########.fr       */
+/*   Updated: 2021/12/14 12:19:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,9 @@ void	fill_env(char **env)
 	char	*aux;
 
 	i = -1;
-	g_sh.env = (t_list **) ft_calloc(1, (sizeof(t_list *)));
-	if (!g_sh.env)
-		return ;
+	g_sh.env = (t_list **)ft_calloc(1, (sizeof(t_list *)));
 	pwd = malloc(sizeof(char) * PATH_MAX);
-	if (!pwd)
+	if (!pwd || !g_sh.env)
 		return ;
 	aux = NULL;
 	sh_lvl = ft_strdup("SHLVL=1");

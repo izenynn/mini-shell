@@ -6,16 +6,26 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/10 13:32:41 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:59:12 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* move list to desired positon */
-static t_list	*find_pos(const char *unset, int *count)
+static t_list	*build_str(const char *unset, char *tmp)
 {
-	char	*tmp;
+	t_list	*aux;
+
+	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
+	tmp[ft_strlen(unset)] = '=';
+	tmp[ft_strlen(unset) + 1] = '\0';
+	aux = *g_sh.env;
+	return (aux);
+}
+
+/* move list to desired positon */
+static t_list	*find_pos(const char *unset, int *count, char *tmp)
+{
 	t_list	*aux;
 
 	if (unset == NULL)
@@ -23,10 +33,7 @@ static t_list	*find_pos(const char *unset, int *count)
 	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
 	if (!tmp)
 		return (NULL);
-	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
-	tmp[ft_strlen(unset)] = '=';
-	tmp[ft_strlen(unset) + 1] = '\0';
-	aux = *g_sh.env;
+	aux = build_str(unset, tmp);
 	if (ft_strncmp((char *)aux->data, tmp, ft_strlen(tmp)) == 0)
 	{
 		free(tmp);
@@ -65,24 +72,32 @@ static void	delete_and_join(t_list *aux, int cnt)
 	aux->next = tmp;
 }
 
+void	execute_unset(char *const *unset, char *tmp, t_list *aux, int i)
+{
+	int	cnt;
+
+	cnt = 0;
+	aux = find_pos(unset[i], &cnt, tmp);
+	if (aux != NULL)
+		delete_and_join(aux, cnt);
+}
+
 /* */
 int	ft_unset(char **unset)
 {
+	char	*tmp;
 	t_list	*aux;
 	int		i;
-	int 	cnt;
 
 	aux = *g_sh.env;
+	tmp = NULL;
 	i = 0;
-	if (unset[1])
+	if (!aux && unset[1])
+		return (0);
+	else if (aux && unset[1])
 	{
 		while (unset[++i])
-		{
-			cnt = 0;
-			aux = find_pos(unset[i], &cnt);
-			if (aux != NULL)
-				delete_and_join(aux, cnt);
-		}
+			execute_unset(unset, tmp, aux, i);
 	}
 	else
 	{

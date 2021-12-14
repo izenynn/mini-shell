@@ -6,13 +6,13 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:44:51 by                  ###   ########.fr       */
+/*   Updated: 2021/12/14 12:17:45 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-void	update_env(t_list *env)
+void	update_env(t_list **env)
 {
 	char	*n_path;
 
@@ -26,8 +26,8 @@ void	update_env(t_list *env)
 		if (!n_path)
 			return ;
 	}
-	free(env->data);
-	env->data = ft_strjoin("PWD=", n_path);
+	free((*env)->data);
+	(*env)->data = ft_strjoin("PWD=", n_path);
 	free(n_path);
 }
 
@@ -81,7 +81,11 @@ static int	goto_dir(const char *dir)
 static int	goto_oldpwd(t_list *env)
 {
 	char	*opwd;
+	char	*tmp;
+	char	*pwd;
 
+	tmp = NULL;
+	pwd = NULL;
 	opwd = ft_getenv("OLDPWD");
 	if (!opwd)
 	{
@@ -94,19 +98,25 @@ static int	goto_oldpwd(t_list *env)
 		return (1);
 	}
 	free(opwd);
-	set_oldpwd(env);
-	update_env(env);
+	set_oldpwd(env, tmp, pwd);
+	locate_env(env);
 	return (0);
 }
 
 int	ft_changedir(char **dir)
 {
+	char	*tmp;
+	char	*pwd;
+
+	tmp = NULL;
+	pwd = NULL;
 	if (dir[1] && ft_strncmp(dir[1], "-", 1) == 0)
 		return (goto_oldpwd(*g_sh.env));
-	set_oldpwd(*g_sh.env);
-	if (!dir[1] || dir[1][0] == '~')
+	set_oldpwd(*g_sh.env, tmp, pwd);
+	if (!dir[1] || (!ft_strncmp(dir[1], "~\0", 2)
+			|| !ft_strncmp(dir[1], "~/", 2)))
 	{
-		if (!dir[1])
+		if (!dir[1] || !ft_strncmp(dir[1], "~\0", 2))
 		{
 			if (home_handler() == 1)
 				return (1);
@@ -114,11 +124,6 @@ int	ft_changedir(char **dir)
 		}
 		else if (goto_dir(dir[1]) == 1)
 			return (1);
-		else
-		{
-			locate_env(*g_sh.env);
-			return (0);
-		}
 	}
 	else if (chdir(dir[1]) == -1)
 		return (print_error(dir[1]));

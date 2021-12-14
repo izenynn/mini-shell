@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 13:10:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/10 13:10:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 11:37:50 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	locate_env(t_list *head)
 	{
 		if (ft_strncmp("PWD=", (char *)aux->data, 4) == 0)
 		{
-			update_env(aux);
+			update_env(&aux);
 			return (0);
 		}
 		aux = aux->next;
@@ -52,38 +52,43 @@ void	update_var(char *var_name, char *var)
 	free(content);
 }
 
-void	try_to_goto_olpwd(t_list *head)
+int	try_to_goto_olpwd(t_list **head)
 {
 	t_list	*aux;
 
-	aux = head;
-	while (aux && aux->data)
+	aux = *head;
+	if (!*head)
+		return (1);
+	while (*head)
 	{
-		if (ft_strncmp("OLDPWD=", (char *)aux->data, 7) == 0)
-			break ;
-		aux = aux->next;
+		if (ft_strncmp("OLDPWD=", (char *)(*head)->data, 7) == 0)
+			return (0);
+		*head = (*head)->next;
 	}
+	*head = aux;
+	return (1);
 }
 
-void	set_values(t_list *env, const char *aux)
+void	set_values(t_list **env, const char *aux, int c)
 {
-	if (env != NULL)
+	if (c == 0)
 	{
-		free(env->data);
-		env->data = (void *)ft_strdup(aux);
+		free((*env)->data);
+		(*env)->data = (void *)ft_strdup(aux);
 	}
 	else
-		ft_lstadd_back(g_sh.env, ft_lstnew((void *)ft_strdup(aux)));
+		ft_lstadd_back(g_sh.env, ft_lstnew((void *) ft_strdup(aux)));
 }
 
-int	set_oldpwd(t_list *env)
+int	set_oldpwd(t_list *env, char *aux, char *pwd)
 {
-	char	*pwd;
-	char	*aux;
+	int		ret;
+	t_list	*tmp;
 
 	pwd = ft_getenv("PWD");
-	try_to_goto_olpwd(*g_sh.env);
-	if (env == NULL)
+	tmp = env;
+	ret = try_to_goto_olpwd(&tmp);
+	if (tmp == NULL)
 	{
 		free(pwd);
 		return (1);
@@ -91,14 +96,14 @@ int	set_oldpwd(t_list *env)
 	if (pwd == NULL)
 	{
 		pwd = (char *)malloc(sizeof(char) * (PATH_MAX + 1));
-		if (getcwd(pwd, PATH_MAX) == NULL)
+		if (!pwd || getcwd(pwd, PATH_MAX) == NULL)
 		{
 			free(pwd);
 			return (1);
 		}
 	}
 	aux = ft_strjoin("OLDPWD=", pwd);
-	set_values(env, aux);
+	set_values(&tmp, aux, ret);
 	free(pwd);
 	free(aux);
 	return (0);
