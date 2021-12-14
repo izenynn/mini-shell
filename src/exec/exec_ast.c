@@ -6,13 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 00:02:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 01:28:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-static int	handle_cmd_line(t_ast *ast);
 
 /* interpret cmd */
 static int	handle_cmd(t_ast *ast, t_io *io)
