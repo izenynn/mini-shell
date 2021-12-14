@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 12:59:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 00:38:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:57:52 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,11 @@ t_ast	*and_or_1(void)
 	*g_sh.ao_ast = save;
 	if (!is_term(CHAR_CPR, NULL))
 	{
-		*g_sh.ao_ast = save;
 		ast_del(cmd_line_nd);
 		return (NULL);
 	}
 	if (!is_term(CHAR_AMP, NULL) || !is_term(CHAR_AMP, NULL))
 	{
-		*g_sh.ao_ast = save;
 		ast_del(cmd_line_nd);
 		return (NULL);
 	}
@@ -103,13 +101,11 @@ t_ast	*and_or_2(void)
 	*g_sh.ao_ast = save;
 	if (!is_term(CHAR_CPR, NULL))
 	{
-		*g_sh.ao_ast = save;
 		ast_del(cmd_line_nd);
 		return (NULL);
 	}
 	if (!is_term(CHAR_PIPE, NULL) || !is_term(CHAR_PIPE, NULL))
 	{
-		*g_sh.ao_ast = save;
 		ast_del(cmd_line_nd);
 		return (NULL);
 	}
@@ -176,7 +172,6 @@ t_ast	*and_or_5(void)
 {
 	t_ast	*job_nd;
 	t_ast	*res;
-	t_ast	*save;
 
 	job_nd = job();
 	if (job_nd == NULL)
@@ -190,7 +185,6 @@ t_ast	*and_or_5(void)
 	ast_settype(res, AST_OR);
 	ast_attach(res, job_nd, NULL);
 	ast_insert_and_or(g_sh.ao_ast, res, FALSE);
-	save = *g_sh.ao_ast;
 	if (and_or() == NULL)
 		return (NULL);
 	return (res);
