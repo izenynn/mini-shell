@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 19:27:06 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:01:36 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 /************************* TEST FUNC. *************************/
 
-/* spaces between levels */
-#define COUNT 10
-
 /* print binary tree in 2d */
 /*static void print_ast(t_ast *root, int space)
 {
+	// spaces between levels
+	#define COUNT 10
+
 	int		nd;
 	char	*type;
 
@@ -73,7 +73,7 @@
 }*/
 
 /* print tokens */
-static void print_tokens(t_lexer *lex)
+/*static void print_tokens(t_lexer *lex)
 {
 	t_tok *tmp;
 
@@ -84,7 +84,7 @@ static void print_tokens(t_lexer *lex)
 		tmp = tmp->next;
 	}
 	printf("\n");
-}
+}*/
 
 /************************* TEST FUNC. *************************/
 
@@ -127,8 +127,8 @@ void	handle_line(char *line)
 		return ;
 	}
 	free(line);
-	print_tokens(&lex);
-	/*if (lex.n_toks == 0 || parse(&lex, &ast))
+	//print_tokens(&lex);
+	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		lexer_del(&lex);
 		ast_del(ast);
@@ -136,6 +136,6 @@ void	handle_line(char *line)
 	}
 	//print_ast(ast, 0); printf("------------------------------------\n");
 	if (exec_heredoc(ast) == 0)
-		exec_ast(ast);*/
+		exec_ast(ast);
 	free_all(&lex, ast);
 }
