@@ -60,6 +60,20 @@ Execute the `./minishell` binary generated after running `make`
 ./minishell
 ```
 
+### Install
+
+To install minishell in your machine and be able to use it in any directory like any other command, run `make install` (make sure you have the correct access rights).
+
+```sh
+sudo make install
+```
+
+To change the install directory specify the `BIN_DIR` variable on make
+
+```sh
+sudo make install -D 'BIN_DIR=/usr/local/bin'
+```
+
 ## Features
 
 - Recreates most of the bash shell.

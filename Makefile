@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/15 20:03:15 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/15 23:00:25 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ UNAME_S := $(shell uname -s)
 # **************************************************************************** #
 
 NAME = minishell
+
+BIN_DIR ?= /usr/local/bin
 
 # **************************************************************************** #
 #                                   COMPILER                                   #
@@ -155,6 +157,10 @@ $(NAME): $(OBJ) $(LFT_NAME)
 	@printf "${NOCOL}"
 	@printf "\n${GRN}SUCCESS!${NOCOL}\n"
 	@printf "${CYN}type \"./minishell\" to start!${NOCOL}\n"
+
+# INSTALL
+install: $(NAME)
+	install $(NAME) $(BIN_DIR)
 
 # SANITIZE ADDRESS
 ifeq ($(UNAME_S),Linux)
