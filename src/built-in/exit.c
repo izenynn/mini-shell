@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:26 by acostal-          #+#    #+#             */
-/*   Updated: 2021/11/24 18:57:41 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/15 20:00:37 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_exit(char **exitc)
 	int	i;
 
 	i = 0;
-	if (exitc[2])
+	if (exitc && exitc[0] && exitc[1] && exitc[2])
 	{
-		write(1, "exit: too many arguments\n", 26);
+		write(STDOUT_FILENO, "exit\nexit: too many arguments\n", 30);
 		return (1);
 	}
 	if (exitc[1] && (exitc[1][i] == '+' || exitc[1][i] == '-'))
@@ -50,11 +50,13 @@ int	ft_exit(char **exitc)
 		g_sh.status = (unsigned char)exit_code;
 		ft_lstclear(g_sh.env, free);
 		free(g_sh.env);
+		write(STDOUT_FILENO, "exit\n", 5);
 		exit((unsigned char)exit_code);
 	}
 	ft_lstclear(g_sh.env, free);
 	free(g_sh.env);
 	g_sh.status = 0;
+	write(STDOUT_FILENO, "exit\n", 5);
 	exit(0);
 	return (0);
 }
