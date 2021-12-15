@@ -1,4 +1,15 @@
-#include "sh/utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcards.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
+/*   Updated: 2021/12/15 17:39:50 by dpoveda-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sh.h>
 
 /* delete a token and join the previous with the next one */
@@ -54,7 +65,6 @@ int	del_hidden_files(t_tok **head)
 /* Read current dir and fill list with it */
 t_tok	*create_list(void)
 {
-	t_tok			*dir;
 	t_tok			*head;
 	DIR				*ls;
 	char			*cwd;
@@ -67,12 +77,11 @@ t_tok	*create_list(void)
 		return (NULL);
 	ls = opendir(cwd);
 	free(cwd);
-	dir = (t_tok *)ft_calloc(1, sizeof(t_tok));
-	if (dir == NULL)
+	head = (t_tok *)ft_calloc(1, sizeof(t_tok));
+	if (head == NULL)
 		return (NULL);
 	list = readdir(ls);
-	read_dir(dir, ls, list);
-	head = dir;
+	read_dir(&head, ls, list);
 	closedir(ls);
 	return (head);
 }
