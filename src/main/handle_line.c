@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 14:01:36 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 19:20:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@
 {
 	t_tok *tmp;
 
+	printf("n_tok: %d\n", lex.n_toks);
 	tmp = lex->tok_lst;
 	while (tmp)
 	{
 		printf("type: %d, data: %s\n", tmp->type, tmp->data);
 		tmp = tmp->next;
 	}
-	printf("\n");
+	printf("------------------------------------\n");
 }*/
 
 /************************* TEST FUNC. *************************/
