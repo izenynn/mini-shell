@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 18:31:26 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 20:04:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 			return (1);
 	}
 	else if (ls->type == CHAR_SC || ls->type == CHAR_GT || ls->type == CHAR_LS
-		|| ls->type == CHAR_AMP || ls->type == CHAR_PIPE)
+		|| ls->type == CHAR_AMP || ls->type == CHAR_PIPE
+		|| ls->type == CHAR_OPR || ls->type == CHAR_CPR)
 	{
 		if (on_gen_st_sp(ls, sz))
 			return (1);

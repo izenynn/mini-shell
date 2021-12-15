@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/15 01:44:40 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/15 20:03:15 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,10 +91,10 @@ SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c		handle_expand.c		expand.c			\
 				wildcards.c			wc_match.c			wc_utils.c
 
-SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
-				ast_insert.c		parse_cmd_line.c	parse_job.c			\
-				parse_cmd.c			parse_tok_lst.c		parse_redir.c		\
-				parse_redir_in.c	parse_redir_out.c
+SRC_PARSER =	parser.c			parser_utils.c		ast_utils_1.c		\
+				ast_utils_2.c		parse_cmd_line.c	parse_and_or.c		\
+				parse_job.c			parse_cmd.c			parse_tok_lst.c		\
+				parse_redir.c		parse_redir_in.c	parse_redir_out.c
 
 SRC_PROMPT =	prompt.c
 
@@ -132,7 +132,7 @@ LDLIBS = -lft
 
 LDLIBS += -lreadline
 
-# TODO remove this shit
+# TODO remove this
 ifeq ($(UNAME_S),Darwin)
 	CFLAGS += -I /Users/$(USER)/.brew/opt/readline/include
 	LDFLAGS += -L /Users/$(USER)/.brew/opt/readline/lib

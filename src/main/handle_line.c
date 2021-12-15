@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 19:20:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 20:04:35 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@
 	// get ast node type
 	nd = ast_gettype(root);
 	if (nd & AST_PIPE)
-		type = ft_strdup("pipe");
+		type = ft_strdup("|");
 	else if (nd & AST_SEQ)
-		type = ft_strdup("seq");
+		type = ft_strdup(";");
+	else if (nd & AST_AND)
+		type = ft_strdup("&&");
+	else if (nd & AST_OR)
+		type = ft_strdup("||");
 	else if (nd & AST_REDIR)
 		type = ft_strdup("redir");
 	else if (nd & AST_RD_TRUNC)
@@ -54,8 +58,6 @@
 		type = ft_strdup("<");
 	else if (nd & AST_CMD)
 		type = ft_strdup("cmd");
-	else if (nd & AST_SIMPLECMD)
-		type = ft_strdup("simple");
 	else if (nd & AST_ARG)
 		type = ft_strdup("arg");
 	else
@@ -128,14 +130,12 @@ void	handle_line(char *line)
 		return ;
 	}
 	free(line);
-	//print_tokens(&lex);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		lexer_del(&lex);
 		ast_del(ast);
 		return ;
 	}
-	//print_ast(ast, 0); printf("------------------------------------\n");
 	if (exec_heredoc(ast) == 0)
 		exec_ast(ast);
 	free_all(&lex, ast);

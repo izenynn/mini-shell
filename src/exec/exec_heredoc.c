@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 01:09:29 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 13:43:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:03:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,29 @@ static int	hd_job(t_ast *ast)
 	return (0);
 }
 
+/* handle hd in "and or" */
+static int	hd_and_or(t_ast *ast)
+{
+	int	type;
+
+	if (ast == NULL)
+		return (0);
+	type = ast_gettype(ast);
+	if (type == AST_AND || type == AST_OR || type == AST_SEQ)
+	{
+		if (hd_and_or(ast->left))
+			return (1);
+		if (hd_and_or(ast->right))
+			return (1);
+	}
+	else
+	{
+		if (hd_job(ast))
+			return (1);
+	}
+	return (0);
+}
+
 /* handle hd on command line */
 static int	hd_cmd_line(t_ast *ast)
 {
@@ -74,14 +97,14 @@ static int	hd_cmd_line(t_ast *ast)
 		return (0);
 	if (ast_gettype(ast) == AST_SEQ)
 	{
-		if (hd_job(ast->left))
+		if (hd_and_or(ast->left))
 			return (1);
 		if (hd_cmd_line(ast->right))
 			return (1);
 	}
 	else
 	{
-		if (hd_job(ast))
+		if (hd_and_or(ast))
 			return (1);
 	}
 	return (0);

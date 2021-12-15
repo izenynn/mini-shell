@@ -6,12 +6,13 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/14 11:59:12 by                  ###   ########.fr       */
+/*   Updated: 2021/12/15 20:04:06 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
+/* */
 static t_list	*build_str(const char *unset, char *tmp)
 {
 	t_list	*aux;
@@ -72,6 +73,7 @@ static void	delete_and_join(t_list *aux, int cnt)
 	aux->next = tmp;
 }
 
+/* */
 void	execute_unset(char *const *unset, char *tmp, t_list *aux, int i)
 {
 	int	cnt;

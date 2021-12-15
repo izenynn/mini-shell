@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:03:38 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 19:38:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/13 22:21:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ static int	get_ctype_2(char c)
 		return (CHAR_OCL);
 	else if (c == '}')
 		return (CHAR_CCL);
+	else if (c == '(')
+		return (CHAR_OPR);
+	else if (c == ')')
+		return (CHAR_CPR);
 	return (CHAR_GEN);
 }
 

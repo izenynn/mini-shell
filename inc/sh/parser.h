@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/05 14:21:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/14 00:20:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,21 @@
 
 /*** INFO ***/
 
+// TODO check if "$> (echo 1) | cat" and "$> (echo 1 | cat)" works fine
+
 /*
  * Grammar
  *
- * <command line>		:	<job> ';'... <command line>
- * 						|	<job> ';'...
+ * <command line>		:	<and or> ';' <command line>
+ * 						|	<and or> ';'
+ * 						|	<and or>
+ * 						;
+ *
+ * <and or>				:	'(' <command line> ')' && <and or>
+ * 						|	'(' <command line> ')' || <and or>
+ * 						|	'(' <command line> ')'
+ * 						|	<job> && <and or>
+ * 						|	<job> || <and or>
  * 						|	<job>
  * 						;
  *
@@ -54,8 +64,8 @@
  * Create an ast recursively:
  *
  * cmd_line()		=>	test all command line in order
- * cmd_line_1()		=>	<job> ';'... <command line>
- * cmd_line_2()		=>	<job> ';'...
+ * cmd_line_1()		=>	<job> ';' <command line>
+ * cmd_line_2()		=>	<job> ';'
  * cmd_line_3()		=>	<job>
  *
  * job()			=>	test all job in order
@@ -103,6 +113,15 @@ t_ast	*cmd_line(void);
 t_ast	*cmd_line_1(void);
 t_ast	*cmd_line_2(void);
 t_ast	*cmd_line_3(void);
+
+/* parse_and_or.c */
+t_ast	*and_or(void);
+t_ast	*and_or_1(void);
+t_ast	*and_or_2(void);
+t_ast	*and_or_3(void);
+t_ast	*and_or_4(void);
+t_ast	*and_or_5(void);
+t_ast	*and_or_6(void);
 
 /* parse_job.c */
 t_ast	*job(void);
