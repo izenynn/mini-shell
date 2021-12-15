@@ -89,7 +89,7 @@ SRC_EXEC =		exec_ast.c			exec_cmd.c			utils.c				\
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c		handle_expand.c		expand.c			\
-				wildcards.c			wc_match.c
+				wildcards.c			wc_match.c			wc_utils.c
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils.c			\
 				ast_insert.c		parse_cmd_line.c	parse_job.c			\

@@ -16,6 +16,7 @@
 /*** include ***/
 
 # include <stddef.h>
+# include <dirent.h>
 
 /*** DATA ***/
 
@@ -116,5 +117,8 @@ int		handle_wildcards(t_tok **wc_tok, t_tok *prev, t_lexer *lex);
 
 /* wc_match.c */
 int		wc_match(const char *wildcard, const char *target);
+
+/* wc_utils.c */
+void	read_dir(t_tok *dir, DIR *ls, struct dirent *list);
 
 #endif
