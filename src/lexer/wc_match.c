@@ -6,11 +6,12 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 01:36:11 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 01:52:57 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 10:38:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
 /* This function will be called multiple times while we iterate through the wildcard */
 static int	wc_match_fragment(const char **frag, const char **tgt,
 								const char *tgt_end)
@@ -22,9 +23,14 @@ static int	wc_match_fragment(const char **frag, const char **tgt,
 	t = *tgt;
 	while (*f && *f != '*' && t < tgt_end)
 	{
-		if (*f != *t)
-			return (0);
-		f++;
+		if (*f == '?')
+			f++;
+		else
+		{
+			if (*f != *t)
+				return (0);
+			f++;
+		}
 		t++;
 	}
 	if (!*f || *f == '*')
@@ -41,7 +47,7 @@ static int	wc_match_fragment(const char **frag, const char **tgt,
  * multiple times the function that matches fragment.
  * It'll return 0 in case that there is no match and 1 in case
  * we got a match
-*/
+ */
 static int	wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 {
 	const char	*stgt;
@@ -58,6 +64,7 @@ static int	wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 	}
 	while (*wc)
 	{
+		// refactor this while
 		while (*wc == '*')
 			wc++;
 		if (!*wc)
@@ -80,6 +87,7 @@ static int	wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 				break ;
 			tgt++;
 		}
+		//
 		if (ret > 0)
 			continue ;
 		return (0);
