@@ -1,14 +1,4 @@
 #include <sh.h>
-/*#include <sys/types.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <limits.h>
-#include <stdio.h>
-#include "../../libft/inc/libft/ft_mem.h"
-#include "../../inc/sh/lexer.h"
-#include "../../libft/inc/libft/ft_str.h"
-#include "../../libft/inc/libft/ft_lst.h"*/
-
 /* delete a token and join the previous with the next one */
 void	del_node(t_tok **tok, t_tok *prev)
 {
