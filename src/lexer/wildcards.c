@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 19:20:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 22:56:21 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,7 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	head = create_list();
 	if (head == NULL)
 		return (1);
-	// delete node if first is null
-	if (head->data == NULL)
-		del_node(&head, NULL);
+	// delete hidden files if wildcard doesnt start with '.'
 	if (ft_strncmp((*tok)->data, ".", 1))
 		del_hidden_files(&head);
 	// match
