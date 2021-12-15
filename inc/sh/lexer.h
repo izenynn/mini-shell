@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 19:33:22 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 01:44:21 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,8 @@ int		expand(t_tok *tok, int start, int st);
 
 /* wildcards.c */
 int		handle_wildcards(t_tok **wc_tok, t_tok *prev, t_lexer *lex);
+
+/* wc_match.c */
+int		wc_match(const char *wildcard, const char *target);
 
 #endif

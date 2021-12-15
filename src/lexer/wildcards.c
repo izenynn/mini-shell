@@ -14,6 +14,8 @@ void	del_node(t_tok **tok, t_tok *prev)
 {
 	t_tok	*tmp;
 
+	// TODO maybe this function segfaults when **tok has no elements
+	// please try it before changing the code
 	if (prev == NULL)
 	{
 		tmp = *tok;
@@ -32,20 +34,21 @@ void	del_node(t_tok **tok, t_tok *prev)
 }
 
 /* delte all hidden files */
-t_tok	*del_hidden_files(t_tok *head)
+int	del_hidden_files(t_tok **head)
 {
 	//t_tok	*tmp;
 	t_tok	*aux;
 	t_tok	*prev;
 
-	aux = head;
+	aux = *head;
 	while (aux)
 	{
 		if (ft_strncmp((char *)aux->data, ".", 1) == 0)
 		{
-			if (aux == head)
+			if (aux == *head)
 			{
-				del_node(&aux, NULL);
+				del_node(head, NULL);
+				aux = *head;
 				//head = aux->next;
 				//tmp = aux->next;
 			}
@@ -63,7 +66,7 @@ t_tok	*del_hidden_files(t_tok *head)
 		prev = aux;
 		aux = aux->next;
 	}
-	return (head);
+	return (0);
 }
 
 /* Read current dir and fill list with it */
@@ -101,40 +104,66 @@ t_tok	*create_list(void)
 	return (head);
 }
 
+void	match(t_tok **head, const char *wildcard)
+{
+	t_tok	*aux;
+	t_tok	*prev;
+
+	prev = NULL;
+	aux = *head;
+	while (aux != NULL)
+	{
+		// wc_match returns 0 when no match is found, so we delete the node
+		if (wc_match(wildcard, aux->data) == 0)
+		{
+			if (aux == *head)
+			{
+				del_node(head, NULL);
+				aux = *head;
+			}
+			else
+				del_node(&aux, prev);
+			continue ;
+		}
+		prev = aux;
+		aux = aux->next;
+	}
+	// when we exit this func the **head list will contain only the matches
+}
+
 int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 {
 	t_tok	*aux;
-	t_tok	*dir;
-	char	*wc;
+	t_tok	*head;
 
 	// TEST -> only get wildcarf if "*"
 	if (ft_strncmp((*tok)->data, "*", 2))
 		return (0);
 	//
-	wc = (*tok)->data;
-	dir = create_list();
-	if (dir == NULL)
+	head = create_list();
+	if (head == NULL)
 		return (1);
 	// delete node if first is null
-	if (dir->data == NULL)
-		del_node(&dir, NULL);
-	if (ft_strncmp(wc, ".", 1))
-		dir = del_hidden_files(dir);
-	// TODO function that for each element of dir checks if there is a wildcard and have a match
+	if (head->data == NULL)
+		del_node(&head, NULL);
+	if (ft_strncmp((*tok)->data, ".", 1))
+		del_hidden_files(&head);
+	// match
+	match(&head, (*tok)->data);
 	// if no match
-	if (dir == NULL)
+	if (head == NULL)
 		return (0);
 	// if match
-	aux = dir;
+	aux = head;
 	while (aux->next)
 		aux = aux->next;
 	aux->next = (*tok)->next;
 	if (lex->tok_lst == *tok)
 		lex->tok_lst = *tok;
 	else
-		prev->next = dir;
+		prev->next = head;
 	free((*tok)->data);
 	free(*tok);
-	*tok = dir;
+	*tok = head;
 	return (0);
 }
