@@ -137,8 +137,8 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	t_tok	*head;
 
 	// TEST -> only get wildcarf if "*"
-	if (ft_strncmp((*tok)->data, "*", 2))
-		return (0);
+	//if (ft_strncmp((*tok)->data, "*", 2))
+	//	return (0);
 	//
 	head = create_list();
 	if (head == NULL)
