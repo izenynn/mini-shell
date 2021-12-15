@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 19:08:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 19:20:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 {
 	t_tok	*aux;
 	t_tok	*head;
+	int		cnt;
 
 	// if prev token is a here_doc
 	// TODO
@@ -144,8 +145,9 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 		return (1);
 	}
 	// else
+	cnt = 1;
 	aux = head;
-	while (aux->next)
+	while (aux->next && ++cnt)
 		aux = aux->next;
 	aux->next = (*tok)->next;
 	// **tok is equal to head, we change head then
@@ -156,7 +158,7 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	free((*tok)->data);
 	free(*tok);
 	//*tok = head;
-	lex->n_toks += aux->next - *tok;
+	lex->n_toks += cnt;
 	*tok = aux->next;
 	//for (t_tok *tokk = lex->tok_lst; tokk != NULL; tokk = tokk->next)
 	//	printf("p: %p, d: %s\n", (void *)tokk, tokk->data);
