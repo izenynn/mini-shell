@@ -1,4 +1,5 @@
 #include <sh.h>
+
 /* delete a token and join the previous with the next one */
 void	del_node(t_tok **tok, t_tok *prev)
 {
@@ -26,7 +27,6 @@ void	del_node(t_tok **tok, t_tok *prev)
 /* delte all hidden files */
 int	del_hidden_files(t_tok **head)
 {
-	//t_tok	*tmp;
 	t_tok	*aux;
 	t_tok	*prev;
 
@@ -39,24 +39,28 @@ int	del_hidden_files(t_tok **head)
 			{
 				del_node(head, NULL);
 				aux = *head;
-				//head = aux->next;
-				//tmp = aux->next;
 			}
 			else
-			{
 				del_node(&aux, prev);
-				//tmp = aux->next;
-				//prev->next = tmp;
-			}
-			//free(aux->data);
-			//free(aux);
-			//aux = tmp;
 			continue ;
 		}
 		prev = aux;
 		aux = aux->next;
 	}
 	return (0);
+}
+
+void	read_dir(t_tok *dir, DIR *ls, struct dirent *list)
+{
+	while (list)
+	{
+		dir->data = ft_strdup(list->d_name);
+		dir->type = TOK;
+		list = readdir(ls);
+		if (list)
+			dir->next = (t_tok *)ft_calloc(1, sizeof(t_tok));
+		dir = dir->next;
+	}
 }
 
 /* Read current dir and fill list with it */
@@ -80,16 +84,7 @@ t_tok	*create_list(void)
 		return (NULL);
 	head = dir;
 	list = readdir(ls);
-	while (list)
-	{
-		//printf("data: %s\n", list->d_name);
-		dir->data = ft_strdup(list->d_name);
-		dir->type = TOK;
-		list = readdir(ls);
-		if (list)
-			dir->next = (t_tok *)ft_calloc(1, sizeof(t_tok));
-		dir = dir->next;
-	}
+	read_dir(dir, ls, list);
 	closedir(ls);
 	return (head);
 }

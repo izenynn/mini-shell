@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include <sh.h>
-
-static int wc_match_fragment(const char **frag, const char **tgt, const char *tgt_end)
+/* This function will be called multiple times while we iterate through the wildcard */
+static int	wc_match_fragment(const char **frag, const char **tgt,
+								const char *tgt_end)
 {
-	const char *f;
-	const char *t;
+	const char	*f;
+	const char	*t;
 
 	f = *frag;
 	t = *tgt;
@@ -35,9 +36,15 @@ static int wc_match_fragment(const char **frag, const char **tgt, const char *tg
 	return (0);
 }
 
-static int wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
+/* This function is the one that handles the matches:
+ * It'll iterate through the wildcard and the target and will call
+ * multiple times the function that matches fragment.
+ * It'll return 0 in case that there is no match and 1 in case
+ * we got a match
+*/
+static int	wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 {
-	const char 	*stgt;
+	const char	*stgt;
 	const char	*swc;
 	const char	*tgt_end;
 	int			ret;
@@ -74,7 +81,7 @@ static int wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 			tgt++;
 		}
 		if (ret > 0)
-			continue;
+			continue ;
 		return (0);
 	}
 	return (tgt == tgt_end);
@@ -82,5 +89,5 @@ static int wc_match_inner(const char *wc, const char *tgt, size_t tgt_len)
 
 int	wc_match(const char *wildcard, const char *target)
 {
-    return (wc_match_inner(wildcard, target, strlen(target)));
+	return (wc_match_inner(wildcard, target, strlen(target)));
 }
