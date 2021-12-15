@@ -36,6 +36,11 @@ int	ft_exit(char **exitc)
 	int	i;
 
 	i = 0;
+	if (exitc[2])
+	{
+		write(1, "exit: too many arguments\n", 26);
+		return (1);
+	}
 	if (exitc[1] && (exitc[1][i] == '+' || exitc[1][i] == '-'))
 		i++;
 	validate_exit_code(exitc, i);
