@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 17:39:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 19:08:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,11 +135,11 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	if (head == NULL)
 		return (0);
 	// if match and prev token is a redir
-	if ((prev->type == CHAR_GT || prev->type == CHAR_LS)
-		&& head->next != NULL) // type == '>' || type == '<'
+	if (prev && head->next != NULL
+		&& (prev->type == CHAR_GT || prev->type == CHAR_LS))
 	{
 		ft_putstr_fd((*tok)->data, STDERR_FILENO);
-		ft_putstr_fd(": amgiguous redirect\n", STDERR_FILENO);
+		ft_putstr_fd(": ambiguous redirect\n", STDERR_FILENO);
 		tok_del(head);
 		return (1);
 	}
@@ -148,7 +148,7 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	while (aux->next)
 		aux = aux->next;
 	aux->next = (*tok)->next;
-	// ???
+	// **tok is equal to head, we change head then
 	if (lex->tok_lst == *tok)
 		lex->tok_lst = head;
 	else
@@ -156,6 +156,9 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	free((*tok)->data);
 	free(*tok);
 	//*tok = head;
+	lex->n_toks += aux->next - *tok;
 	*tok = aux->next;
+	//for (t_tok *tokk = lex->tok_lst; tokk != NULL; tokk = tokk->next)
+	//	printf("p: %p, d: %s\n", (void *)tokk, tokk->data);
 	return (0);
 }
