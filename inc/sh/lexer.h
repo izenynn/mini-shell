@@ -121,6 +121,7 @@ int		wc_match(const char *wildcard, const char *target);
 /* wc_utils.c */
 void	tok_swap(t_tok **head, t_tok *t1, t_tok *t2);
 int		lowercmp(const char *s1, const char *s2);
+void	sort_list(t_tok *head);
 void	read_dir(t_tok *dir, DIR *ls, struct dirent *list);
 
 #endif

@@ -99,6 +99,25 @@ int	lowercmp(const char *s1, const char *s2)
 	return (c1 - c2);
 }
 
+void	sort_list(t_tok *head)
+{
+	t_tok	*aux1;
+	t_tok	*aux2;
+
+	aux1 = head;
+	while (aux1)
+	{
+		aux2 = aux1->next;
+		while (aux2)
+		{
+			if (lowercmp(aux1->data, aux2->data) > 0)
+				tok_swap(&head, aux1, aux2);
+			aux2 = aux2->next;
+		}
+		aux1 = aux1->next;
+	}
+}
+
 /* read current directory */
 void	read_dir(t_tok *dir, DIR *ls, struct dirent *list)
 {
@@ -111,8 +130,8 @@ void	read_dir(t_tok *dir, DIR *ls, struct dirent *list)
 			dir->next = (t_tok *)ft_calloc(1, sizeof(t_tok));
 		dir = dir->next;
 	}
+	sort_list(dir);
 }
-
 /*int main() {
 	char *s1;
 	char *s2;

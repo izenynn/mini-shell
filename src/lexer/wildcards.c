@@ -70,9 +70,9 @@ t_tok	*create_list(void)
 	dir = (t_tok *)ft_calloc(1, sizeof(t_tok));
 	if (dir == NULL)
 		return (NULL);
-	head = dir;
 	list = readdir(ls);
 	read_dir(dir, ls, list);
+	head = dir;
 	closedir(ls);
 	return (head);
 }
