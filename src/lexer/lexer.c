@@ -6,15 +6,17 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 01:31:38 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:55:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
-/* check token is not empty after expand */
-static int	check_empty_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
+/* check token if token is empty or NULL */
+static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 {
+	if (*cur == NULL)
+		return (1);
 	if (ft_strlen((*cur)->data) <= 0)
 	{
 		if (prev == NULL)
@@ -37,15 +39,19 @@ static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
 {
 	char	*trimed;
 	int		cnt;
+	int		is_heredoc;
 
+	is_heredoc = 0;
 	cnt = 0;
 	while (tok)
 	{
 		if (tok->type == TOK)
 		{
-			if (handle_expand(tok) || handle_wildcards(&tok, prev, lex))
+			if (handle_expand(tok))
 				return (0);
-			if (check_empty_tok(lex, &tok, prev))
+			if (is_heredoc == 0 && handle_wildcards(&tok, prev, lex))
+				return (0);
+			if (check_tok(lex, &tok, prev))
 				continue ;
 			trimed = (char *)malloc(ft_strlen(tok->data) + 1);
 			if (trimed == NULL)
@@ -55,6 +61,10 @@ static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
 			tok->data = trimed;
 			cnt++;
 		}
+		if (prev && prev->type == CHAR_LS && tok->type == CHAR_LS)
+			is_heredoc = 1;
+		else
+			is_heredoc = 0;
 		prev = tok;
 		tok = tok->next;
 	}

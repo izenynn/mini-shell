@@ -1,3 +1,4 @@
+#include "sh/utils.h"
 #include <sh.h>
 
 /* delete a token and join the previous with the next one */
@@ -108,10 +109,9 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	t_tok	*aux;
 	t_tok	*head;
 
-	// TEST -> only get wildcarf if "*"
-	//if (ft_strncmp((*tok)->data, "*", 2))
-	//	return (0);
-	//
+	// if prev token is a here_doc
+	// TODO
+	// create token list with all files
 	head = create_list();
 	if (head == NULL)
 		return (1);
@@ -125,17 +125,28 @@ int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
 	// if no match
 	if (head == NULL)
 		return (0);
-	// if match
+	// if match and prev token is a redir
+	if ((prev->type == CHAR_GT || prev->type == CHAR_LS)
+		&& head->next != NULL) // type == '>' || type == '<'
+	{
+		ft_putstr_fd((*tok)->data, STDERR_FILENO);
+		ft_putstr_fd(": amgiguous redirect\n", STDERR_FILENO);
+		tok_del(head);
+		return (1);
+	}
+	// else
 	aux = head;
 	while (aux->next)
 		aux = aux->next;
 	aux->next = (*tok)->next;
+	// ???
 	if (lex->tok_lst == *tok)
-		lex->tok_lst = *tok;
+		lex->tok_lst = head;
 	else
 		prev->next = head;
 	free((*tok)->data);
 	free(*tok);
-	*tok = head;
+	//*tok = head;
+	*tok = aux->next;
 	return (0);
 }
