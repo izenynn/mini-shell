@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 18:13:07 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/15 01:31:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
 	{
 		if (tok->type == TOK)
 		{
-			if (handle_expand(tok) || handle_wildcards(tok, prev, lex))
+			if (handle_expand(tok) || handle_wildcards(&tok, prev, lex))
 				return (0);
 			if (check_empty_tok(lex, &tok, prev))
 				continue ;
