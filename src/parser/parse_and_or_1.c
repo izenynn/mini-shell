@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 12:59:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 20:53:08 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:03:45 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ t_ast	*and_or_sup(t_tok *save)
 	t_ast	*new_node;
 
 	g_sh.tok = save;
-	new_node = and_or_5();
+	new_node = and_or_2();
 	if (new_node != NULL)
 		return (new_node);
 	g_sh.tok = save;
-	new_node = and_or_6();
+	new_node = and_or_3();
 	if (new_node != NULL)
 		return (new_node);
 	return (NULL);
@@ -36,19 +36,19 @@ t_ast	*and_or(void)
 
 	save = g_sh.tok;
 	g_sh.tok = save;
-	new_node = and_or_1();
-	if (new_node != NULL)
-		return (new_node);
-	g_sh.tok = save;
-	new_node = and_or_2();
-	if (new_node != NULL)
-		return (new_node);
-	g_sh.tok = save;
-	new_node = and_or_3();
-	if (new_node != NULL)
-		return (new_node);
-	g_sh.tok = save;
 	new_node = and_or_4();
+	if (new_node != NULL)
+		return (new_node);
+	g_sh.tok = save;
+	new_node = and_or_5();
+	if (new_node != NULL)
+		return (new_node);
+	g_sh.tok = save;
+	new_node = and_or_6();
+	if (new_node != NULL)
+		return (new_node);
+	g_sh.tok = save;
+	new_node = and_or_1();
 	if (new_node != NULL)
 		return (new_node);
 	return (and_or_sup(save));

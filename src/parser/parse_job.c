@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 18:03:15 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 21:58:14 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/16 22:05:24 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,27 @@ t_ast	*job_1(void)
 	t_ast	*cmd_nd;
 	t_ast	*res;
 
-	printf("1, data: %s\n", g_sh.tok->data);
+	//printf("1, data: %s\n", g_sh.tok->data);
 	if (!is_term(CHAR_OPR, NULL))
 		return (NULL);
 	cmd_nd = cmd();
-	printf("2, data: %s\n", g_sh.tok->data);
+	//printf("2, data: %s\n", g_sh.tok->data);
 	if (cmd_nd == NULL)
 		return (NULL);
-	printf("3, data: %s\n", g_sh.tok->data);
+	//printf("3, data: %s\n", g_sh.tok->data);
 	if (!is_term(CHAR_CPR, NULL) || !is_term(CHAR_PIPE, NULL))
 	{
 		ast_del(cmd_nd);
 		return (NULL);
 	}
-	printf("4, data: %s\n", g_sh.tok->data);
+	//printf("4, data: %s\n", g_sh.tok->data);
 	job_nd = job();
 	if (job_nd == NULL)
 	{
 		ast_del(cmd_nd);
 		return (NULL);
 	}
-	printf("5, data: %s\n", g_sh.tok->data);
+	//printf("5, data: %s\n", g_sh.tok->data);
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_settype(res, AST_PIPE);
 	ast_attach(res, cmd_nd, job_nd);
