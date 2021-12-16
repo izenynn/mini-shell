@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 20:04:35 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 17:22:29 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@
 {
 	t_tok *tmp;
 
-	printf("n_tok: %d\n", lex.n_toks);
+	printf("n_tok: %d\n", lex->n_toks);
 	tmp = lex->tok_lst;
 	while (tmp)
 	{
@@ -94,8 +94,10 @@
 /* free all before exit */
 static void	free_all(t_lexer *lex, t_ast *ast)
 {
-	lexer_del(lex);
-	ast_del(ast);
+	if (lex != NULL)
+		lexer_del(lex);
+	if (ast != NULL)
+		ast_del(ast);
 }
 
 /* check is line is a commet */
@@ -125,6 +127,7 @@ void	handle_line(char *line)
 	}
 	if (lexer_build(line, ft_strlen(line), &lex) == 0)
 	{
+		write(STDERR_FILENO, "error: syntax error\n", 20);
 		free(line);
 		lexer_del(&lex);
 		return ;
@@ -132,8 +135,7 @@ void	handle_line(char *line)
 	free(line);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
-		lexer_del(&lex);
-		ast_del(ast);
+		free_all(&lex, ast);
 		return ;
 	}
 	if (exec_heredoc(ast) == 0)
