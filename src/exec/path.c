@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:42:23 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 20:13:10 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 00:06:23 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	find_and_exec_cmd(t_cmd *cmd)
 	char	*path;
 	char	*cmd_path;
 
-	if (*cmd->argv[0] == '/' || *cmd->argv[0] == '~'
+	if (*cmd->argv[0] == '/' || !ft_strncmp(cmd->argv[0], "~/", 2)
 		|| !ft_strncmp(cmd->argv[0], "./", 2)
 		|| !ft_strncmp(cmd->argv[0], "../", 3))
 		cmd_path = cmd->argv[0];
