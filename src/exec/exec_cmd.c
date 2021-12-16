@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/10 13:07:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 17:28:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ static int	exec_in_child(t_cmd *cmd)
 	else
 	{
 		sig_child();
+		g_sh.is_child = TRUE;
 		check_builtin_pipes(cmd);
 		if (redir_cmd(cmd, FALSE))
 			exit(EXIT_FAILURE);

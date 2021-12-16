@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/08 20:10:04 by                  ###   ########.fr       */
+/*   Updated: 2021/12/16 17:26:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <sh.h>
@@ -55,6 +55,7 @@ static void	initialise_vars(void)
 {
 	g_sh.status = EXIT_SUCCESS;
 	g_sh.bi = init_blti();
+	g_sh.is_child = FALSE;
 	dup2(g_sh.fd_bak[0], STDIN_FILENO);
 	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
 }
