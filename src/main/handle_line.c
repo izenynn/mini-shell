@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 21:55:02 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/16 23:57:26 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@
 }*/
 
 /* print tokens */
-static void print_tokens(t_lexer *lex)
+/*static void print_tokens(t_lexer *lex)
 {
 	t_tok *tmp;
 
@@ -87,7 +87,7 @@ static void print_tokens(t_lexer *lex)
 		tmp = tmp->next;
 	}
 	printf("------------------------------------\n");
-}
+}*/
 
 /************************* TEST FUNC. *************************/
 
@@ -133,7 +133,6 @@ void	handle_line(char *line)
 		return ;
 	}
 	free(line);
-	print_tokens(&lex);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		free_all(&lex, ast);

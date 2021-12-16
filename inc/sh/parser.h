@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 22:03:56 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/16 23:53:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@
  * 						|	<and or>
  * 						;
  *
- * <and or>				:	'(' <command line> ')' && <and or>
- * 						|	'(' <command line> ')' || <and or>
- * 						|	'(' <command line> ')'
- * 						|	<job> && <and or>
+ * <and or>				:	<job> && <and or>
  * 						|	<job> || <and or>
  * 						|	<job>
+ * 						|	'(' <command line> ')' && <and or>
+ * 						|	'(' <command line> ')' || <and or>
+ * 						|	'(' <command line> ')'
  * 						;
  *
  * <job>				:	'(' <command> ')' '|' <job>
