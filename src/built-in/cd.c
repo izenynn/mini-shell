@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 19:19:37 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/14 12:17:45 by                  ###   ########.fr       */
+/*   Updated: 2021/12/16 13:36:20 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ static int	goto_oldpwd(t_list *env)
 	}
 	if (chdir(opwd) == -1)
 	{
+		write(STDERR_FILENO, "cd: ", 4);
+		write(STDERR_FILENO, opwd, ft_strlen(opwd));
+		write(STDERR_FILENO, ": No such file or directory\n", 28);
 		free(opwd);
 		return (1);
 	}
