@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 23:53:43 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 00:02:28 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,45 @@
 /*
  * Create an ast recursively:
  *
- * cmd_line()		=>	test all command line in order
- * cmd_line_1()		=>	<job> ';' <command line>
- * cmd_line_2()		=>	<job> ';'
- * cmd_line_3()		=>	<job>
+ * cmd_line()		=> test all command line in order
+ * cmd_line_1()		=> <and or> ';' <command line>
+ * cmd_line_2()		=> <and or> ';'
+ * cmd_line_3()		=> <and or>
  *
- * job()			=>	test all job in order
- * job_1()			=>	<command> '|' <job>
- * job_2()			=>	<command>
+ * and_or()			=> test all "and or" in order
+ * and_or_1()		=> <job> && <and or>
+ * and_or_2()		=> <job> || <and or>
+ * and_or_3()		=> <job>
+ * and_or_4()		=> '(' <command line> ')' && <and or>
+ * and_or_5()		=> '(' <command line> ')' || <and or>
+ * and_or_6()		=> '(' <command line> ')'
  *
- * cmd()			=>	test all command in order
- * cmd_1()			=>	<token list>
+ * job()			=> test all job in order
+ * job_1()			=> '(' <command> ')' '|' <job>
+ * job_2()			=>     <command>     '|' <job>
+ * job_3()			=> '(' <command> ')'
+ * job_4()			=>     <command>
  *
- * tok_lst()		=>	test token list
- * tok_lst_1()		=>	<name> <token list>
- * tok_lst_2()		=>	<token> <token list>
- * tok_lst_3()		=>	<redir> <token list>
- * tok_lst_4()		=>	(null)
+ * cmd()			=> test all command in order
+ * cmd_1()			=> <token list>
  *
- * redir()			=>	test all redirections in order
- * redir_1()		=>	<redir in>
- * redir_2()		=>	<redir in>
+ * tok_lst()		=> test token list
+ * tok_lst_1()		=> <name> <token list>
+ * tok_lst_2()		=> <token> <token list>
+ * tok_lst_3()		=> <redir> <token list>
+ * tok_lst_4()		=> (null)
  *
- * redir_in()		=>	test all in redirections in order
- * redir_in_1()		=>	'<<' <file>
- * redir_in_2()		=>	'<' <file>
+ * redir()			=> test all redirections in order
+ * redir_1()		=> <redir in>
+ * redir_2()		=> <redir out>
  *
- * redir_out()		=>	test all out redirections in order
- * redir_out_1()	=>	'>>' <file>
- * redir_out_2()	=>	'>' <file>
+ * redir_in()		=> test all in redirections in order
+ * redir_in_1()		=> '<<' <file>
+ * redir_in_2()		=> '<' <file>
+ *
+ * redir_out()		=> test all out redirections in order
+ * redir_out_1()	=> '>>' <file>
+ * redir_out_2()	=> '>' <file>
  *
  */
 
@@ -103,7 +113,6 @@
 # include <sh/ast.h>
 
 /*** PROTOTYPES ***/
-
 /* parse.c */
 int		parse(t_lexer *lex, t_ast **ast);
 
