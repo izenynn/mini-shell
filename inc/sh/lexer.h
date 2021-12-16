@@ -123,5 +123,6 @@ int		wc_match(const char *wildcard, const char *target);
 /* wc_utils.c */
 void	sort_list(t_tok **head);
 void	read_dir(t_tok **head, DIR *ls, struct dirent *list);
+void	wc_put_error(t_tok *const *tok, t_tok *head);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 22:56:21 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 18:33:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	del_node(t_tok **tok, t_tok *prev)
 {
 	t_tok	*tmp;
 
-	// TODO maybe this function segfaults when **tok has no elements
-	// please try it before changing the code
 	if (prev == NULL)
 	{
 		tmp = *tok;
@@ -95,8 +93,7 @@ void	match(t_tok **head, const char *wildcard)
 	aux = *head;
 	while (aux != NULL)
 	{
-		// wc_match returns 0 when no match is found, so we delete the node
-		if (wc_match(wildcard, aux->data) == 0)
+		if (wc_match(wildcard, aux->data) <= 0)
 		{
 			if (aux == *head)
 			{
@@ -110,55 +107,46 @@ void	match(t_tok **head, const char *wildcard)
 		prev = aux;
 		aux = aux->next;
 	}
-	// when we exit this func the **head list will contain only the matches
 }
 
-int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
+void	rejoin_tokens(t_tok **tok, t_tok *prev, t_lexer *lex, t_tok *head)
 {
-	t_tok	*aux;
-	t_tok	*head;
 	int		cnt;
+	t_tok	*aux;
 
-	// if prev token is a here_doc
-	// TODO
-	// create token list with all files
-	head = create_list();
-	if (head == NULL)
-		return (1);
-	// delete hidden files if wildcard doesnt start with '.'
-	if (ft_strncmp((*tok)->data, ".", 1))
-		del_hidden_files(&head);
-	// match
-	match(&head, (*tok)->data);
-	// if no match
-	if (head == NULL)
-		return (0);
-	// if match and prev token is a redir
-	if (prev && head->next != NULL
-		&& (prev->type == CHAR_GT || prev->type == CHAR_LS))
-	{
-		ft_putstr_fd((*tok)->data, STDERR_FILENO);
-		ft_putstr_fd(": ambiguous redirect\n", STDERR_FILENO);
-		tok_del(head);
-		return (1);
-	}
-	// else
-	cnt = 1;
 	aux = head;
+	cnt = 1;
 	while (aux->next && ++cnt)
 		aux = aux->next;
 	aux->next = (*tok)->next;
-	// **tok is equal to head, we change head then
 	if (lex->tok_lst == *tok)
 		lex->tok_lst = head;
 	else
 		prev->next = head;
 	free((*tok)->data);
 	free(*tok);
-	//*tok = head;
 	lex->n_toks += cnt;
 	*tok = aux->next;
-	//for (t_tok *tokk = lex->tok_lst; tokk != NULL; tokk = tokk->next)
-	//	printf("p: %p, d: %s\n", (void *)tokk, tokk->data);
+}
+
+int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
+{
+	t_tok	*head;
+
+	head = create_list();
+	if (head == NULL)
+		return (1);
+	if (ft_strncmp((*tok)->data, ".", 1))
+		del_hidden_files(&head);
+	match(&head, (*tok)->data);
+	if (head == NULL)
+		return (0);
+	if (prev && head->next != NULL
+		&& (prev->type == CHAR_GT || prev->type == CHAR_LS))
+	{
+		wc_put_error(tok, head);
+		return (1);
+	}
+	rejoin_tokens(tok, prev, lex, head);
 	return (0);
 }
