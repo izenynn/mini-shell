@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:22:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/10 12:43:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:39:47 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,15 @@ typedef struct s_cmd {
 
 /*** PROTOTYPES ***/
 
-/* exec_ast.c */
+/* exec.c */
+int		exec_heredoc(t_ast *ast);
 int		exec_ast(t_ast *ast);
+
+/* exec_heredoc.c */
+int		hd_cmd_line(t_ast *ast);
+
+/* exec_ast.c */
+int		handle_cmd_line(t_ast *ast);
 
 /* exec_cmd.c */
 t_io	*init_io(t_bool p_read, t_bool p_write, int fd_pipe[2], int fd_read);
@@ -73,9 +80,6 @@ void	find_and_exec_cmd(t_cmd *cmd);
 
 /* exec_utils */
 void	handle_zombies(void);
-
-/* exec_heredoc.c */
-int		exec_heredoc(t_ast *ast);
 
 /* redir.c */
 int		redir_cmd(t_cmd *cmd, t_bool is_parent);

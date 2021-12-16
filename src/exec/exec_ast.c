@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 01:28:47 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:38:48 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	handle_and_or(t_ast *ast)
 }
 
 /* interpret command line */
-static int	handle_cmd_line(t_ast *ast)
+int	handle_cmd_line(t_ast *ast)
 {
 	if (ast == NULL)
 		return (0);
@@ -116,12 +116,5 @@ static int	handle_cmd_line(t_ast *ast)
 	}
 	else
 		handle_and_or(ast);
-	return (0);
-}
-
-/* execute syntax tree */
-int	exec_ast(t_ast *ast)
-{
-	handle_cmd_line(ast);
 	return (0);
 }

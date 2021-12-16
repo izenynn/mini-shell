@@ -6,7 +6,7 @@
 #    By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/20 13:15:01 by dpoveda-          #+#    #+#              #
-#    Updated: 2021/12/16 20:35:30 by dpoveda-         ###   ########.fr        #
+#    Updated: 2021/12/16 20:53:46 by dpoveda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,9 +85,10 @@ SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				unset.c				cd_error.c			export_utils.c		\
 				cd_utils.c
 
-SRC_EXEC =		exec_ast.c			exec_cmd.c			utils.c				\
-				exec_heredoc.c		heredoc.c			handle_zombies.c	\
-				redir.c				redir_types.c		path.c
+SRC_EXEC =		exec.c				exec_ast.c			exec_cmd.c			\
+				utils.c				exec_heredoc.c		heredoc.c			\
+				handle_zombies.c	redir.c				redir_types.c		\
+				path.c
 
 SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				token_utils.c		handle_expand.c		expand.c			\
@@ -95,9 +96,10 @@ SRC_LEXER =		lexer.c				utils.c				process_char.c		\
 				wc_utils.c
 
 SRC_PARSER =	parser.c			parser_utils.c		ast_utils_1.c		\
-				ast_utils_2.c		parse_cmd_line.c	parse_and_or.c		\
-				parse_job.c			parse_cmd.c			parse_tok_lst.c		\
-				parse_redir.c		parse_redir_in.c	parse_redir_out.c
+				ast_utils_2.c		parse_cmd_line.c	parse_and_or_1.c	\
+				parse_and_or_2.c	parse_job.c			parse_cmd.c			\
+				parse_tok_lst.c		parse_redir.c		parse_redir_in.c	\
+				parse_redir_out.c
 
 SRC_PROMPT =	prompt.c
 

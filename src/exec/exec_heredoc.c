@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 01:09:29 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 00:03:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:39:58 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	hd_and_or(t_ast *ast)
 }
 
 /* handle hd on command line */
-static int	hd_cmd_line(t_ast *ast)
+int	hd_cmd_line(t_ast *ast)
 {
 	if (ast == NULL)
 		return (0);
@@ -107,13 +107,5 @@ static int	hd_cmd_line(t_ast *ast)
 		if (hd_and_or(ast))
 			return (1);
 	}
-	return (0);
-}
-
-/* handle all heredocs */
-int	exec_heredoc(t_ast *ast)
-{
-	if (hd_cmd_line(ast))
-		return (1);
 	return (0);
 }
