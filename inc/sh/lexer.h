@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 20:34:39 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:16:07 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ typedef struct s_lexsup {
 	int		j;
 }	t_lexsup;
 
+/* parse tokens support struct */
+typedef struct s_toksup {
+	int		cnt;
+	int		is_heredoc;
+	t_tok	*prev;
+	t_tok	*aux;
+}	t_toksup;
+
 /* expand support struct */
 typedef struct s_expsup {
 	int		start;
@@ -103,9 +111,14 @@ typedef struct s_wcsup {
 /* lexer.c */
 int		lexer_build(const char *line, const size_t len, t_lexer *lex);
 
-/* process_char.c */
+/* pc_gen_st.c */
 int		handle_gen_st(t_lexsup *ls, const char *line, const size_t sz);
+
+/* pc_other_st.c */
 void	handle_other_st(t_lexsup *ls);
+
+/* process_tokens.c */
+int		process_tokens(t_lexer *lex);
 
 /* utils.c */
 void	lexer_del(t_lexer *lex);

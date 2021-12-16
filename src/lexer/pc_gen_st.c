@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_char.c                                     :+:      :+:    :+:   */
+/*   pc_gen_st.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:37:01 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 20:04:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:59:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,13 @@ static int	on_gen_st_sp(t_lexsup *ls, const size_t sz)
 	return (0);
 }
 
+static int	on_gen_st_esc(t_lexsup *ls, const char *line)
+{
+	ls->tok->data[ls->j++] = line[++ls->i];
+	ls->tok->type = TOK;
+	return (0);
+}
+
 /* on general state */
 int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 {
@@ -83,10 +90,7 @@ int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 		|| ls->type == CHAR_OCL)
 		on_gen_st_quotes(ls);
 	else if (ls->type == CHAR_ESCSEQ)
-	{
-		ls->tok->data[ls->j++] = line[++ls->i];
-		ls->tok->type = TOK;
-	}
+		on_gen_st_esc(ls, line);
 	else if (ls->type == CHAR_GEN)
 	{
 		ls->tok->data[ls->j++] = ls->c;
@@ -105,27 +109,4 @@ int	handle_gen_st(t_lexsup *ls, const char *line, const size_t sz)
 			return (1);
 	}
 	return (0);
-}
-
-/* on other states */
-void	handle_other_st(t_lexsup *ls)
-{
-	if (ls->st == ST_IN_QUOTE)
-	{
-		ls->tok->data[ls->j++] = ls->c;
-		if (ls->type == CHAR_QOUTE)
-			ls->st = ST_GEN;
-	}
-	else if (ls->st == ST_IN_DQUOTE)
-	{
-		ls->tok->data[ls->j++] = ls->c;
-		if (ls->type == CHAR_DQOUTE)
-			ls->st = ST_GEN;
-	}
-	else if (ls->st == ST_IN_CURLY)
-	{
-		ls->tok->data[ls->j++] = ls->c;
-		if (ls->type == CHAR_CCL)
-			ls->st = ST_GEN;
-	}
 }
