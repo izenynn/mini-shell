@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/11/30 13:26:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:34:38 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(void)
 		if (line == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
-			exit (EXIT_SUCCESS);
+			exit (g_sh.status);
 		}
 		if (ft_strlen(line) <= 0)
 			continue ;

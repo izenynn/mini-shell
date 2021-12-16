@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 00:20:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:45:59 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@
  * 						|	<job>
  * 						;
  *
- * <job>				:	<command> '|' <job>
- * 						|	<command>
+ * <job>				:	'(' <command> ')' '|' <job>
+ * 						|	    <command>     '|' <job>
+ * 						|	'(' <command> ')'
+ * 						|	    <command>
  * 						;
  *
  * <command>			:	<token list>
@@ -127,6 +129,8 @@ t_ast	*and_or_6(void);
 t_ast	*job(void);
 t_ast	*job_1(void);
 t_ast	*job_2(void);
+t_ast	*job_3(void);
+t_ast	*job_4(void);
 
 /* parse_cmd.c */
 t_ast	*cmd(void);

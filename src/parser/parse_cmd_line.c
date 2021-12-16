@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:27:32 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/14 01:37:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:36:46 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ t_ast	*cmd_line_1(void)
 t_ast	*cmd_line_2(void)
 {
 	t_ast	*and_or_nd;
-	t_ast	*cmd_line_nd;
 	t_ast	*res;
 
 	*g_sh.ao_ast = NULL;
@@ -80,15 +79,9 @@ t_ast	*cmd_line_2(void)
 		ast_del(and_or_nd);
 		return (NULL);
 	}
-	cmd_line_nd = cmd_line();
-	if (cmd_line_nd == NULL)
-	{
-		ast_del(and_or_nd);
-		return (NULL);
-	}
 	res = (t_ast *)malloc(sizeof(t_ast));
 	ast_settype(res, AST_SEQ);
-	ast_attach(res, and_or_nd, cmd_line_nd);
+	ast_attach(res, and_or_nd, NULL);
 	return (res);
 }
 

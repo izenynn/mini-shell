@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:36:26 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/16 17:34:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 21:34:38 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ int	ft_exit(char **exitc)
 	}
 	ft_lstclear(g_sh.env, free);
 	free(g_sh.env);
-	g_sh.status = 0;
 	if (g_sh.is_child == FALSE)
 		write(STDERR_FILENO, "exit\n", 5);
-	exit(0);
+	exit(g_sh.status);
 	return (0);
 }
