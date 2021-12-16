@@ -6,11 +6,33 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:04:10 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/08 17:28:13 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:34:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+/* delete a token and join the previous with the next one */
+void	del_node(t_tok **tok, t_tok *prev)
+{
+	t_tok	*tmp;
+
+	if (prev == NULL)
+	{
+		tmp = *tok;
+		*tok = (*tok)->next;
+		free(tmp->data);
+		free(tmp);
+	}
+	else
+	{
+		tmp = *tok;
+		*tok = (*tok)->next;
+		prev->next = *tok;
+		free(tmp->data);
+		free(tmp);
+	}
+}
 
 /* detroy toks (recursive) */
 void	tok_del(t_tok *tok)

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/15 17:51:38 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:34:39 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,15 @@ typedef struct s_expsup {
 	char	*value;
 }	t_expsup;
 
+/* wildcards support struct */
+typedef struct s_wcsup {
+	const char	*stgt;
+	const char	*swc;
+	const char	*tgt_end;
+	int			ret;
+	int			st;
+}	t_wcsup;
+
 /*** PROTOTYPES ***/
 
 /* lexer.c */
@@ -105,6 +114,7 @@ void	trim_quotes(char *dst, char *src);
 int		init_ls(t_lexsup *ls, t_lexer *lex, const size_t sz);
 
 /* token_utils.c */
+void	del_node(t_tok **tok, t_tok *prev);
 void	tok_del(t_tok *tok);
 int		tok_init(t_tok *tok, size_t sz);
 
@@ -119,6 +129,10 @@ int		handle_wildcards(t_tok **wc_tok, t_tok *prev, t_lexer *lex);
 
 /* wc_match.c */
 int		wc_match(const char *wildcard, const char *target);
+
+/* wc_match_frag.c */
+int		wc_match_fragment(const char **frag, const char **tgt,
+			const char *tgt_end, int *st);
 
 /* wc_utils.c */
 void	sort_list(t_tok **head);
