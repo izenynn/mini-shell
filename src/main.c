@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 14:36:09 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:37:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	main(int argc, char *argv[])
 			exit(g_sh.status);
 		}
 		if (ft_strlen(line) <= 0)
+		{
+			free(line);
 			continue ;
+		}
 		add_history(line);
 		handle_line(line, TRUE);
 	}

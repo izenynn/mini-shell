@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 14:20:46 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:37:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ static int	is_comment(char *line)
 }
 
 /* check if line is valid */
-static int	check_line(char *line)
+static int	check_line(char *line, t_bool is_alloc)
 {
 	char	*aux;
 
 	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
 	{
-		free(line);
+		free_line(line, is_alloc);
 		return (1);
 	}
 	aux = line;
@@ -138,7 +138,10 @@ static int	check_line(char *line)
 		aux++;
 	}
 	if (*aux == '\0')
+	{
+		free_line(line, is_alloc);
 		return (1);
+	}
 	return (0);
 }
 
@@ -150,7 +153,7 @@ void	handle_line(char *line, t_bool is_alloc)
 	int		ret;
 
 	ast = NULL;
-	if (check_line(line) == 1)
+	if (check_line(line, is_alloc) == 1)
 		return ;
 	ret = lexer_build(line, ft_strlen(line), &lex);
 	if (ret <= 0)
