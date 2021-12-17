@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 21:15:32 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:09:35 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 
 	if (handle_expand(ts->aux))
 		return (0);
-	if (ts->is_heredoc == 0 && handle_wildcards(&ts->aux, ts->prev, lex))
+	if (ts->is_heredoc == 0 && handle_wildcards(&ts->aux, &ts->prev, lex))
 		return (0);
 	if (check_tok(lex, &ts->aux, ts->prev))
 		return (1);

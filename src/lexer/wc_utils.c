@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 14:49:16 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 18:13:16 by                  ###   ########.fr       */
+/*   Updated: 2021/12/17 00:47:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ void	read_dir(t_tok **head, DIR *ls, struct dirent *list)
 		aux->type = TOK;
 		list = readdir(ls);
 		if (list)
+		{
 			aux->next = (t_tok *)ft_calloc(1, sizeof(t_tok));
-		aux = aux->next;
+			aux = aux->next;
+		}
 	}
+	aux->next = NULL;
 	sort_list(head);
 }

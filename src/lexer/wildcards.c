@@ -6,14 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 20:34:18 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:13:41 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* delte all hidden files */
-int	del_hidden_files(t_tok **head)
+static int	del_hidden_files(t_tok **head)
 {
 	t_tok	*aux;
 	t_tok	*prev;
@@ -39,7 +39,7 @@ int	del_hidden_files(t_tok **head)
 }
 
 /* Read current dir and fill list with it */
-t_tok	*create_list(void)
+static t_tok	*create_list(void)
 {
 	t_tok			*head;
 	DIR				*ls;
@@ -62,7 +62,7 @@ t_tok	*create_list(void)
 	return (head);
 }
 
-void	match(t_tok **head, const char *wildcard)
+static void	match(t_tok **head, const char *wildcard)
 {
 	t_tok	*aux;
 	t_tok	*prev;
@@ -87,7 +87,7 @@ void	match(t_tok **head, const char *wildcard)
 	}
 }
 
-void	rejoin_tokens(t_tok **tok, t_tok *prev, t_lexer *lex, t_tok *head)
+static void	rejoin_tokens(t_tok **tok, t_tok **prev, t_lexer *lex, t_tok *head)
 {
 	int		cnt;
 	t_tok	*aux;
@@ -100,27 +100,34 @@ void	rejoin_tokens(t_tok **tok, t_tok *prev, t_lexer *lex, t_tok *head)
 	if (lex->tok_lst == *tok)
 		lex->tok_lst = head;
 	else
-		prev->next = head;
+		(*prev)->next = head;
 	free((*tok)->data);
 	free(*tok);
 	lex->n_toks += cnt;
 	*tok = aux->next;
+	*prev = aux;
 }
 
-int	handle_wildcards(t_tok **tok, t_tok *prev, t_lexer *lex)
+int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 {
 	t_tok	*head;
 
+	if (wc_check(*tok) == 0)
+		return (0);
 	head = create_list();
 	if (head == NULL)
+	{
 		return (1);
+	}
 	if (ft_strncmp((*tok)->data, ".", 1))
 		del_hidden_files(&head);
 	match(&head, (*tok)->data);
 	if (head == NULL)
+	{
 		return (0);
+	}
 	if (prev && head->next != NULL
-		&& (prev->type == CHAR_GT || prev->type == CHAR_LS))
+		&& ((*prev)->type == CHAR_GT || (*prev)->type == CHAR_LS))
 	{
 		wc_put_error(tok, head);
 		return (1);
