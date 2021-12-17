@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:10:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 14:20:46 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,13 @@
 
 /************************* TEST FUNC. *************************/
 
+/* free line if was allocated */
+static void	free_line(char *line, t_bool is_alloc)
+{
+	if (is_alloc == TRUE)
+		free(line);
+}
+
 /* free all before exit */
 static void	free_all(t_lexer *lex, t_ast *ast)
 {
@@ -113,11 +120,16 @@ static int	is_comment(char *line)
 	return (0);
 }
 
-/* check if line is composed only by blank characters */
-static int	is_blank(char *line)
+/* check if line is valid */
+static int	check_line(char *line)
 {
 	char	*aux;
 
+	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
+	{
+		free(line);
+		return (1);
+	}
 	aux = line;
 	while (*aux != '\0')
 	{
@@ -130,21 +142,8 @@ static int	is_blank(char *line)
 	return (0);
 }
 
-/* check if line is valid */
-static int	check_line(char *line)
-{
-	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
-	{
-		free(line);
-		return (1);
-	}
-	if (is_blank(line))
-		return (1);
-	return (0);
-}
-
 /* handle line -> lexer, parser and exec */
-void	handle_line(char *line)
+void	handle_line(char *line, t_bool is_alloc)
 {
 	t_lexer	lex;
 	t_ast	*ast;
@@ -158,11 +157,11 @@ void	handle_line(char *line)
 	{
 		if (ret == 0)
 			write(STDERR_FILENO, "error: syntax error\n", 20);
-		free(line);
+		free_line(line, is_alloc);
 		lexer_del(&lex);
 		return ;
 	}
-	free(line);
+	free_line(line, is_alloc);
 	if (lex.n_toks == 0 || parse(&lex, &ast))
 	{
 		free_all(&lex, ast);

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 12:12:56 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 14:32:12 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 14:35:52 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		get_var_len(const char *s);
 t_list	*fill_list(t_list *env, char **environ);
 
 /* init.c */
+void	handle_flags(int argc, char *argv[]);
 void	init_shell(void);
 
 /* init_utils.c  */

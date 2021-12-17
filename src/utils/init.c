@@ -6,10 +6,37 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:38:35 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 17:26:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 14:38:27 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <sh.h>
+
+/* handle flags */
+void	handle_flags(int argc, char *argv[])
+{
+	if (argc > 1)
+	{
+		if (!ft_strncmp(argv[1], "-c\0", 3))
+		{
+			if (argc < 3)
+			{
+				write(STDERR_FILENO, "-c: option requires an argument\n", 32);
+				exit(2);
+			}
+			else
+			{
+				handle_line(argv[2], FALSE);
+				exit(g_sh.status);
+			}
+		}
+		else
+		{
+			write(STDERR_FILENO, "error: no valid arguments\n", 26);
+			exit(127);
+		}
+	}
+}
 
 /* add built in to built in list */
 static void	add_blti(t_blti **head, char *name, int (*f)(char **))
