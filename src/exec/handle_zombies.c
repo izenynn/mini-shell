@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 20:16:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:56:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 02:04:46 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,46 @@
 /* get error message support func. */
 static char	*get_msg_2(int status)
 {
-	if (status == 143)
+	if (status == 141)
+		return (ft_strdup("Broken pipe"));
+	else if (status == 142)
+		return (ft_strdup("Alarm clock"));
+	else if (status == 143)
 		return (ft_strdup("Terminated"));
-	else if (status == 0)
-		return (ft_strdup(""));
 	else if (status == 152)
 		return (ft_strdup("Cputime limit exceeded"));
 	else if (status == 153)
 		return (ft_strdup("Filesize limit exceeded"));
 	else if (status == 155)
-		return (ft_strdup("Profiling time alarm"));
+		return (ft_strdup("Profiling timer expired"));
+	else if (status == 158)
+		return (ft_strdup("Power failure"));
 	else if (status == 138)
-		return (ft_strdup("User signal 1"));
+		return (ft_strdup("User defined signal 1"));
 	else if (status == 140)
-		return (ft_strdup("User signal 2"));
+		return (ft_strdup("User defined signal 2"));
+	else if (status == 144)
+		return (ft_strdup("Stack fault"));
 	return (NULL);
 }
 
 /* get error message */
 static char	*get_msg(int status)
 {
-	if (status == 129)
-		return (ft_strdup("Hangup"));
+	if (status == 0)
+		return (ft_strdup(""));
 	else if (status == 1)
 		return (ft_strdup(""));
+	else if (status == 129)
+		return (ft_strdup("Hangup"));
 	else if (status == 131)
 		return (ft_strdup("Quit"));
 	else if (status == 132)
 		return (ft_strdup("Illegal instruction"));
 	else if (status == 133)
 		return (ft_strdup("Trace/BPT trap"));
+	else if (status == 134)
+		return (ft_strdup("Aborted"));
 	else if (status == 136)
 		return (ft_strdup("Floating exception"));
 	else if (status == 137)
@@ -55,10 +65,6 @@ static char	*get_msg(int status)
 		return (ft_strdup("Segmentation fault"));
 	else if (status == 159)
 		return (ft_strdup("Bad system call"));
-	else if (status == 141)
-		return (ft_strdup("Broken pipe"));
-	else if (status == 142)
-		return (ft_strdup("Alarm clock"));
 	return (get_msg_2(status));
 }
 
