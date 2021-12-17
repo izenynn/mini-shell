@@ -6,33 +6,11 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 21:56:45 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:57:15 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
-
-/* check token if token is empty or NULL */
-/*static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
-{
-	if (*cur == NULL)
-		return (1);
-	if (ft_strlen((*cur)->data) <= 0)
-	{
-		if (prev == NULL)
-			lex->tok_lst = (*cur)->next;
-		else
-			prev->next = (*cur)->next;
-		free((*cur)->data);
-		free(*cur);
-		if (prev == NULL)
-			*cur = lex->tok_lst;
-		else
-			*cur = prev->next;
-		return (1);
-	}
-	return (0);
-}*/
 
 /* expand variables and wildcards */
 static int	handle_expand_and_wc(t_lexer *lex, t_toksup *ts)
