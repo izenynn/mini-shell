@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:49:16 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:49:12 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	check_empty_cmd(t_cmd *cmd)
 			exit(EXIT_SUCCESS);
 		}
 	}
+	else if (cmd->argv[0][0] == '\0')
+		return (error_ret(" : command not found\n", 1));
 	return (0);
 }
 
