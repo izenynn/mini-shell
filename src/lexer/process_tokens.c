@@ -41,17 +41,17 @@ static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 	if (handle_expand(ts->aux))
 		return (0);
 	if (ts->is_heredoc == 0 && handle_wildcards(&ts->aux, &ts->prev, lex))
-		return (0);
+		return (-1);
 	if (check_tok(lex, &ts->aux, ts->prev))
 		return (1);
 	trimed = (char *)malloc(ft_strlen(ts->aux->data) + 1);
 	if (trimed == NULL)
-		return (perror_ret("fatal error", 0));
+		return (perror_ret("fatal error", -1));
 	trim_quotes(trimed, ts->aux->data);
 	free(ts->aux->data);
 	ts->aux->data = trimed;
 	ts->cnt++;
-	return (-1);
+	return (2);
 }
 
 /* parse tokens */
@@ -69,8 +69,8 @@ static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
 		if (ts.aux->type == TOK)
 		{
 			ret = handle_tok_token(lex, &ts);
-			if (ret == 0)
-				return (0);
+			if (ret <= 0)
+				return (ret);
 			else if (ret == 1)
 				continue ;
 		}

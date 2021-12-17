@@ -113,21 +113,51 @@ static int	is_comment(char *line)
 	return (0);
 }
 
+/* check if line is composed only by blank characters */
+static int	is_blank(char *line)
+{
+	char	*aux;
+
+	aux = line;
+	while (*aux != '\0')
+	{
+		if (ft_isblank(*aux) == 0)
+			break ;
+		aux++;
+	}
+	if (*aux == '\0')
+		return (1);
+	return (0);
+}
+
+/* check if line is valid */
+static int	check_line(char *line)
+{
+	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
+	{
+		free(line);
+		return (1);
+	}
+	if (is_blank(line))
+		return (1);
+	return (0);
+}
+
 /* handle line -> lexer, parser and exec */
 void	handle_line(char *line)
 {
 	t_lexer	lex;
 	t_ast	*ast;
+	int		ret;
 
 	ast = NULL;
-	if (line == NULL || *line == '\0' || *line == '\n' || is_comment(line))
-	{
-		free(line);
+	if (check_line(line) == 1)
 		return ;
-	}
-	if (lexer_build(line, ft_strlen(line), &lex) == 0)
+	ret = lexer_build(line, ft_strlen(line), &lex);
+	if (ret <= 0)
 	{
-		write(STDERR_FILENO, "error: syntax error\n", 20);
+		if (ret == 0)
+			write(STDERR_FILENO, "error: syntax error\n", 20);
 		free(line);
 		lexer_del(&lex);
 		return ;
