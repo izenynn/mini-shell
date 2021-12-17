@@ -116,17 +116,13 @@ int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 		return (0);
 	head = create_list();
 	if (head == NULL)
-	{
 		return (1);
-	}
 	if (ft_strncmp((*tok)->data, ".", 1))
 		del_hidden_files(&head);
 	match(&head, (*tok)->data);
 	if (head == NULL)
-	{
 		return (0);
-	}
-	if (prev && head->next != NULL
+	if (head->next != NULL && prev && *prev
 		&& ((*prev)->type == CHAR_GT || (*prev)->type == CHAR_LS))
 	{
 		wc_put_error(tok, head);

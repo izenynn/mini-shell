@@ -104,4 +104,5 @@ typedef struct s_sh {
 }	t_sh;
 
 extern t_sh	g_sh;
+
 #endif
