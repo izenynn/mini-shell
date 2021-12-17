@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 13:00:31 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:49:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,41 @@ static int	other_st(t_tok *tok, int *st, int *len, int i)
 	return (0);
 }
 
-int	handle_expand(t_tok *tok)
+/* build tokens for new expanded token */
+static int	re_lexer_build(t_tok **tok, t_tok **prev, t_lexer *lex)
+{
+	t_lexer	tmp;
+	t_tok	*aux;
+
+	if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
+		return (0);
+	aux = tmp.tok_lst;
+	while (aux != NULL)
+		aux = aux->next;
+	insert_toklst(tok, prev, lex, tmp.tok_lst);
+	return (0);
+}
+
+/* handle variables expand */
+int	handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex)
 {
 	int		st;
 	int		i;
 	int		len;
 
 	st = ST_GEN;
-	len = ft_strlen(tok->data);
+	len = ft_strlen((*tok)->data);
 	i = -1;
-	while (i < len && tok->data[++i] != '\0')
+	while (i < len && (*tok)->data[++i] != '\0')
 	{
 		if (st == ST_GEN)
 		{
-			gen_st(tok, &st, &len, i);
+			gen_st(*tok, &st, &len, i);
 		}
 		else
 		{
-			other_st(tok, &st, &len, i);
+			other_st(*tok, &st, &len, i);
 		}
 	}
-	return (0);
+	return (re_lexer_build(tok, prev, lex));
 }

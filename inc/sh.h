@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 17:26:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:46:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@
  * fd_bak		=> backup STDIN and STDOUT fd
  * last_pid		=> last process in pipe pid
  * is_child		=> if a process is a child
+ * is_expd		=> if token vars are already expanded
  */
 typedef struct s_sh {
 	int		status;
@@ -101,6 +102,7 @@ typedef struct s_sh {
 	int		fd_bak[2];
 	pid_t	last_pid;
 	t_bool	is_child;
+	t_bool	is_expd;
 }	t_sh;
 
 extern t_sh	g_sh;

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:13:41 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:46:04 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,27 +87,7 @@ static void	match(t_tok **head, const char *wildcard)
 	}
 }
 
-static void	rejoin_tokens(t_tok **tok, t_tok **prev, t_lexer *lex, t_tok *head)
-{
-	int		cnt;
-	t_tok	*aux;
-
-	aux = head;
-	cnt = 1;
-	while (aux->next && ++cnt)
-		aux = aux->next;
-	aux->next = (*tok)->next;
-	if (lex->tok_lst == *tok)
-		lex->tok_lst = head;
-	else
-		(*prev)->next = head;
-	free((*tok)->data);
-	free(*tok);
-	lex->n_toks += cnt;
-	*tok = aux->next;
-	*prev = aux;
-}
-
+/* handle wildcards in tokens */
 int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 {
 	t_tok	*head;
@@ -116,7 +96,7 @@ int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 		return (0);
 	head = create_list();
 	if (head == NULL)
-		return (1);
+		return (-1);
 	if (ft_strncmp((*tok)->data, ".", 1))
 		del_hidden_files(&head);
 	match(&head, (*tok)->data);
@@ -126,8 +106,8 @@ int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 		&& ((*prev)->type == CHAR_GT || (*prev)->type == CHAR_LS))
 	{
 		wc_put_error(tok, head);
-		return (1);
+		return (-1);
 	}
 	rejoin_tokens(tok, prev, lex, head);
-	return (0);
+	return (1);
 }

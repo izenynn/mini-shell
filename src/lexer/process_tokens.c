@@ -6,14 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:09:35 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:56:45 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* check token if token is empty or NULL */
-static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
+/*static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 {
 	if (*cur == NULL)
 		return (1);
@@ -32,18 +32,41 @@ static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
 		return (1);
 	}
 	return (0);
+}*/
+
+/* expand variables and wildcards */
+static int	handle_expand_and_wc(t_lexer *lex, t_toksup *ts)
+{
+	int		ret;
+
+	if (g_sh.is_expd == FALSE)
+	{
+		g_sh.is_expd = TRUE;
+		ret = handle_expand(&ts->aux, &ts->prev, lex);
+		g_sh.is_expd = FALSE;
+		if (ret > 0)
+			return (0);
+	}
+	ret = handle_wildcards(&ts->aux, &ts->prev, lex);
+	if (ret == -1)
+		return (-1);
+	else if (ret == 1)
+		return (1);
+	return (5);
 }
 
+/* handle a TOK type token process */
 static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 {
 	char	*trimed;
+	int		ret;
 
-	if (handle_expand(ts->aux))
-		return (0);
-	if (ts->is_heredoc == 0 && handle_wildcards(&ts->aux, &ts->prev, lex))
-		return (-1);
-	if (check_tok(lex, &ts->aux, ts->prev))
-		return (1);
+	if (ts->is_heredoc == 0)
+	{
+		ret = handle_expand_and_wc(lex, ts);
+		if (ret != 5)
+			return (ret);
+	}
 	trimed = (char *)malloc(ft_strlen(ts->aux->data) + 1);
 	if (trimed == NULL)
 		return (perror_ret("fatal error", -1));
@@ -55,44 +78,44 @@ static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 }
 
 /* parse tokens */
-static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex)
+static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex, t_toksup *ts)
 {
-	t_toksup	ts;
 	int			ret;
 
-	ts.aux = tok;
-	ts.prev = prev;
-	ts.is_heredoc = 0;
-	ts.cnt = 0;
-	while (ts.aux)
+	ts->aux = tok;
+	ts->prev = prev;
+	ts->is_heredoc = 0;
+	ts->cnt = 0;
+	while (ts->aux)
 	{
-		if (ts.aux->type == TOK)
+		if (ts->aux->type == TOK)
 		{
-			ret = handle_tok_token(lex, &ts);
+			ret = handle_tok_token(lex, ts);
 			if (ret <= 0)
 				return (ret);
 			else if (ret == 1)
 				continue ;
 		}
-		if (ts.prev && ts.prev->type == CHAR_LS && ts.aux->type == CHAR_LS)
-			ts.is_heredoc = 1;
+		if (ts->prev && ts->prev->type == CHAR_LS && ts->aux->type == CHAR_LS)
+			ts->is_heredoc = 1;
 		else
-			ts.is_heredoc = 0;
-		ts.prev = ts.aux;
-		ts.aux = ts.aux->next;
+			ts->is_heredoc = 0;
+		ts->prev = ts->aux;
+		ts->aux = ts->aux->next;
 	}
-	return (ts.cnt);
+	return (ts->cnt);
 }
 
 /* process tokens */
 int	process_tokens(t_lexer *lex)
 {
-	t_tok	*tok;
-	t_tok	*prev;
-	int		cnt;
+	t_toksup	ts;
+	t_tok		*tok;
+	t_tok		*prev;
+	int			cnt;
 
 	prev = NULL;
 	tok = lex->tok_lst;
-	cnt = parse_tokens(tok, prev, lex);
+	cnt = parse_tokens(tok, prev, lex, &ts);
 	return (cnt);
 }

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:13:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:28:02 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,15 @@ void	handle_other_st(t_lexsup *ls);
 /* process_tokens.c */
 int		process_tokens(t_lexer *lex);
 
-/* utils.c */
+/* utils_1.c */
 void	lexer_del(t_lexer *lex);
 int		get_ctype(char c);
 void	trim_quotes(char *dst, char *src);
 int		init_ls(t_lexsup *ls, t_lexer *lex, const size_t sz);
+
+/* utils_2.c */
+void	rejoin_tokens(t_tok **tok, t_tok **prev, t_lexer *lex, t_tok *head);
+void	insert_toklst(t_tok **tok, t_tok **prev, t_lexer *lex, t_tok *head);
 
 /* token_utils.c */
 void	del_node(t_tok **tok, t_tok *prev);
@@ -132,7 +136,7 @@ void	tok_del(t_tok *tok);
 int		tok_init(t_tok *tok, size_t sz);
 
 /* handle_expand.c */
-int		handle_expand(t_tok *tok);
+int		handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex);
 
 /* expand.c */
 int		expand(t_tok *tok, int start, int st);
