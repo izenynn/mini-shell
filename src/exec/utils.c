@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 18:48:15 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 20:15:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:26:06 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	cmd_init_args(t_cmd *cmd, t_ast *ast, t_ast *aux)
 	{
 		len = ft_strlen(aux->data);
 		cmd->argv[i] = (char *)malloc(sizeof(char) * (len + 1));
-		strcpy(cmd->argv[i], aux->data);
+		ft_strcpy(cmd->argv[i], aux->data);
 		aux = aux->right;
 		i++;
 	}

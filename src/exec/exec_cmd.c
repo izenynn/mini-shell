@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 19:44:14 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 17:28:20 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:49:16 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static int	exec_in_child(t_cmd *cmd)
 		perror_ret("fork", 1);
 	if (pid > 0)
 	{
+		sig_ignore();
 		if (!cmd->io->is_pipe[WRITE_END])
 			g_sh.last_pid = pid;
 	}

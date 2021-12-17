@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 23:56:06 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/07 14:21:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:48:26 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	handle_sig_parent(int signal)
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
-		g_sh.status = 1;
+		g_sh.status = 130;
 	}
 }
 

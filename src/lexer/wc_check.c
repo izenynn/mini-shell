@@ -6,14 +6,14 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 01:12:39 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 01:18:23 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:41:17 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* handle quotes */
-static void	handle_quotes(int *st, char **wc)
+static void	handle_quotes(int *st, char **wc, t_bool *incr)
 {
 	if (*st == ST_GEN && (**wc == CHAR_QOUTE || **wc == CHAR_DQOUTE))
 	{
@@ -22,6 +22,7 @@ static void	handle_quotes(int *st, char **wc)
 		else if (**wc == CHAR_DQOUTE)
 			*st = ST_IN_DQUOTE;
 		(*wc)++;
+		*incr = TRUE;
 	}
 }
 
@@ -29,6 +30,7 @@ static void	handle_quotes(int *st, char **wc)
 int	wc_check(t_tok *tok)
 {
 	int		st;
+	t_bool	incr;
 	char	*wc;
 
 	if (tok->data == NULL)
@@ -37,16 +39,19 @@ int	wc_check(t_tok *tok)
 	wc = tok->data;
 	while (*wc != '\0')
 	{
-		handle_quotes(&st, &wc);
-		if ((st == ST_IN_QUOTE && *wc == CHAR_QOUTE)
-			|| (st == ST_IN_DQUOTE && *wc == CHAR_DQOUTE))
+		incr = FALSE;
+		handle_quotes(&st, &wc, &incr);
+		if (*wc != '\0' && ((st == ST_IN_QUOTE && *wc == CHAR_QOUTE)
+				|| (st == ST_IN_DQUOTE && *wc == CHAR_DQOUTE)))
 		{
+			incr = TRUE;
 			st = ST_GEN;
 			wc++;
 		}
 		if (st == ST_GEN && (*wc == '?' || *wc == '*'))
 			return (1);
-		wc++;
+		if (incr == FALSE)
+			wc++;
 	}
 	return (0);
 }

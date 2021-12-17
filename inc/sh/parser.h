@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:01:34 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 00:02:28 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:21:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PARSER_H
 
 /*** INFO ***/
-
-// TODO check if "$> (echo 1) | cat" and "$> (echo 1 | cat)" works fine
 
 /*
  * Grammar
@@ -113,6 +111,7 @@
 # include <sh/ast.h>
 
 /*** PROTOTYPES ***/
+
 /* parse.c */
 int		parse(t_lexer *lex, t_ast **ast);
 

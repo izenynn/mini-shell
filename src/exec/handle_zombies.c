@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 20:16:04 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 15:53:17 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:56:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 static char	*get_msg_2(int status)
 {
 	if (status == 143)
-		return (ft_strdup("terminated"));
+		return (ft_strdup("Terminated"));
 	else if (status == 0)
 		return (ft_strdup(""));
 	else if (status == 152)
-		return (ft_strdup("cputime limit exceeded"));
+		return (ft_strdup("Cputime limit exceeded"));
 	else if (status == 153)
-		return (ft_strdup("filesize limit exceeded"));
+		return (ft_strdup("Filesize limit exceeded"));
 	else if (status == 155)
-		return (ft_strdup("profiling time alarm"));
+		return (ft_strdup("Profiling time alarm"));
 	else if (status == 138)
-		return (ft_strdup("user signal 1"));
+		return (ft_strdup("User signal 1"));
 	else if (status == 140)
-		return (ft_strdup("user signal 2"));
+		return (ft_strdup("User signal 2"));
 	return (NULL);
 }
 
@@ -36,29 +36,29 @@ static char	*get_msg_2(int status)
 static char	*get_msg(int status)
 {
 	if (status == 129)
-		return (ft_strdup("hangup"));
+		return (ft_strdup("Hangup"));
 	else if (status == 1)
 		return (ft_strdup(""));
 	else if (status == 131)
-		return (ft_strdup("quit"));
+		return (ft_strdup("Quit"));
 	else if (status == 132)
-		return (ft_strdup("illegal instruction"));
+		return (ft_strdup("Illegal instruction"));
 	else if (status == 133)
-		return (ft_strdup("trace/BPT trap"));
+		return (ft_strdup("Trace/BPT trap"));
 	else if (status == 136)
-		return (ft_strdup("floating exception"));
+		return (ft_strdup("Floating exception"));
 	else if (status == 137)
-		return (ft_strdup("killed"));
+		return (ft_strdup("Killed"));
 	else if (status == 135)
-		return (ft_strdup("bus error"));
+		return (ft_strdup("Bus error"));
 	else if (status == 139)
-		return (ft_strdup("segmentation fault"));
+		return (ft_strdup("Segmentation fault"));
 	else if (status == 159)
-		return (ft_strdup("bad system call"));
+		return (ft_strdup("Bad system call"));
 	else if (status == 141)
-		return (ft_strdup("broken pipe"));
+		return (ft_strdup("Broken pipe"));
 	else if (status == 142)
-		return (ft_strdup("alarm clock"));
+		return (ft_strdup("Alarm clock"));
 	return (get_msg_2(status));
 }
 
@@ -69,7 +69,6 @@ static int	handle_signal_exit(int status)
 	char	*msg;
 
 	exit_st = WTERMSIG(status) + 128;
-	ft_putchar_fd('\n', STDERR_FILENO);
 	msg = get_msg(exit_st);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	free(msg);

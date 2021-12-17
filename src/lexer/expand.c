@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:59:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/09 13:46:58 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 01:42:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ static void	change_data(t_expsup *es, t_tok *tok)
 	res = (char *)ft_calloc(sizeof(char), size);
 	if (res == NULL)
 		perror_ret("malloc", 1);
-	strncpy(res, tok->data, es->start - 1);
-	strcat(res, es->value);
-	strcat(res, tok->data + es->start + ft_strlen(es->name) + (es->curly * 2));
+	ft_memcpy(res, tok->data, es->start - 1);
+	ft_strcat(res, es->value);
+	ft_strcat(res,
+		tok->data + es->start + ft_strlen(es->name) + (es->curly * 2));
 	free(es->name);
 	free(es->value);
 	free(tok->data);
