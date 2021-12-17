@@ -6,25 +6,49 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 21:57:15 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 23:34:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
+
+/* check token if token is empty or NULL */
+static int	check_tok(t_lexer *lex, t_tok **cur, t_tok *prev)
+{
+	if (*cur == NULL)
+		return (1);
+	if (ft_strlen((*cur)->data) <= 0)
+	{
+		if (prev == NULL)
+			lex->tok_lst = (*cur)->next;
+		else
+			prev->next = (*cur)->next;
+		free((*cur)->data);
+		free(*cur);
+		if (prev == NULL)
+			*cur = lex->tok_lst;
+		else
+			*cur = prev->next;
+		return (1);
+	}
+	return (0);
+}
 
 /* expand variables and wildcards */
 static int	handle_expand_and_wc(t_lexer *lex, t_toksup *ts)
 {
 	int		ret;
 
-	if (g_sh.is_expd == FALSE)
+	if (ts->semaphore == 0 && g_sh.is_expd == FALSE)
 	{
 		g_sh.is_expd = TRUE;
 		ret = handle_expand(&ts->aux, &ts->prev, lex);
 		g_sh.is_expd = FALSE;
-		if (ret > 0)
-			return (0);
+		if (check_tok(lex, &ts->aux, ts->prev))
+			return (1);
 	}
+	if (ts->semaphore > 0)
+		ts->semaphore--;
 	ret = handle_wildcards(&ts->aux, &ts->prev, lex);
 	if (ret == -1)
 		return (-1);
@@ -45,12 +69,15 @@ static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 		if (ret != 5)
 			return (ret);
 	}
-	trimed = (char *)malloc(ft_strlen(ts->aux->data) + 1);
-	if (trimed == NULL)
-		return (perror_ret("fatal error", -1));
-	trim_quotes(trimed, ts->aux->data);
-	free(ts->aux->data);
-	ts->aux->data = trimed;
+	if (g_sh.is_expd == FALSE)
+	{
+		trimed = (char *)malloc(ft_strlen(ts->aux->data) + 1);
+		if (trimed == NULL)
+			return (perror_ret("fatal error", -1));
+		trim_quotes(trimed, ts->aux->data);
+		free(ts->aux->data);
+		ts->aux->data = trimed;
+	}
 	ts->cnt++;
 	return (2);
 }
@@ -64,6 +91,7 @@ static int	parse_tokens(t_tok *tok, t_tok *prev, t_lexer *lex, t_toksup *ts)
 	ts->prev = prev;
 	ts->is_heredoc = 0;
 	ts->cnt = 0;
+	ts->semaphore = 0;
 	while (ts->aux)
 	{
 		if (ts->aux->type == TOK)

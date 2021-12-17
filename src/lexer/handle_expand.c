@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 21:49:59 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 23:02:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,17 @@ static int	other_st(t_tok *tok, int *st, int *len, int i)
 }
 
 /* build tokens for new expanded token */
-static int	re_lexer_build(t_tok **tok, t_tok **prev, t_lexer *lex)
+static void	re_lexer_build(t_tok **tok, t_tok **prev, t_lexer *lex)
 {
 	t_lexer	tmp;
 	t_tok	*aux;
 
 	if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
-		return (0);
+		return ;
 	aux = tmp.tok_lst;
 	while (aux != NULL)
 		aux = aux->next;
 	insert_toklst(tok, prev, lex, tmp.tok_lst);
-	return (0);
 }
 
 /* handle variables expand */
@@ -87,5 +86,6 @@ int	handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex)
 			other_st(*tok, &st, &len, i);
 		}
 	}
-	return (re_lexer_build(tok, prev, lex));
+	re_lexer_build(tok, prev, lex);
+	return (0);
 }

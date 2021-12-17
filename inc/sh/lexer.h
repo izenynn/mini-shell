@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 21:28:02 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:57:50 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_lexsup {
 /* parse tokens support struct */
 typedef struct s_toksup {
 	int		cnt;
+	int		semaphore;
 	int		is_heredoc;
 	t_tok	*prev;
 	t_tok	*aux;
