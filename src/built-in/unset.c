@@ -6,20 +6,22 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/18 17:19:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 17:29:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sh.h>
 
 /* */
-static t_list	*build_str(const char *unset, char *tmp)
+static t_list	*build_str(const char *unset, char **tmp)
 {
 	t_list	*aux;
+	char	*tmp2;
 
-	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
-	tmp[ft_strlen(unset) - 1] = '=';
-	tmp[ft_strlen(unset)] = '\0';
+	ft_strlcpy(*tmp, unset, ft_strlen(unset) + 1);
+	tmp2 = *tmp;
+	*tmp = ft_strjoin(tmp2, "=");
+	free(tmp2);
 	aux = *g_sh.env;
 	return (aux);
 }
@@ -31,10 +33,10 @@ static t_list	*find_pos(const char *unset, int *count, char *tmp)
 
 	if (unset == NULL)
 		return (NULL);
-	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 2));
+	tmp = (char *)malloc(sizeof(char) * (ft_strlen(unset) + 1));
 	if (!tmp)
 		return (NULL);
-	aux = build_str(unset, tmp);
+	aux = build_str(unset, &tmp);
 	if (ft_strncmp((char *)aux->data, tmp, ft_strlen(tmp)) == 0)
 	{
 		free(tmp);
