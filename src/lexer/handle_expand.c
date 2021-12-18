@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 13:37:14 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:39:59 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	other_st(t_tok *tok, int *st, int *len, int *i)
 }
 
 /* build tokens for new expanded token */
-static void	re_lexer_build(t_tok **tok, t_tok **prev, t_lexer *lex, t_toksup *ts)
+static void	re_lexer_build(t_tok **tok, t_tok **prev,
+		t_lexer *lex, t_toksup *ts)
 {
 	t_lexer	tmp;
 	t_tok	*aux;

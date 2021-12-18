@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 05:55:05 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:39:29 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	handle_expand_and_wc(t_lexer *lex, t_toksup *ts)
 
 	if (ts->semaphore == 0 && g_sh.is_expd == FALSE)
 	{
-		//printf("d: %s, sem: %d, is_expd: %d\n", ts->aux->data, ts->semaphore, g_sh.is_expd);
 		g_sh.is_expd = TRUE;
 		ret = handle_expand(&ts->aux, &ts->prev, lex, ts);
 		g_sh.is_expd = FALSE;
