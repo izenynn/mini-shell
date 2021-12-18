@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:44:45 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 16:46:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:48:34 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	lexer_build(const char *line, const size_t sz, t_lexer *lex)
 	int			ret;
 
 	lex->n_toks = 0;
-	if (sz == 0)
-		return (0);
-	if (init_ls(&ls, lex, sz) == 1)
+	if (g_sh.is_expd == FALSE)
+		g_sh.tokdel = FALSE;
+	if (sz == 0 || init_ls(&ls, lex, sz) == 1)
 		return (0);
 	while (1)
 	{

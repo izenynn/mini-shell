@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 16:24:38 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:45:03 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@
  * last_pid		=> last process in pipe pid
  * is_child		=> if a process is a child
  * is_expd		=> if token vars are already expanded
+ * tokdel		=> if token was deleted during lexer
  */
 typedef struct s_sh {
 	int		status;
@@ -105,6 +106,7 @@ typedef struct s_sh {
 	pid_t	last_pid;
 	t_bool	is_child;
 	t_bool	is_expd;
+	t_bool	tokdel;
 }	t_sh;
 
 extern t_sh	g_sh;

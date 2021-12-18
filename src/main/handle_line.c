@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 14:25:09 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 20:17:06 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:46:21 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	handle_line(char *line, t_bool is_alloc)
 	ret = lexer_build(line, ft_strlen(line), &lex);
 	if (ret <= 0)
 	{
-		if (ret == 0)
+		if (ret == 0 && g_sh.tokdel == FALSE)
 			write(STDERR_FILENO, "error: syntax error\n", 20);
 		free_line(line, is_alloc);
 		lexer_del(&lex);
