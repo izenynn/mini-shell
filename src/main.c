@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:59:17 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 17:38:40 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:52:54 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	main(int argc, char *argv[])
 	while (1)
 	{
 		sig_parent();
+		g_sh.is_expd = FALSE;
+		g_sh.is_child = FALSE;
 		line = read_prompt();
 		if (line == NULL)
 		{
