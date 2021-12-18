@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:59:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 13:36:30 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:36:51 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,7 @@ int	expand(t_tok *tok, int *start, int st)
 		else
 			es.value = ft_getenv(es.name);
 	}
-	printf("start: %d\n", *start);
 	*start += ft_strlen(es.value) - 2;
-	printf("start: %d\n", *start);
-	printf("value 1: %s\n", es.value);
 	change_data(&es, tok);
-	printf("value 2: %s\n", tok->data);
 	return (0);
 }

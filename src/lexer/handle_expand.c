@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 13:33:29 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:37:14 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	gen_st(t_tok *tok, int *st, int *len, int *i)
 {
 	if (tok->data[*i] == CHAR_DL)
 	{
-		printf("2\n");
 		if (expand(tok, i, *st))
 			return (1);
 		*len = ft_strlen(tok->data);
@@ -41,10 +40,8 @@ static int	other_st(t_tok *tok, int *st, int *len, int *i)
 	{
 		if (tok->data[*i] == CHAR_DL)
 		{
-			printf("1\n");
 			if (expand(tok, i, *st))
 				return (1);
-			//*st = ST_GEN;
 			*len = ft_strlen(tok->data);
 		}
 		else if (tok->data[*i] == CHAR_DQOUTE)
@@ -59,16 +56,12 @@ static void	re_lexer_build(t_tok **tok, t_tok **prev, t_lexer *lex, t_toksup *ts
 	t_lexer	tmp;
 	t_tok	*aux;
 
-	printf("token: %s\n", (*tok)->data);
 	if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
 		return ;
 	aux = tmp.tok_lst;
 	ts->semaphore = 0;
 	while (aux != NULL && ++ts->semaphore)
-	{
-		printf("data: %s\n", aux->data);
 		aux = aux->next;
-	}
 	insert_toklst(tok, prev, lex, tmp.tok_lst);
 }
 
@@ -79,14 +72,11 @@ int	handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex, t_toksup *ts)
 	int		i;
 	int		len;
 
-	printf("----------------------------------------\n");
-	printf("expand: %s\n", (*tok)->data);
 	st = ST_GEN;
 	len = ft_strlen((*tok)->data);
 	i = -1;
 	while (i < len && (*tok)->data[++i] != '\0')
 	{
-		printf("i: %d\n", i);
 		if (st == ST_GEN)
 		{
 			gen_st(*tok, &st, &len, &i);
