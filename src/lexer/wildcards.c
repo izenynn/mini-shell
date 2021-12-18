@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 17:28:26 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 20:46:04 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 16:37:32 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ int	handle_wildcards(t_tok **tok, t_tok **prev, t_lexer *lex)
 	match(&head, (*tok)->data);
 	if (head == NULL)
 		return (0);
-	if (head->next != NULL && prev && *prev
-		&& ((*prev)->type == CHAR_GT || (*prev)->type == CHAR_LS))
+	if (head->next != NULL && g_sh.prev
+		&& (g_sh.prev->type == CHAR_GT || g_sh.prev->type == CHAR_LS))
 	{
 		wc_put_error(tok, head);
 		return (-1);

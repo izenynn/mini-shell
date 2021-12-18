@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 19:46:24 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 16:24:38 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@
  *
  * status		=> last exit status
  * *env			=> enviroment vars
+ * *prev		=> to save previous token when we tokenize a enviroment variable
  * *tok			=> to iterate tokens (used for creating the ast)
  * **so_ast		=> save current "and or" ast node to attach nodes
  * *cmd_ast		=> save current command ast node to attach args and redirs
@@ -95,6 +96,7 @@
 typedef struct s_sh {
 	int		status;
 	t_list	**env;
+	t_tok	*prev;
 	t_tok	*tok;
 	t_ast	**ao_ast;
 	t_ast	*cmd_ast;

@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 21:15:12 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 13:39:29 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 16:41:43 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ static int	handle_expand_and_wc(t_lexer *lex, t_toksup *ts)
 	if (ts->semaphore == 0 && g_sh.is_expd == FALSE)
 	{
 		g_sh.is_expd = TRUE;
+		g_sh.prev = ts->prev;
 		ret = handle_expand(&ts->aux, &ts->prev, lex, ts);
 		g_sh.is_expd = FALSE;
+		if (ret == 1)
+			return (-1);
 		if (check_tok(lex, &ts->aux, ts->prev))
 			return (1);
 	}
@@ -73,7 +76,7 @@ static int	handle_tok_token(t_lexer *lex, t_toksup *ts)
 	{
 		trimed = (char *)malloc(ft_strlen(ts->aux->data) + 1);
 		if (trimed == NULL)
-			return (perror_ret("fatal error", -1));
+			return (perror_ret("malloc", -1));
 		trim_quotes(trimed, ts->aux->data);
 		free(ts->aux->data);
 		ts->aux->data = trimed;
