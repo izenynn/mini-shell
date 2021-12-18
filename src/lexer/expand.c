@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:59:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 19:27:06 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:36:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,16 @@ static void	change_data(t_expsup *es, t_tok *tok)
 	tok->data = res;
 }
 
-int	expand(t_tok *tok, int start, int st)
+int	expand(t_tok *tok, int *start, int st)
 {
 	t_expsup	es;
 
+	(*start)++;
 	es.curly = 0;
-	es.start = start;
-	es.end = start;
-	if (tok->data[start] == '?' || tok->data[start] == '=')
-		special_cases(tok->data[start], &es.name, &es.value);
+	es.start = *start;
+	es.end = *start;
+	if (tok->data[*start] == '?' || tok->data[*start] == '=')
+		special_cases(tok->data[*start], &es.name, &es.value);
 	else
 	{
 		get_name(&es, tok, &st);
@@ -111,6 +112,11 @@ int	expand(t_tok *tok, int start, int st)
 		else
 			es.value = ft_getenv(es.name);
 	}
+	printf("start: %d\n", *start);
+	*start += ft_strlen(es.value) - 2;
+	printf("start: %d\n", *start);
+	printf("value 1: %s\n", es.value);
 	change_data(&es, tok);
+	printf("value 2: %s\n", tok->data);
 	return (0);
 }

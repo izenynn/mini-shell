@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:43:21 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/17 21:57:50 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 13:27:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,10 @@ void	tok_del(t_tok *tok);
 int		tok_init(t_tok *tok, size_t sz);
 
 /* handle_expand.c */
-int		handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex);
+int		handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex, t_toksup *ts);
 
 /* expand.c */
-int		expand(t_tok *tok, int start, int st);
+int		expand(t_tok *tok, int *start, int st);
 
 /* wildcards.c */
 int		handle_wildcards(t_tok **wc_tok, t_tok **prev, t_lexer *lex);
