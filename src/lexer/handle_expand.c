@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 16:40:29 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:15:24 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,16 @@ static int	re_lexer_build(t_tok **tok, t_tok **prev,
 	t_lexer	tmp;
 	t_tok	*aux;
 
-	if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
-		return (1);
+	if (ft_strlen((*tok)->data) <= 0)
+	{
+		ts->semaphore++;
+		return (0);
+	}
+	else
+	{
+		if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
+			return (1);
+	}
 	aux = tmp.tok_lst;
 	ts->semaphore = 0;
 	while (aux != NULL && ++ts->semaphore)
@@ -80,13 +88,9 @@ int	handle_expand(t_tok **tok, t_tok **prev, t_lexer *lex, t_toksup *ts)
 	while (i < len && (*tok)->data[++i] != '\0')
 	{
 		if (st == ST_GEN)
-		{
 			gen_st(*tok, &st, &len, &i);
-		}
 		else
-		{
 			other_st(*tok, &st, &len, &i);
-		}
 	}
 	return (re_lexer_build(tok, prev, lex, ts));
 }

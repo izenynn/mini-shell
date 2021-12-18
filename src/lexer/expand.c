@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 12:59:37 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 13:36:51 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 20:18:44 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ int	expand(t_tok *tok, int *start, int st)
 		else
 			es.value = ft_getenv(es.name);
 	}
-	*start += ft_strlen(es.value) - 2;
+	if (es.value != NULL)
+		*start += ft_strlen(es.value) - 2;
+	else
+		*start -= 2;
 	change_data(&es, tok);
 	return (0);
 }
