@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/15 20:04:06 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/18 17:19:30 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static t_list	*build_str(const char *unset, char *tmp)
 	t_list	*aux;
 
 	ft_strlcpy(tmp, unset, ft_strlen(tmp) + ft_strlen(unset));
-	tmp[ft_strlen(unset)] = '=';
-	tmp[ft_strlen(unset) + 1] = '\0';
+	tmp[ft_strlen(unset) - 1] = '=';
+	tmp[ft_strlen(unset)] = '\0';
 	aux = *g_sh.env;
 	return (aux);
 }
