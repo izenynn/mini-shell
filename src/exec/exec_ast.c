@@ -56,7 +56,7 @@ static int	handle_pipe(t_ast *ast)
 	}
 	p[READ_END] = fd[READ_END];
 	handle_cmd(ast, init_io(TRUE, FALSE, fd, p[READ_END]));
-	close (p[WRITE_END]);
+	close(p[WRITE_END]);
 	close(p[READ_END]);
 	return (0);
 }
