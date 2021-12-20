@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/20 09:40:54 by acostal-         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:01:34 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	execute_unset(char *const *unset, char *tmp, t_list *aux, int i)
 /* */
 int	ft_unset(char **unset)
 {
+	int		ret;
 	char	*tmp;
 	t_list	*aux;
 	int		i;
@@ -96,12 +97,18 @@ int	ft_unset(char **unset)
 	aux = *g_sh.env;
 	tmp = NULL;
 	i = 0;
+	ret = 0;
 	if (!aux && unset[1])
 		return (0);
 	else if (aux && unset[1])
 	{
 		while (unset[++i])
-			execute_unset(unset, tmp, aux, i);
+		{
+			if (unset_error_handle(unset[i]) == 0)
+				execute_unset(unset, tmp, aux, i);
+			else
+				ret = 1;
+		}
 	}
-	return (0);
+	return (ret);
 }

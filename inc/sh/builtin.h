@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 19:49:49 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/14 11:37:50 by                  ###   ########.fr       */
+/*   Updated: 2021/12/20 10:00:53 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int		error_handle(char *new_env);
 int		set_oldpwd(t_list *head, char *aux, char *pwd);
 int		print_error(const char *dir);
 int		try_to_goto_olpwd(t_list **head);
+int		unset_error_handle(char *new_env);
 
 #endif

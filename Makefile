@@ -83,7 +83,7 @@ SRC_MAIN = 		handle_line.c
 SRC_BUILTIN =	cd.c				echo.c				env.c				\
 				exit.c				export.c			pwd.c				\
 				unset.c				cd_error.c			export_utils.c		\
-				cd_utils.c
+				cd_utils.c			unset_utils.c
 
 SRC_EXEC =		exec.c				exec_ast.c			exec_cmd.c			\
 				utils.c				exec_heredoc.c		heredoc.c			\
