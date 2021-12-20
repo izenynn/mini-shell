@@ -6,7 +6,7 @@
 /*   By: acostal- <acostal-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 16:38:04 by acostal-          #+#    #+#             */
-/*   Updated: 2021/12/18 17:29:24 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/20 09:40:54 by acostal-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,6 @@ int	ft_unset(char **unset)
 	{
 		while (unset[++i])
 			execute_unset(unset, tmp, aux, i);
-	}
-	else
-	{
-		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
-		return (1);
 	}
 	return (0);
 }
