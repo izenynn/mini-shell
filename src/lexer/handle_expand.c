@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 12:11:33 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 20:15:24 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/20 10:30:09 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ static int	re_lexer_build(t_tok **tok, t_tok **prev,
 	else
 	{
 		if (lexer_build((*tok)->data, ft_strlen((*tok)->data), &tmp) <= 0)
+		{
+			lexer_del(&tmp);
 			return (1);
+		}
 	}
 	aux = tmp.tok_lst;
 	ts->semaphore = 0;
