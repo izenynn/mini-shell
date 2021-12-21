@@ -29,7 +29,7 @@ This project aims to recreate most of the bash shell.
 
 ## How to use
 
-### Clone repo and submodule
+### Clone repo and submodules
 
 ```sh
 git clone --recurse-submodules https://github.com/0xk0sta/minishell.git
