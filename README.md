@@ -154,11 +154,53 @@ To see how it works, go to `src/main/handle_line.c`, uncomment the functions `pr
  		free_all(&lex, ast);
  		return ;
  	}
-+	print_ast(ast, 0); printf("---------------------------------\n");
++	print_ast(ast, 0); printf("------------------------------------\n");
  	if (exec_heredoc(ast) == 0)
  		exec_ast(ast);
  	free_all(&lex, ast);
  }
+```
+
+Example:
+
+```txt
+minishell$ "invalid command" || (echo hello && echo world!)
+------------------------------------
+TOKENS:
+n_tok: 10
+type: -1, data: invalid command
+type: 124, data: |
+type: 124, data: |
+type: 40, data: (
+type: -1, data: echo
+type: -1, data: hello
+type: 38, data: &
+type: 38, data: &
+type: -1, data: echo
+type: -1, data: world!
+type: 41, data: )
+type: 0, data:
+------------------------------------
+AST:
+
+                              t: arg, s: world!
+
+                    t: cmd, s: echo
+
+          t: &&
+
+                              t: arg, s: hello
+
+                    t: cmd, s: echo
+
+t: ||
+
+          t: cmd, s: invalid command
+------------------------------------
+invalid command: command not found
+hello
+world!
+minishell$
 ```
 
 ## Shell grammar

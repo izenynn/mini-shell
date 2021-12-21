@@ -79,6 +79,7 @@
 {
 	t_tok *tmp;
 
+	printf("------------------------------------\n");
 	printf("n_tok: %d\n", lex->n_toks);
 	tmp = lex->tok_lst;
 	while (tmp)
