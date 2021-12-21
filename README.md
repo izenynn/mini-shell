@@ -251,6 +251,8 @@ Grammar
 
 ## Screenshots
 
+![screenshot 00](https://github.com/izenynn/minishell/blob/main/screenshots/00.png)
+
 ![screenshot 01](https://github.com/izenynn/minishell/blob/main/screenshots/01.png)
 
 ![screenshot 02](https://github.com/izenynn/minishell/blob/main/screenshots/02.png)
