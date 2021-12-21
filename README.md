@@ -157,7 +157,7 @@ minishell is formed by 3 components:
 
 3. Executor: execute the commands
 
-To see how it works, go to `src/main/handle_line.c`, uncomment the functions `print_ast` and `print_tokens`, in line 18 and 78, and add the following lines to the `handle_line` function and run `make` again:
+To see how it works, go to `src/main/handle_line.c`, uncomment the functions `print_ast` and `print_tokens`, in line 18 and 78, add the following lines to the `handle_line` function and run `make` again:
 
 ```diff
  void	handle_line(char *line, t_bool is_alloc)
