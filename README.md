@@ -19,8 +19,8 @@
 
 This project aims to recreate most of the bash shell.
 
-- Status: on development
-- Result: n/a
+- Status: finished
+- Result: 125%
 - Observations:
 	- It is compatible with Linux and Mac OS.
 	- It does not use `VT100` escape characters.
