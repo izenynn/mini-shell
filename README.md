@@ -267,6 +267,8 @@ Grammar
 
 ![screenshot 07](https://github.com/izenynn/minishell/blob/main/screenshots/07.png)
 
+![screenshot 08](https://github.com/izenynn/minishell/blob/main/screenshots/08.png)
+
 ##
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c.svg)](https://forthebadge.com)
