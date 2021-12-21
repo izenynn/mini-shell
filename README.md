@@ -2,18 +2,18 @@
 
 ## Contents
 
-- [Info](#markdown-header-info)
-- [How to use](#markdown-header-how-to-use)
-	- [Clone repo and submodules](#markdown-header-clone-repo-and-submodules)
-	- [Linux dependencies](#markdown-header-linux-dependencies)
-	- [MAC dependencies](#markdown-header-mac-dependencies)
-	- [Compile and execute](#markdown-header-compile-and-execute)
-	- [Install](#markdown-header-install)
-- [Features](#markdown-header-features)
-	- [Built-in commands](#markdown-header-built-in-commands)
-- [Aproach](#markdown-header-aproach)
-- [Shell grammar](#markdown-header-shell-grammar)
-- [Screenshots](#markdown-screenshots)
+- [Info](#info)
+- [How to use](#how-to-use)
+	- [Clone repo and submodules](#clone-repo-and-submodules)
+	- [Linux dependencies](#linux-dependencies)
+	- [MAC dependencies](#mac-dependencies)
+	- [Compile and execute](#compile-and-execute)
+	- [Install](#install)
+- [Features](#features)
+	- [Built-in commands](#built-in-commands)
+- [Aproach](#aproach)
+- [Shell grammar](#shell-grammar)
+- [Screenshots](#screenshots)
 
 ## Info
 
