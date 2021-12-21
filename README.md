@@ -1,5 +1,20 @@
 # minishell
 
+## Contents
+
+- [Info](#markdown-header-info)
+- [How to use](#markdown-header-how-to-use)
+	- [Clone repo and submodules](#markdown-header-clone-repo-and-submodules)
+	- [Linux dependencies](#markdown-header-linux-dependencies)
+	- [MAC dependencies](#markdown-header-mac-dependencies)
+	- [Compile and execute](#markdown-header-compile-and-execute)
+	- [Install](#markdown-header-install)
+- [Features](#markdown-header-features)
+	- [Built-in commands](#markdown-header-built-in-commands)
+- [Aproach](#markdown-header-aproach)
+- [Shell grammar](#markdown-header-shell-grammar)
+- [Screenshots](#markdown-screenshots)
+
 ## Info
 
 This project aims to recreate most of the bash shell.
@@ -8,7 +23,7 @@ This project aims to recreate most of the bash shell.
 - Result: n/a
 - Observations:
 	- It is compatible with Linux and Mac OS.
-	- It uses `VT100` escape characters (it is a 42 project, and `ncurses` lib was not allowed).
+	- It does not use `VT100` escape characters.
 
 *developed by: [izenynn](https://github.com/izenynn) and [0xk0sta](https://github.com/0xk0sta)*
 
@@ -101,6 +116,51 @@ sudo make install -D 'BIN_DIR=/usr/local/bin'
 - `env`
 - `exit`
 
+## Aproach
+
+minishell is formed by 3 components:
+
+1. Lexical analyzer: parse the input line into tokens.
+
+2. Parser: parse tokens into an abstract syntax tree (ast).
+
+3. Executor: execute the commands
+
+To see how it works, go to `src/main/handle_line.c`, uncomment the functions `print_ast` and `print_tokens`, in line 18 and 78, add the following lines to the `handle_line` function and run `make` again:
+
+```diff
+ void	handle_line(char *line, t_bool is_alloc)
+ {
+ 	t_lexer	lex;
+ 	t_ast	*ast;
+ 	int		ret;
+
+ 	ast = NULL;
+ 	if (check_line(line, is_alloc) == 1)
+ 		return ;
+ 	ret = lexer_build(line, ft_strlen(line), &lex);
+ 	if (ret <= 0)
+ 	{
+ 		if (ret == 0 && g_sh.tokdel == FALSE)
+ 			write(STDERR_FILENO, "error: syntax error\n", 20);
+ 		free_line(line, is_alloc);
+ 		lexer_del(&lex);
+ 		return ;
+ 	}
+ 	free_line(line, is_alloc);
++	print_tokens(&lex);
+ 	if (lex.n_toks == 0 || parse(&lex, &ast))
+ 	{
+ 		free_all(&lex, ast);
+ 		return ;
+ 	}
++	print_ast(ast, 0); printf("---------------------------------\n");
+ 	if (exec_heredoc(ast) == 0)
+ 		exec_ast(ast);
+ 	free_all(&lex, ast);
+ }
+```
+
 ## Shell grammar
 
 ```txt
@@ -145,51 +205,6 @@ Grammar
 <redir in>	:	'<<' <file>
  		|	'<' <file>
  		;
-```
-
-## Aproach
-
-minishell is formed by 3 components:
-
-1. Lexical analyzer: parse the input line into tokens.
-
-2. Parser: parse tokens into an abstract syntax tree (ast).
-
-3. Executor: execute the commands
-
-To see how it works, go to `src/main/handle_line.c`, uncomment the functions `print_ast` and `print_tokens`, in line 18 and 78, add the following lines to the `handle_line` function and run `make` again:
-
-```diff
- void	handle_line(char *line, t_bool is_alloc)
- {
- 	t_lexer	lex;
- 	t_ast	*ast;
- 	int		ret;
-
- 	ast = NULL;
- 	if (check_line(line, is_alloc) == 1)
- 		return ;
- 	ret = lexer_build(line, ft_strlen(line), &lex);
- 	if (ret <= 0)
- 	{
- 		if (ret == 0 && g_sh.tokdel == FALSE)
- 			write(STDERR_FILENO, "error: syntax error\n", 20);
- 		free_line(line, is_alloc);
- 		lexer_del(&lex);
- 		return ;
- 	}
- 	free_line(line, is_alloc);
-+	print_tokens(&lex);
- 	if (lex.n_toks == 0 || parse(&lex, &ast))
- 	{
- 		free_all(&lex, ast);
- 		return ;
- 	}
-+	print_ast(ast, 0); printf("---------------------------------\n");
- 	if (exec_heredoc(ast) == 0)
- 		exec_ast(ast);
- 	free_all(&lex, ast);
- }
 ```
 
 ## Screenshots
