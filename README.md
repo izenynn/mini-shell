@@ -101,6 +101,52 @@ sudo make install -D 'BIN_DIR=/usr/local/bin'
 - `env`
 - `exit`
 
+## Shell grammar
+
+```txt
+Grammar
+
+<command line>	:	<and or> ';' <command line>
+		|	<and or> ';'
+		|	<and or>
+		;
+
+<and or>	:	<job> && <and or>
+		|	<job> || <and or>
+		|	<job>
+		|	'(' <command line> ')' && <and or>
+		|	'(' <command line> ')' || <and or>
+		|	'(' <command line> ')'
+		;
+
+<job>		:	'(' <command> ')' '|' <job>
+		|	    <command>     '|' <job>
+		|	'(' <command> ')'
+		|	    <command>
+		;
+
+<command>	:	<token list>
+		;
+
+<token list>	:	<name> <token list>
+		|	<token> <token list>
+		|	<redir> <token list>
+		|	(null)
+		;
+
+<redir>		:	<redir in>
+		|	<redir out>
+		;
+
+<redir in>	:	'<<' <file>
+		|	'<' <file>
+		;
+
+<redir in>	:	'<<' <file>
+ 		|	'<' <file>
+ 		;
+```
+
 ## Screenshots
 
 TODO add screenshots :D
