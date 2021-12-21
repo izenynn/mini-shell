@@ -54,8 +54,8 @@
  * 						|	'<' <file>
  * 						;
  *
- * <redir in>			:	'<<' <file>
- * 						|	'<' <file>
+ * <redir out>			:	'>>' <file>
+ * 						|	'>' <file>
  * 						;
  *
  */
