@@ -65,9 +65,9 @@
 
 	// print type and data
 	if (root->type & AST_DATA)
-		printf("t: %s, s: %s\n", type, root->data);
+		printf("type: %s, data: %s\n", type, root->data);
 	else
-		printf("t: %s\n", type);
+		printf("type: %s\n", type);
 	free(type);
 
 	// process left child

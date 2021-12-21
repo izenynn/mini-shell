@@ -183,19 +183,19 @@ type: 0, data:
 ------------------------------------
 AST:
 
-                              t: arg, s: world!
+                              type: arg, data: world!
 
-                    t: cmd, s: echo
+                    type: cmd, data: echo
 
-          t: &&
+          type: &&
 
-                              t: arg, s: hello
+                              type: arg, data: hello
 
-                    t: cmd, s: echo
+                    type: cmd, data: echo
 
-t: ||
+type: ||
 
-          t: cmd, s: invalid command
+          type: cmd, data: invalid command
 ------------------------------------
 invalid command: command not found
 hello
