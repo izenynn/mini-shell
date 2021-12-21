@@ -147,6 +147,52 @@ Grammar
  		;
 ```
 
+## Aproach
+
+minishell is formed by 3 components:
+
+1. Lexical analyzer: parse the input line into tokens.
+
+2. Parser: parse tokens into an abstract syntax tree (ast).
+
+3. Executor: execute the commands
+
+To see how it works, go to `src/main/handle_line.c`, uncomment the functions `print_ast` and `print_tokens`, in line 18 and 78, and add the following lines to the `handle_line` function:
+
+```diff
+ /* handle line -> lexer, parser and exec */
+ void	handle_line(char *line, t_bool is_alloc)
+ {
+ 	t_lexer	lex;
+ 	t_ast	*ast;
+ 	int		ret;
+
+ 	ast = NULL;
+ 	if (check_line(line, is_alloc) == 1)
+ 		return ;
+ 	ret = lexer_build(line, ft_strlen(line), &lex);
+ 	if (ret <= 0)
+ 	{
+ 		if (ret == 0 && g_sh.tokdel == FALSE)
+ 			write(STDERR_FILENO, "error: syntax error\n", 20);
+ 		free_line(line, is_alloc);
+ 		lexer_del(&lex);
+ 		return ;
+ 	}
+ 	free_line(line, is_alloc);
++	print_tokens(&lex);
+ 	if (lex.n_toks == 0 || parse(&lex, &ast))
+ 	{
+ 		free_all(&lex, ast);
+ 		return ;
+ 	}
++	print_ast(ast, 0); printf("---------------------------------\n");
+ 	if (exec_heredoc(ast) == 0)
+ 		exec_ast(ast);
+ 	free_all(&lex, ast);
+ }
+```
+
 ## Screenshots
 
 TODO add screenshots :D
