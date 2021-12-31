@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 11:45:54 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/03 15:03:34 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2021/12/31 19:05:00 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 void	perror_exit(const char *s)
 {
 	if (s == NULL)
-		s = ft_strdup("minishell");
-	perror(s);
+		perror("minishell");
+	else
+		perror(s);
 	exit(EXIT_FAILURE);
 }
 
@@ -25,8 +26,9 @@ void	perror_exit(const char *s)
 int	perror_ret(const char *s, int ret_code)
 {
 	if (s == NULL)
-		s = ft_strdup("minishell");
-	perror(s);
+		perror("minishell");
+	else
+		perror(s);
 	return (ret_code);
 }
 
