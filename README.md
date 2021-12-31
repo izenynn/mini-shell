@@ -32,7 +32,7 @@ This project aims to recreate most of the bash shell.
 ### Clone repo and submodules
 
 ```sh
-git clone --recurse-submodules https://github.com/0xk0sta/minishell.git
+git clone --recurse-submodules https://github.com/izenynn/minishell.git
 ```
 
 ### Linux dependencies
@@ -208,45 +208,45 @@ minishell$
 ```txt
 Grammar
 
-<command line>	:	<and or> ';' <command line>
-		|	<and or> ';'
-		|	<and or>
-		;
+<command line> : <and or> ';' <command line>
+               | <and or> ';'
+               | <and or>
+               ;
 
-<and or>	:	<job> && <and or>
-		|	<job> || <and or>
-		|	<job>
-		|	'(' <command line> ')' && <and or>
-		|	'(' <command line> ')' || <and or>
-		|	'(' <command line> ')'
-		;
+<and or>       : <job> && <and or>
+               | <job> || <and or>
+               | <job>
+               | '(' <command line> ')' && <and or>
+               | '(' <command line> ')' || <and or>
+               | '(' <command line> ')'
+               ;
 
-<job>		:	'(' <command> ')' '|' <job>
-		|	    <command>     '|' <job>
-		|	'(' <command> ')'
-		|	    <command>
-		;
+<job>          : '(' <command> ')' '|' <job>
+               |     <command>     '|' <job>
+               | '(' <command> ')'
+               |     <command>
+               ;
 
-<command>	:	<token list>
-		;
+<command>      : <token list>
+               ;
 
-<token list>	:	<name> <token list>
-		|	<token> <token list>
-		|	<redir> <token list>
-		|	(null)
-		;
+<token list>   : <name> <token list>
+               | <token> <token list>
+               | <redir> <token list>
+               | (null)
+               ;
 
-<redir>		:	<redir in>
-		|	<redir out>
-		;
+<redir>        : <redir in>
+               | <redir out>
+               ;
 
-<redir in>	:	'<<' <file>
-		|	'<' <file>
-		;
+<redir in>     : '<<' <file>
+               | '<' <file>
+               ;
 
-<redir out>	:	'>>' <file>
- 		|	'>' <file>
- 		;
+<redir out>    : '>>' <file>
+               | '>' <file>
+               ;
 ```
 
 ## Screenshots
