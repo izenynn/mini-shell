@@ -138,12 +138,6 @@ LDLIBS = -lft
 
 LDLIBS += -lreadline
 
-# TODO remove this
-ifeq ($(UNAME_S),Darwin)
-	CFLAGS += -I /Users/$(USER)/.brew/opt/readline/include
-	LDFLAGS += -L /Users/$(USER)/.brew/opt/readline/lib
-endif
-
 # **************************************************************************** #
 #                                    RULES                                     #
 # **************************************************************************** #
