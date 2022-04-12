@@ -213,11 +213,11 @@ Grammar
                | <and or>
                ;
 
-<and or>       : <job> && <and or>
-               | <job> || <and or>
+<and or>       : <job> '&&' <and or>
+               | <job> '||' <and or>
                | <job>
-               | '(' <command line> ')' && <and or>
-               | '(' <command line> ')' || <and or>
+               | '(' <command line> ')' '&&' <and or>
+               | '(' <command line> ')' '||' <and or>
                | '(' <command line> ')'
                ;
 
@@ -230,9 +230,9 @@ Grammar
 <command>      : <token list>
                ;
 
-<token list>   : <name> <token list>
-               | <token> <token list>
-               | <redir> <token list>
+<token list>   : [name]  <token list>
+               | [token] <token list>
+               | [redir] <token list>
                | (null)
                ;
 
@@ -240,12 +240,12 @@ Grammar
                | <redir out>
                ;
 
-<redir in>     : '<<' <file>
-               | '<' <file>
+<redir in>     : '<<' [file]
+               | '<'  [file]
                ;
 
-<redir out>    : '>>' <file>
-               | '>' <file>
+<redir out>    : '>>' [file]
+               | '>'  [file]
                ;
 ```
 
