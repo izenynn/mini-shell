@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 21:57:48 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/18 20:45:03 by dpoveda-         ###   ########.fr       */
+/*   Updated: 2022/07/21 11:36:20 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@
 /*** INCLUDES ***/
 
 /* mishell includes */
-# include <sh/main.h>
-# include <sh/builtin.h>
-# include <sh/colors.h>
-# include <sh/utils.h>
-# include <sh/signals.h>
-# include <sh/prompt.h>
-# include <sh/lexer.h>
-# include <sh/parser.h>
-# include <sh/ast.h> 
-# include <sh/exec.h>
-# include <sh/read_config.h>
+# include "sh/main.h"
+# include "sh/builtin.h"
+# include "sh/colors.h"
+# include "sh/utils.h"
+# include "sh/signals.h"
+# include "sh/prompt.h"
+# include "sh/lexer.h"
+# include "sh/parser.h"
+# include "sh/ast.h"
+# include "sh/exec.h"
+# include "sh/read_config.h"
 
 /* our own implementation of libc */
-# include <libft.h>
+# include "libft.h"
 
 /* standard libraries */
 # include <stdlib.h>
