@@ -6,7 +6,7 @@
 /*   By: dpoveda- <me@izenynn.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 16:24:41 by dpoveda-          #+#    #+#             */
-/*   Updated: 2021/12/16 21:34:38 by                  ###   ########.fr       */
+/*   Updated: 2022/11/03 19:10:18 by dpoveda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,16 @@ static int	handle_pipe(t_ast *ast)
 /* interpret job */
 static int	handle_job(t_ast *ast)
 {
+	int null_fd[2];
+
+	null_fd[WRITE_END] = 0;
+	null_fd[READ_END] = 0;
 	if (ast == NULL)
 		return (0);
 	if (ast_gettype(ast) == AST_PIPE)
 		handle_pipe(ast);
 	else
-		handle_cmd(ast, init_io(FALSE, FALSE, 0, 0));
+		handle_cmd(ast, init_io(FALSE, FALSE, null_fd, 0));
 	handle_zombies();
 	return (0);
 }
