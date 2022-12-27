@@ -79,8 +79,9 @@ int	handle_heredoc(t_ast *node)
 	fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 	{
+		ft_putstr_fd("error: cannot open file for heredoc\n", STDERR_FILENO);
 		free(file);
-		return (perror_ret(file, 1));
+		return (1);
 	}
 	if (handle_read(node->data, fd))
 	{
