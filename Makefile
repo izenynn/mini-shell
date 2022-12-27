@@ -31,6 +31,7 @@ UNAME_S := $(shell uname -s)
 # **************************************************************************** #
 
 NAME = minishell
+#NAME = msh
 
 BIN_DIR ?= /usr/local/bin
 
