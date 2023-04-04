@@ -155,7 +155,7 @@ $(NAME): $(OBJ) $(LFT_NAME)
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_NAME) -o $@ $(LDFLAGS) $(LDLIBS) $(CCFLAGS)
 	@printf "${NOCOL}"
 	@printf "\n${GRN}SUCCESS!${NOCOL}\n"
-	@printf "${CYN}type \"./minishell\" to start!${NOCOL}\n"
+	@printf "${CYN}type \"./$(NAME)\" to start!${NOCOL}\n"
 
 # INSTALL
 install: $(NAME)
