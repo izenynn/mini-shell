@@ -84,8 +84,8 @@ static void	initialise_vars(void)
 	g_sh.bi = init_blti();
 	g_sh.is_child = FALSE;
 	g_sh.is_expd = FALSE;
-	dup2(g_sh.fd_bak[0], STDIN_FILENO);
-	dup2(g_sh.fd_bak[1], STDOUT_FILENO);
+	g_sh.fd_bak[0] = dup(STDIN_FILENO);
+	g_sh.fd_bak[1] = dup(STDOUT_FILENO);
 }
 
 /* initialise shell */
